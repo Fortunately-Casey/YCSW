@@ -1,0 +1,30 @@
+
+@font-face {font-family: "iconfont";
+  src: url('../icons/iconfont.eot?t=1531904731147'); /* IE9*/
+  src: url('../icons/iconfont.ttf?t=1531904731147') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('../icons/iconfont.svg?t=1531904731147#iconfont') format('svg'); /* iOS 4.1- */
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  vertical-align: baseline;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+}
+
+.icon-index:before { content: "\e600"; }
+
+.icon-setting:before { content: "\e696"; }
+
+.icon-vue:before { content: "\e640"; }
+
+.icon-arcgis:before { content: "\e666"; }
+
+.icon-echarts:before { content: "\e670"; }
+
