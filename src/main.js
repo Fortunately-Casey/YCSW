@@ -21,17 +21,15 @@ esriLoader.loadCss('https://js.arcgis.com/3.19/dijit/themes/tundra/tundra.css');
 esriLoader.loadCss('https://js.arcgis.com/3.19/esri/css/esri.css');
 
 esriLoader.loadScript({
-  dojoConfig:{
-    async:true,
-    packages:[
-      {
-        location:'/static',
-        name:'static'
-      }
-    ]
+  dojoConfig: {
+    async: true,
+    packages: [{
+      location: '/static',
+      name: 'static'
+    }]
   },
   // url:'http://192.168.35.212:80/arcgis_js_v319_sdk/arcgis_js_api/library/3.19/3.19/init.js'
-  url:'https://js.arcgis.com/3.19/init.js'
+  url: 'https://js.arcgis.com/3.19/init.js'
 });
 
 Vue.use(ElementUI);
@@ -42,6 +40,8 @@ new Vue({
   el: '#app',
   router,
   store,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

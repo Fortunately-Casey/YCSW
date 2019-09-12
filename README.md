@@ -1,6 +1,6 @@
 # 盐城新水源地工程输水管网地理信息系统
 
-> A Vue.js project
+> Vue-cli ElementUI Axios Vue.js project 
 
 ## Build Setup
 
