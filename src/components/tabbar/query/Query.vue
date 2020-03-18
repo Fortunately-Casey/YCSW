@@ -19,43 +19,43 @@
               <div class="timer">
                 {{time}}
               </div>
-            </span> 
-        </div> 
+            </span>
+        </div>
         <m-user v-if="chosedIndex === 0 ? true : false" @closeTab="choseTab"></m-user>
         <m-comsuption v-if="chosedIndex === 1? true : false" @closeTab="choseTab"></m-comsuption>
-    </div> 
+    </div>
 </template>
 <script>
-import MUser from "./user/User.vue";
-import MComsuption from "./comsuption/Comsuption.vue";
-import { getTime } from "@/common/utils/tool.js";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
+import MUser from './user/User.vue'
+import MComsuption from './comsuption/Comsuption.vue'
+import { getTime } from '@/common/utils/tool.js'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: ""
-    };
+      chosedIndex: ''
+    }
   },
-  created() {
-    this.initTime();
+  created () {
+    this.initTime()
   },
   methods: {
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    choseTab(index) {
-      this.chosedIndex = index;
-      clearAllGraphic();
+    choseTab (index) {
+      this.chosedIndex = index
+      clearAllGraphic()
     }
   },
   components: {
     MUser,
     MComsuption
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .query {

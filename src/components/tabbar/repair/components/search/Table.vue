@@ -34,10 +34,10 @@
         </div>
 </template>
 <script>
-import { GetServiceInfoList } from "@/api/repair.js";
-import esriLoader from "esri-loader";
-import { mapActions, mapGetters } from "vuex";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import { GetServiceInfoList } from '@/api/repair.js'
+import esriLoader from 'esri-loader'
+import { mapActions, mapGetters } from 'vuex'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
   props: {
     total: {
@@ -45,53 +45,53 @@ export default {
       default: 0
     }
   },
-  data() {
+  data () {
     return {
-      page: 1,
-    };
+      page: 1
+    }
   },
   computed: {
-    ...mapGetters(["repairSearchList"])
+    ...mapGetters(['repairSearchList'])
   },
   methods: {
     ...mapActions({
-      setDetail: "setRepairDetail",
-      showDetail: "setIsShowRepairDetail",
+      setDetail: 'setRepairDetail',
+      showDetail: 'setIsShowRepairDetail'
     }),
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === 1 || rowIndex === 3) {
-        return "gray";
+        return 'gray'
       } else {
-        return "";
+        return ''
       }
-      return "gray";
+      return 'gray'
     },
-    changePage(page) {
-      var vm = this;
-      vm.page = page;
-      vm.$emit("pageSearch", page);
+    changePage (page) {
+      var vm = this
+      vm.page = page
+      vm.$emit('pageSearch', page)
     },
-    editSearch(item) {
-      var vm = this;
-      EventBus.$emit('showEdit',item)
+    editSearch (item) {
+      var vm = this
+      EventBus.$emit('showEdit', item)
     },
-    deleteRepair(item) {
-      var vm = this;
-      EventBus.$emit('deleteRepair',item)
+    deleteRepair (item) {
+      var vm = this
+      EventBus.$emit('deleteRepair', item)
     },
-    goToDetail(item) {
-      var vm = this;
-      vm.$emit("slideDown");
+    goToDetail (item) {
+      var vm = this
+      vm.$emit('slideDown')
       esriLoader
         .loadModules([
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/geometry/Point",
-          "esri/symbols/SimpleMarkerSymbol"
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/geometry/Point',
+          'esri/symbols/SimpleMarkerSymbol'
         ])
         .then(
           ([
@@ -104,68 +104,68 @@ export default {
             Point,
             SimpleMarkerSymbol
           ]) => {
-            let geometry = "";
-            mapBase.clearGraphic();
-            if (item.StrSHAPE.indexOf("LINESTRING") !== -1) {
-              geometry = ArcgisUtil.wktToPolyline(item.StrSHAPE);
+            let geometry = ''
+            mapBase.clearGraphic()
+            if (item.StrSHAPE.indexOf('LINESTRING') !== -1) {
+              geometry = ArcgisUtil.wktToPolyline(item.StrSHAPE)
               // 获取/创建详情记录对应的图形---线要素
               var polyline = new Polyline({
                 paths: geometry.paths,
                 spatialReference: window.mapBase.map.spatialReference
-              });
-              //获取线线要素的外包矩形
-              var extent = polyline.getExtent();
+              })
+              // 获取线线要素的外包矩形
+              var extent = polyline.getExtent()
               if (extent != null) {
-                //将地图放大到第7级
-                window.mapBase.map.setZoom(16);
-                //获取外包矩形的中心点，把地图中心定位到中心点
-                var centerpoint = extent.getCenter();
-                window.mapBase.map.centerAt(centerpoint);
+                // 将地图放大到第7级
+                window.mapBase.map.setZoom(16)
+                // 获取外包矩形的中心点，把地图中心定位到中心点
+                var centerpoint = extent.getCenter()
+                window.mapBase.map.centerAt(centerpoint)
 
-                //创建线的符号，把线加到地图中
+                // 创建线的符号，把线加到地图中
                 var lineSymbol = new SimpleLineSymbol(
                   SimpleLineSymbol.STYLE_SOLID,
                   new Colors([84, 228, 203]),
                   10
-                );
-                var graphicpolyLine = new Graphic(polyline, lineSymbol);
+                )
+                var graphicpolyLine = new Graphic(polyline, lineSymbol)
 
-                var graphicsLayer = window.mapBase.map.getLayer("hztc"); //获取绘制图层
+                var graphicsLayer = window.mapBase.map.getLayer('hztc') // 获取绘制图层
 
                 if (graphicsLayer != null) {
-                  window.mapBase.map.removeLayer(graphicsLayer);
+                  window.mapBase.map.removeLayer(graphicsLayer)
                 }
-                graphicsLayer = new GraphicsLayer({ id: "hztc" });
-                graphicsLayer.add(graphicpolyLine);
-                window.mapBase.map.addLayer(graphicsLayer, 1);
+                graphicsLayer = new GraphicsLayer({ id: 'hztc' })
+                graphicsLayer.add(graphicpolyLine)
+                window.mapBase.map.addLayer(graphicsLayer, 1)
                 // vm.setDetail(item);
                 // vm.showDetail(true);
               }
             } else {
-              window.mapBase.clearGraphic();
-              var startPointSymbol = new SimpleMarkerSymbol();
-              startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-              startPointSymbol.setSize(10);
-              startPointSymbol.setColor(new Colors("red"));
-              let x = ArcgisUtil.wktToPoint(item.StrSHAPE).x;
-              let y = ArcgisUtil.wktToPoint(item.StrSHAPE).y;
-              var point = new Point(x, y, window.mapBase.map.spatialReference);
+              window.mapBase.clearGraphic()
+              var startPointSymbol = new SimpleMarkerSymbol()
+              startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+              startPointSymbol.setSize(10)
+              startPointSymbol.setColor(new Colors('red'))
+              let x = ArcgisUtil.wktToPoint(item.StrSHAPE).x
+              let y = ArcgisUtil.wktToPoint(item.StrSHAPE).y
+              var point = new Point(x, y, window.mapBase.map.spatialReference)
 
-              var startPointGraphic = new Graphic(point, startPointSymbol);
-              window.mapBase.addGraphic(startPointGraphic);
+              var startPointGraphic = new Graphic(point, startPointSymbol)
+              window.mapBase.addGraphic(startPointGraphic)
 
-              //将地图放大到第7级
-              window.mapBase.map.setZoom(16);
+              // 将地图放大到第7级
+              window.mapBase.map.setZoom(16)
               // 把地图中心定位到中心点
-              window.mapBase.map.centerAt(point);
+              window.mapBase.map.centerAt(point)
             }
           }
-        );
-      vm.setDetail(item);
-      vm.showDetail(true);
+        )
+      vm.setDetail(item)
+      vm.showDetail(true)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

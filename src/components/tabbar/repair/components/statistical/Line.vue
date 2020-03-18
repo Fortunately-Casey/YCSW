@@ -6,72 +6,72 @@
 </template>
 <script>
 export default {
-  props:{
-    list:{
-      type:Array,
-      default:[]
+  props: {
+    list: {
+      type: Array,
+      default: []
     }
   },
-  data() {
+  data () {
     return {
-      data:[],
-      xAxis:[]
-    };
+      data: [],
+      xAxis: []
+    }
   },
-  mounted() {
-    this.drawLine();
+  mounted () {
+    this.drawLine()
   },
   methods: {
-    drawLine() {
+    drawLine () {
       this.data = []
       this.xAxis = []
-      let myChart = this.$echarts.init(document.getElementById("myChart"));
-      this.list.map((v) =>{
+      let myChart = this.$echarts.init(document.getElementById('myChart'))
+      this.list.map((v) => {
         this.data.push({
-          value:v.StaticCount 
+          value: v.StaticCount
         })
         this.xAxis.push(
           v.FaultType + '-' + v.GXFD
         )
       })
-      
+
       myChart.setOption({
-        tooltip:{
-          trigger:'axis',
+        tooltip: {
+          trigger: 'axis'
         },
         xAxis: {
-          type: "category",
-          name:'分段',
-          boundaryGop:false,
-          data:this.xAxis
+          type: 'category',
+          name: '分段',
+          boundaryGop: false,
+          data: this.xAxis
         },
         yAxis: {
-          name:'次数',
-          type: "value"
+          name: '次数',
+          type: 'value'
         },
         series: [
           {
-            name:'',
+            name: '',
             data: this.data,
-            type:'line',
+            type: 'line',
             itemStyle: {
               normal: {
-                borderWidth:4,
-                borderColor:'#4884FE',
-                color:'#4884FE'
+                borderWidth: 4,
+                borderColor: '#4884FE',
+                color: '#4884FE'
               }
             }
-          },
+          }
         ]
-      });
+      })
     }
   },
-  watch:{
-    list() {
+  watch: {
+    list () {
       this.drawLine()
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

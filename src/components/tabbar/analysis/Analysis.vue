@@ -34,7 +34,7 @@
                 {{time}}
               </div>
             </span>
-        </div> 
+        </div>
         <m-connect v-if="chosedIndex === 0? true : false" @close="closeTab"></m-connect>
         <cross-sectional v-if="chosedIndex === 1? true : false" @close="closeTab"></cross-sectional>
         <m-profile v-if="chosedIndex === 2? true : false" @close="choseTab"></m-profile>
@@ -42,36 +42,36 @@
     </div>
 </template>
 <script>
-import MConnect from "./connect/Connect.vue";
-import CrossSectional from "./cross-sectional/CrossSectional.vue";
-import { getTime } from "@/common/utils/tool.js";
-import MProfile from "./profile/Profile.vue";
-import MTube from "./tube/Tube.vue";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import MConnect from './connect/Connect.vue'
+import CrossSectional from './cross-sectional/CrossSectional.vue'
+import { getTime } from '@/common/utils/tool.js'
+import MProfile from './profile/Profile.vue'
+import MTube from './tube/Tube.vue'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: ""
-    };
+      chosedIndex: ''
+    }
   },
-  created() {
-    this.initTime();
+  created () {
+    this.initTime()
   },
   methods: {
-    choseTab(index) {
-      this.chosedIndex = index;
-      clearAllGraphic();
-      EventBus.$emit("clearDraw");
+    choseTab (index) {
+      this.chosedIndex = index
+      clearAllGraphic()
+      EventBus.$emit('clearDraw')
     },
-    closeTab(value) {
-      this.chosedIndex = value;
+    closeTab (value) {
+      this.chosedIndex = value
     },
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     }
   },
   components: {
@@ -80,7 +80,7 @@ export default {
     MProfile,
     MTube
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .analysis {

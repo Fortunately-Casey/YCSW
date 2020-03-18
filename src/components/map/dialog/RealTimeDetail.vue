@@ -19,32 +19,32 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    ...mapGetters(["realTimeDetail"])
+    ...mapGetters(['realTimeDetail'])
   },
   methods: {
     ...mapActions({
-      isShow: "setIsShowRealTimeDetail"
+      isShow: 'setIsShowRealTimeDetail'
     }),
-    close() {
-        this.isShow(false)
+    close () {
+      this.isShow(false)
     },
-    backGround(item) {
+    backGround (item) {
       if (item.Value === 0) {
-        return "gray";
+        return 'gray'
       } else if (item.Value > item.MaxValue) {
-        return "red";
+        return 'red'
       } else {
-        return "green";
+        return 'green'
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

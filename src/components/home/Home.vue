@@ -5,15 +5,15 @@
     </div>
 </template>
 <script>
-    import MHeader from '../header/Header.vue'
-    import MContainer from '../container/Container.vue'
-    export default {
-        components:{
-            MHeader,
-            MContainer
-        },
-      
-    }
+import MHeader from '../header/Header.vue'
+import MContainer from '../container/Container.vue'
+export default {
+  components: {
+    MHeader,
+    MContainer
+  }
+
+}
 </script>
 <style lang="less" scoped>
     .content {

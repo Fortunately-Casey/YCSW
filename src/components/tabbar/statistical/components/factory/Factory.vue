@@ -81,153 +81,153 @@
   </div>
 </template>
 <script>
-import MIndicators from "./Indicators.vue";
-import MSpace from "@/common/space/Space.vue";
-import MPie from "./Pie.vue";
-import MPillars from "./Pillars.vue";
-import esriLoader from "esri-loader";
-import { server } from "@/common/mapServer/config.js";
-import { mapGetters, mapActions } from "vuex";
-import { EventBus } from "@/common/eventBus/eventBus.js";
-import { exportStaticData, GetStaticJSDbySubSID } from "@/api/statistic.js";
+import MIndicators from './Indicators.vue'
+import MSpace from '@/common/space/Space.vue'
+import MPie from './Pie.vue'
+import MPillars from './Pillars.vue'
+import esriLoader from 'esri-loader'
+import { server } from '@/common/mapServer/config.js'
+import { mapGetters, mapActions } from 'vuex'
+import { EventBus } from '@/common/eventBus/eventBus.js'
+import { exportStaticData, GetStaticJSDbySubSID } from '@/api/statistic.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
       isShowSearchBox: true,
       dialogVisible: false,
-      geometry: "",
+      geometry: '',
       length: 0,
-      subsection: ""
-    };
+      subsection: ''
+    }
   },
   computed: {
-    ...mapGetters(["searchList"]),
-    totalLength() {
-      let totalLength = 0;
+    ...mapGetters(['searchList']),
+    totalLength () {
+      let totalLength = 0
       this.searchList.map(v => {
-        totalLength += v.StaticCount;
-        v = JSON.stringify(v);
-      });
-      this.length = totalLength;
-      return totalLength;
+        totalLength += v.StaticCount
+        v = JSON.stringify(v)
+      })
+      this.length = totalLength
+      return totalLength
     }
   },
   methods: {
     ...mapActions({
-      setResult: "setSearchList"
+      setResult: 'setSearchList'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:400px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:400px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    setSubsection(value) {
-      this.subsection = value;
+    setSubsection (value) {
+      this.subsection = value
     },
-    output() {
-      var vm = this;
-      let arr = [];
+    output () {
+      var vm = this
+      let arr = []
       vm.searchList.map((v, i) => {
         arr.push({
           序号: i + 1,
           设备类型: v.SUBSID,
           管线分段: v.GXFD,
           个数: v.StaticCount,
-          "比例(%)": ((v.StaticCount / vm.length) * 100).toFixed(2) + "%"
-        });
-      });
+          '比例(%)': ((v.StaticCount / vm.length) * 100).toFixed(2) + '%'
+        })
+      })
       exportStaticData({
         list: JSON.stringify(arr)
       }).then(resp => {
         if (resp.data.success) {
-          var download = document.createElement("iframe");
-          download.src = "http://49.4.55.238:8029/" + resp.data.rows;
-          download.style.display = "none";
-          document.body.appendChild(download);
+          var download = document.createElement('iframe')
+          download.src = 'http://10.11.222.52:14451/' + resp.data.rows
+          download.style.display = 'none'
+          document.body.appendChild(download)
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
+        .loadModules(['static/arcpackage/arcgisUtil'])
         .then(([ArcgisUtil]) => {
-          let params = {};
+          let params = {}
           if (vm.geometry) {
-            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry);
-            if (vm.subsection === "") {
+            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry)
+            if (vm.subsection === '') {
               params = {
-                GDType: "厂站",
+                GDType: '厂站',
                 Geometrystr: vm.geometry
-              };
+              }
             } else {
               params = {
-                GDType: "厂站",
+                GDType: '厂站',
                 GXFD: vm.subsection,
                 Geometrystr: vm.geometry
-              };
+              }
             }
             GetStaticJSDbySubSID(params).then(resp => {
               if (resp.data.success && resp.data.rows.length > 0) {
-                vm.setResult(resp.data.rows);
-                vm.isShowSearchBox = false;
-                vm.dialogVisible = true;
-                vm.chosedTab = "result";
+                vm.setResult(resp.data.rows)
+                vm.isShowSearchBox = false
+                vm.dialogVisible = true
+                vm.chosedTab = 'result'
               } else if (resp.data.success && resp.data.rows.length === 0) {
                 vm.$message({
-                  message: "未查询到数据",
-                  type: "warning"
-                });
+                  message: '未查询到数据',
+                  type: 'warning'
+                })
               } else {
                 vm.$message({
                   message: resp.data.message,
-                  type: "warning"
-                });
+                  type: 'warning'
+                })
               }
-            });
+            })
           } else {
-            if (vm.subsection === "") {
+            if (vm.subsection === '') {
               params = {
-                GDType: "厂站"
-              };
+                GDType: '厂站'
+              }
             } else {
               params = {
-                GDType: "厂站",
+                GDType: '厂站',
                 GXFD: vm.subsection
-              };
+              }
             }
             GetStaticJSDbySubSID(params).then(resp => {
               if (resp.data.success && resp.data.rows.length > 0) {
-                vm.setResult(resp.data.rows);
-                vm.isShowSearchBox = false;
-                vm.dialogVisible = true;
-                vm.chosedTab = "result";
+                vm.setResult(resp.data.rows)
+                vm.isShowSearchBox = false
+                vm.dialogVisible = true
+                vm.chosedTab = 'result'
               } else if (resp.data.success && resp.data.rows.length === 0) {
                 vm.$message({
-                  message: "未查询到数据",
-                  type: "warning"
-                });
+                  message: '未查询到数据',
+                  type: 'warning'
+                })
               } else {
                 vm.$message({
                   message: resp.data.message,
-                  type: "warning"
-                });
+                  type: 'warning'
+                })
               }
-            });
+            })
           }
 
           // //创建查询对象
@@ -284,24 +284,24 @@ export default {
           //     alert(err);
           //   }
           // );
-        });
+        })
     },
-    back() {
-      this.dialogVisible = false;
-      this.isShowSearchBox = true;
-      this.chosedTab = "condition";
+    back () {
+      this.dialogVisible = false
+      this.isShowSearchBox = true
+      this.chosedTab = 'condition'
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    close() {
-      this.$refs.space.closeToolBar();
-      EventBus.$emit("changeChecked", [1, 62]);
+    close () {
+      this.$refs.space.closeToolBar()
+      EventBus.$emit('changeChecked', [1, 62])
       // window.mapBase.clearUI();
-      this.$emit("closeFactory", "");
+      this.$emit('closeFactory', '')
     }
   },
   components: {
@@ -310,7 +310,7 @@ export default {
     MPie,
     MPillars
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

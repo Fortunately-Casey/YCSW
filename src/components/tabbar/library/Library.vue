@@ -77,7 +77,7 @@
                                     type="primary"
                                 >
                                     选取文件
-                                </el-button>    
+                                </el-button>
                             </el-upload>
                         </div>
                     </div>
@@ -258,7 +258,7 @@
                                     type="primary"
                                 >
                                     选取文件
-                                </el-button>    
+                                </el-button>
                             </el-upload>
                         </div>
                     </div>
@@ -330,8 +330,8 @@
     </div>
 </template>
 <script>
-import { getTime } from "@/common/utils/tool.js";
-import MTable from "./components/Table.vue";
+import { getTime } from '@/common/utils/tool.js'
+import MTable from './components/Table.vue'
 import {
   GetDocunmentTypeInfo,
   InsertDocumentManageInfo,
@@ -341,39 +341,39 @@ import {
   GetDocumentDetail,
   DownLoadTK,
   DeleteDocumentDetailInfo
-} from "@/api/library.js";
-import axios from "axios";
+} from '@/api/library.js'
+import axios from 'axios'
 export default {
-  data() {
+  data () {
     return {
-      time: "",
-      timer: "",
-      note: "",
+      time: '',
+      timer: '',
+      note: '',
       isShowAddLibrary: false,
       isShowDetail: false,
       isShowDeleteLibrary: false,
       isShowEditerLibrary: false,
       isShowDownLoad: false,
-      libraryname: "",
+      libraryname: '',
       typeOption: {
-        TKType: "请选择"
+        TKType: '请选择'
       },
       showType: false,
       typeOptions: [],
       fileList: [],
-      formDate: "",
+      formDate: '',
       mainId: 1,
       obj: {
-        ProjectName: "",
-        TKType: "请选择",
-        ID: ""
+        ProjectName: '',
+        TKType: '请选择',
+        ID: ''
       },
       editObj: {},
       detail: {},
       deleteItem: {},
       editer: {},
       editerOption: {
-        TKType: "请选择"
+        TKType: '请选择'
       },
       showEdit: false,
       isSearch: false,
@@ -383,163 +383,163 @@ export default {
       isShowDeleteFile: false,
       deleteUploadedObj: {},
       uploadFileList: [],
-      addFileLength:0,
-      uploadFileLength:0
-    };
+      addFileLength: 0,
+      uploadFileLength: 0
+    }
   },
   computed: {},
-  created() {
-    this.initTime();
-    this.getDocunmentTypeInfo();
+  created () {
+    this.initTime()
+    this.getDocunmentTypeInfo()
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    addLibrary(value) {
-      var vm = this;
-      vm.obj.ProjectName = "";
-      vm.libraryname = "";
-      vm.obj.TKType = "请选择";
-      vm.note = "";
-      vm.fileList = [];
-      vm.addFileLength = 0;
-      this.isShowAddLibrary = value;
+    addLibrary (value) {
+      var vm = this
+      vm.obj.ProjectName = ''
+      vm.libraryname = ''
+      vm.obj.TKType = '请选择'
+      vm.note = ''
+      vm.fileList = []
+      vm.addFileLength = 0
+      this.isShowAddLibrary = value
     },
-    showDetail(value) {
-      var vm = this;
-      this.isShowDetail = value.showDetail;
-      this.detail = value.item;
+    showDetail (value) {
+      var vm = this
+      this.isShowDetail = value.showDetail
+      this.detail = value.item
       GetDocumentDetail({
         ID: value.item.ID
       }).then(resp => {
         if (resp.data.success) {
-          vm.uploadedList = resp.data.rows;
+          vm.uploadedList = resp.data.rows
         }
-      });
+      })
     },
-    updateOption(type, option) {
-      if (type === "type") {
-        this.obj.TKType = option.TKType;
-        this.showType = false;
+    updateOption (type, option) {
+      if (type === 'type') {
+        this.obj.TKType = option.TKType
+        this.showType = false
       }
     },
-    uploadEditer(type, option) {
-      if (type === "type") {
-        this.editerOption.TKType = option.TKType;
-        this.showEdit = false;
+    uploadEditer (type, option) {
+      if (type === 'type') {
+        this.editerOption.TKType = option.TKType
+        this.showEdit = false
       }
     },
-    getDocunmentTypeInfo() {
+    getDocunmentTypeInfo () {
       GetDocunmentTypeInfo({}).then(resp => {
         if (resp.data.success) {
-          this.typeOptions = resp.data.rows;
+          this.typeOptions = resp.data.rows
         }
-      });
+      })
     },
-    downLoad(item) {},
-    downLoadAll() {
-      var vm = this;
+    downLoad (item) {},
+    downLoadAll () {
+      var vm = this
       DownLoadTK({
         ProjectName: vm.downloadObj.ProjectName,
         TKType: vm.downloadObj.TKType,
         TKName: vm.downloadObj.TKName
       }).then(resp => {
         if (resp.data.success) {
-          var download = document.createElement("iframe");
-          download.src = "http://49.4.55.238:8029/" + resp.data.rows;
-          download.style.display = "none";
-          document.body.appendChild(download);
+          var download = document.createElement('iframe')
+          download.src = 'http://10.11.222.52:14451/' + resp.data.rows
+          download.style.display = 'none'
+          document.body.appendChild(download)
         } else {
           vm.$message({
-            message: "下载失败！",
-            type: "warning"
-          });
+            message: '下载失败！',
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    addFileChange(file) {
-      this.addFileLength ++;
+    addFileChange (file) {
+      this.addFileLength++
     },
-    addFileRemove(file) {
-      this.addFileLength --;
+    addFileRemove (file) {
+      this.addFileLength--
     },
-    addSuccess(resp) {
-      var vm = this;
+    addSuccess (resp) {
+      var vm = this
       if (resp.success) {
-        vm.$refs.table.getDocumentManageInfo();
-        vm.isShowAddLibrary = false;
+        vm.$refs.table.getDocumentManageInfo()
+        vm.isShowAddLibrary = false
       }
       vm.$message({
-        message: "新增图件库成功!",
-        type: "success"
-      });
+        message: '新增图件库成功!',
+        type: 'success'
+      })
     },
-    uploadSuccess(resp) {
-      var vm = this;
+    uploadSuccess (resp) {
+      var vm = this
       if (resp.success) {
         if (vm.isSearch) {
-          vm.$refs.table.search();
+          vm.$refs.table.search()
         } else {
-          vm.$refs.table.getDocumentManageInfo();
+          vm.$refs.table.getDocumentManageInfo()
         }
-        vm.isShowEditerLibrary = false;
+        vm.isShowEditerLibrary = false
         vm.$message({
-          message: "更新图件库成功!",
-          type: "success"
-        });
+          message: '更新图件库成功!',
+          type: 'success'
+        })
       } else {
         vm.$message({
-          message: "新增文件失败!",
-          type: "warning"
-        });
+          message: '新增文件失败!',
+          type: 'warning'
+        })
       }
     },
-    uploadError() {
-      var vm = this;
+    uploadError () {
+      var vm = this
       vm.$message({
-        message: "上传失败!",
-        type: "warning"
-      });
+        message: '上传失败!',
+        type: 'warning'
+      })
     },
-    close() {
-      this.isShowDownLoad = false;
+    close () {
+      this.isShowDownLoad = false
     },
-    showEditer(value) {
-      var vm = this;
-      vm.uploadFileList = [];
-      vm.uploadFileLength = 0;
-      this.isShowEditerLibrary = value.showEditer;
-      this.editer = value.item;
-      this.editerOption.TKType = value.item.TKType;
-      this.isSearch = value.isSearch;
+    showEditer (value) {
+      var vm = this
+      vm.uploadFileList = []
+      vm.uploadFileLength = 0
+      this.isShowEditerLibrary = value.showEditer
+      this.editer = value.item
+      this.editerOption.TKType = value.item.TKType
+      this.isSearch = value.isSearch
       GetDocumentDetail({
         ID: vm.editer.ID
       }).then(resp => {
         if (resp.data.success) {
-          vm.uploadedList = resp.data.rows;
+          vm.uploadedList = resp.data.rows
         }
-      });
+      })
     },
-    showDelete(value) {
-      this.isShowDeleteLibrary = value.showDelete;
-      this.deleteItem = value.item;
-      this.isSearch = value.isSearch;
+    showDelete (value) {
+      this.isShowDeleteLibrary = value.showDelete
+      this.deleteItem = value.item
+      this.isSearch = value.isSearch
     },
-    deleteUploadedFile(item) {
-      var vm = this;
-      vm.isShowDeleteFile = true;
-      vm.deleteUploadedObj = item;
+    deleteUploadedFile (item) {
+      var vm = this
+      vm.isShowDeleteFile = true
+      vm.deleteUploadedObj = item
     },
-    uploadedDelete() {
-      var vm = this;
+    uploadedDelete () {
+      var vm = this
       DeleteDocumentDetailInfo({
         ID: vm.deleteUploadedObj.ID
       }).then(resp => {
@@ -549,62 +549,62 @@ export default {
           }).then(resp => {
             if (resp.data.success) {
               vm.$message({
-                message: "删除成功！",
-                type: "success"
-              });
-              vm.uploadedList = resp.data.rows;
-              vm.isShowDeleteFile = false;
+                message: '删除成功！',
+                type: 'success'
+              })
+              vm.uploadedList = resp.data.rows
+              vm.isShowDeleteFile = false
             }
-          });
+          })
         } else {
           vm.$message({
-            message: "删除失败!",
-            type: "warning"
-          });
+            message: '删除失败!',
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    showDownLoad(item) {
-      var vm = this;
-      vm.downloadObj = item;
-      vm.isShowDownLoad = true;
+    showDownLoad (item) {
+      var vm = this
+      vm.downloadObj = item
+      vm.isShowDownLoad = true
       GetDocumentDetail({
         ID: item.ID
       }).then(resp => {
         if (resp.data.success) {
-          vm.downloadList = resp.data.rows;
+          vm.downloadList = resp.data.rows
         }
-      });
+      })
     },
-    save() {
-      var vm = this;
-      if (vm.obj.ProjectName === "") {
+    save () {
+      var vm = this
+      if (vm.obj.ProjectName === '') {
         vm.$message({
-          message: "工程名称不能为空",
-          type: "warning"
-        });
-        return;
+          message: '工程名称不能为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.libraryname === "") {
+      if (vm.libraryname === '') {
         vm.$message({
-          message: "图件库名称不能为空",
-          type: "warning"
-        });
-        return;
+          message: '图件库名称不能为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.obj.TKType === "请选择") {
+      if (vm.obj.TKType === '请选择') {
         vm.$message({
-          message: "图件库类型不能为空",
-          type: "warning"
-        });
-        return;
+          message: '图件库类型不能为空',
+          type: 'warning'
+        })
+        return
       }
       if (vm.addFileLength === 0) {
         vm.$message({
-          message: "上传文件不能为空",
-          type: "warning"
-        });
-        return;
+          message: '上传文件不能为空',
+          type: 'warning'
+        })
+        return
       }
       InsertDocumentManageInfo({
         ProjectName: vm.obj.ProjectName,
@@ -613,44 +613,44 @@ export default {
         Remark: vm.note
       }).then(resp => {
         if (resp.data.success) {
-          vm.obj.ID = resp.data.total;
-          vm.obj.MainId = resp.data.total;
-          vm.obj.TKName = vm.libraryname;
-          vm.$refs.upload.submit();
+          vm.obj.ID = resp.data.total
+          vm.obj.MainId = resp.data.total
+          vm.obj.TKName = vm.libraryname
+          vm.$refs.upload.submit()
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.addType) {
         if (!this.$refs.addType.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showType = false;
+          // 点击除弹出层外的空白区域
+          this.showType = false
         }
       }
       if (this.$refs.editType) {
         if (!this.$refs.editType.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showEdit = false;
+          // 点击除弹出层外的空白区域
+          this.showEdit = false
         }
       }
     },
-    editFileChange(file) {
-      this.uploadFileLength ++;
+    editFileChange (file) {
+      this.uploadFileLength++
     },
-    editFileRemove() {
-      this.uploadFileLength --;
+    editFileRemove () {
+      this.uploadFileLength--
     },
-    editerLibrary() {
-      var vm = this;
-      vm.editObj.ProjectName = vm.editer.ProjectName;
-      vm.editObj.TKType = vm.editer.TKType;
-      vm.editObj.MainId = vm.editer.ID;
-      vm.editObj.TKName = vm.editer.TKName;
+    editerLibrary () {
+      var vm = this
+      vm.editObj.ProjectName = vm.editer.ProjectName
+      vm.editObj.TKType = vm.editer.TKType
+      vm.editObj.MainId = vm.editer.ID
+      vm.editObj.TKName = vm.editer.TKName
       EditDocummentManage({
         ID: vm.editer.ID,
         ProjectName: vm.editer.ProjectName,
@@ -660,25 +660,25 @@ export default {
       }).then(resp => {
         if (resp.data.success) {
           if (vm.uploadFileLength === 0) {
-            vm.isShowEditerLibrary = false;
+            vm.isShowEditerLibrary = false
             vm.$message({
-              message: "更新图件库成功!",
-              type: "success"
-            });
-            vm.$refs.table.getDocumentManageInfo();
-          }else {
-            vm.$refs.addFile.submit();
+              message: '更新图件库成功!',
+              type: 'success'
+            })
+            vm.$refs.table.getDocumentManageInfo()
+          } else {
+            vm.$refs.addFile.submit()
           }
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    deleteLibrary() {
-      var vm = this;
+    deleteLibrary () {
+      var vm = this
       DeleteDocummentManage({
         ID: vm.deleteItem.ID,
         DetailID: vm.deleteItem.DetailID,
@@ -687,27 +687,27 @@ export default {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.isShowDeleteLibrary = false;
+            type: 'success'
+          })
+          vm.isShowDeleteLibrary = false
           if (vm.isSearch) {
-            vm.$refs.table.search();
+            vm.$refs.table.search()
           } else {
-            vm.$refs.table.getDocumentManageInfo();
+            vm.$refs.table.getDocumentManageInfo()
           }
         } else {
           vm.$message({
             message: resp.data.rows,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   },
   components: {
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .library {

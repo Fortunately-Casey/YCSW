@@ -18,77 +18,77 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       totalLength: 0,
       radiusArr: [],
-      colors: [        "red",
-        "blue",
-        "gray",
-        "orange",
-        "yellow",
-        "green",
-        "black",
-        "gold",
-        "pink"]
-    };
+      colors: [ 'red',
+        'blue',
+        'gray',
+        'orange',
+        'yellow',
+        'green',
+        'black',
+        'gold',
+        'pink']
+    }
   },
   computed: {
-    ...mapGetters(["searchList"])
+    ...mapGetters(['searchList'])
   },
-  mounted() {
-    this.drawLine();
+  mounted () {
+    this.drawLine()
   },
   methods: {
-    drawLine() {
-      var vm = this;
-      let result = vm.searchList;
-      let dataArr = [];
+    drawLine () {
+      var vm = this
+      let result = vm.searchList
+      let dataArr = []
       result.map(v => {
         dataArr.push({
           value: v.StaticCount,
-          name: v.SUBSID + "-" + v.GXFD
-        });
-        vm.totalLength += v.StaticCount;
-      });
+          name: v.SUBSID + '-' + v.GXFD
+        })
+        vm.totalLength += v.StaticCount
+      })
       result.map(v => {
         vm.radiusArr.push({
-          percentage: ((v.StaticCount / vm.totalLength) * 100).toFixed(2) + "%",
-          name: v.SUBSID + "-" + v.GXFD
-        });
-      });
-      let myChart = this.$echarts.init(document.getElementById("myChart"));
+          percentage: ((v.StaticCount / vm.totalLength) * 100).toFixed(2) + '%',
+          name: v.SUBSID + '-' + v.GXFD
+        })
+      })
+      let myChart = this.$echarts.init(document.getElementById('myChart'))
       myChart.setOption({
         tooltip: {},
         color: [
-          "#BF4DD8",
-          "#4886FF",
-          "rgb(143, 134, 134)",
-          "orange",
-          "yellow",
-          "green",
-          "black",
-          "#daa520",
-          "pink"
+          '#BF4DD8',
+          '#4886FF',
+          'rgb(143, 134, 134)',
+          'orange',
+          'yellow',
+          'green',
+          'black',
+          '#daa520',
+          'pink'
         ],
         series: [
           {
-            radius: ["50%", "66%"],
-            name: "设备类型",
-            type: "pie",
+            radius: ['50%', '66%'],
+            name: '设备类型',
+            type: 'pie',
             avoidLabelOverlap: false,
             label: {
               normal: {
                 show: false,
-                position: "center"
+                position: 'center'
               },
               emphasis: {
                 show: false,
                 textStyle: {
-                  fontSize: "30",
-                  fontWeight: "bold"
+                  fontSize: '30',
+                  fontWeight: 'bold'
                 }
               },
               labelLine: {
@@ -100,10 +100,10 @@ export default {
             data: dataArr
           }
         ]
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

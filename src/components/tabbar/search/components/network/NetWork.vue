@@ -37,53 +37,53 @@
     </div>
 </template>
 <script>
-import MCondition from "./Condition.vue";
-import MSpace from "@/common/space/Space.vue";
-import MTable from "./Table.vue";
-import esriLoader from "esri-loader";
-import { mapActions } from "vuex";
-import { mapGetters } from "vuex";
-import { server } from "@/common/mapServer/config.js";
-import { GetJSXByQuery } from "@/api/search.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import MCondition from './Condition.vue'
+import MSpace from '@/common/space/Space.vue'
+import MTable from './Table.vue'
+import esriLoader from 'esri-loader'
+import { mapActions, mapGetters } from 'vuex'
+
+import { server } from '@/common/mapServer/config.js'
+import { GetJSXByQuery } from '@/api/search.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      geometry: "",
+      geometry: '',
       total: 0
-    };
+    }
   },
   computed: {
-    ...mapGetters(["searchParams", "mapBase"])
+    ...mapGetters(['searchParams', 'mapBase'])
   },
-  mounted() {
-    this.baseMap = this.mapBase.map;
+  mounted () {
+    this.baseMap = this.mapBase.map
   },
   methods: {
     ...mapActions({
-      setList: "setNetWorkList"
+      setList: 'setNetWorkList'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:460px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:460px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       // window.mapBase.clearGraphic();
-      vm.$refs.condition.searchData();
-      let params = vm.searchParams;
+      vm.$refs.condition.searchData()
+      let params = vm.searchParams
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
+        .loadModules(['static/arcpackage/arcgisUtil'])
         .then(([ArcgisUtil]) => {
           // console.log(ArcgisUtil.polygonToWKT(vm.geometry))
           GetJSXByQuery({
@@ -94,33 +94,32 @@ export default {
             SHAPE_LengthMin: params.minLength,
             SHAPE_LengthMax: params.maxLength,
             GXFD: params.subsectionOption.name,
-            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ""
+            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ''
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.setList(resp.data.rows);
-              vm.total = resp.data.total;
-              vm.chosedTab = "result";
-            }else if(resp.data.rows === []) {
+              vm.setList(resp.data.rows)
+              vm.total = resp.data.total
+              vm.chosedTab = 'result'
+            } else if (resp.data.rows === []) {
               vm.$message({
-                message:'未查询到数据',
-                type:'warning'
+                message: '未查询到数据',
+                type: 'warning'
               })
-            }else {
-               vm.$message({
-                message:'未查询到数据',
-                type:'warning'
+            } else {
+              vm.$message({
+                message: '未查询到数据',
+                type: 'warning'
               })
             }
-          });
-        });
+          })
+        })
     },
-    pageSearch(page) {
-      var vm = this;
-      let params = vm.searchParams;
+    pageSearch (page) {
+      var vm = this
+      let params = vm.searchParams
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
+        .loadModules(['static/arcpackage/arcgisUtil'])
         .then(([ArcgisUtil]) => {
-          
           GetJSXByQuery({
             Page: page,
             Rows: 5,
@@ -129,27 +128,27 @@ export default {
             SHAPE_LengthMin: params.minLength,
             SHAPE_LengthMax: params.maxLength,
             GXFD: params.subsectionOption.name,
-            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ""
+            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ''
           }).then(resp => {
             if (resp.data.success && resp.data.rows.length > 0) {
-              vm.setList(resp.data.rows);
-              vm.total = resp.data.total;
+              vm.setList(resp.data.rows)
+              vm.total = resp.data.total
               // vm.chosedTab = "result";
             }
-          });
-        });
+          })
+        })
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    close() {
-      this.$refs.space.closeToolBar();
-      EventBus.$emit("changeChecked", [1, 62]);
+    close () {
+      this.$refs.space.closeToolBar()
+      EventBus.$emit('changeChecked', [1, 62])
       // window.mapBase.clearUI();
-      this.$emit("closeNetWork", "");
+      this.$emit('closeNetWork', '')
     }
   },
   components: {
@@ -157,7 +156,7 @@ export default {
     MSpace,
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .search-box {

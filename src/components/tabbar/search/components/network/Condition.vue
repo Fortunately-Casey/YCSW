@@ -81,102 +81,102 @@
     </div>
 </template>
 <script>
-import { materials, diameters } from "@/common/mapServer/config.js";
-import { mapActions } from "vuex";
+import { materials, diameters } from '@/common/mapServer/config.js'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       materialOption: {
-        name: "钢"
+        name: '钢'
       },
       diameterOption: {
-        diameter: "2400"
+        diameter: '2400'
       },
       showMaterial: false,
       showDiameter: false,
       materialOptions: materials,
       diameterOptions: diameters,
-      minLength: "",
-      maxLength: "",
+      minLength: '',
+      maxLength: '',
       showSubsection: false,
       subsectionOptions: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "宝应至盐龙湖"
+          name: '宝应至盐龙湖'
         },
         {
-          name: "恒济至建湖"
+          name: '恒济至建湖'
         },
         {
-          name: "盐龙湖至大丰"
+          name: '盐龙湖至大丰'
         },
         {
-          name: "盐龙湖至射阳"
+          name: '盐龙湖至射阳'
         },
         {
-          name: "射阳至明湖"
+          name: '射阳至明湖'
         }
       ],
       subsectionOption: {
-        name: "全部"
+        name: '全部'
       }
-    };
+    }
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
     ...mapActions({
-      setParams: "setSearchParams"
+      setParams: 'setSearchParams'
     }),
-    updateOption(type, option) {
-      if (type === "material") {
-        this.materialOption.name = option.name;
-        this.showMaterial = false;
+    updateOption (type, option) {
+      if (type === 'material') {
+        this.materialOption.name = option.name
+        this.showMaterial = false
       }
-      if (type === "diameter") {
-        this.diameterOption.diameter = option.diameter;
-        this.showDiameter = false;
+      if (type === 'diameter') {
+        this.diameterOption.diameter = option.diameter
+        this.showDiameter = false
       }
-      if (type === "subsection") {
-        this.subsectionOption.name = option.name;
-        this.showSubsection = false;
+      if (type === 'subsection') {
+        this.subsectionOption.name = option.name
+        this.showSubsection = false
       }
     },
-    searchData() {
+    searchData () {
       this.setParams({
         materialOption: this.materialOption,
         diameterOption: this.diameterOption,
         minLength: this.minLength,
         maxLength: this.maxLength,
-        subsectionOption: this.subsectionOption.name === '全部'?{ name:''}:this.subsectionOption
-      });
+        subsectionOption: this.subsectionOption.name === '全部' ? { name: ''} : this.subsectionOption
+      })
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.material) {
         if (!this.$refs.material.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showMaterial = false;
+          // 点击除弹出层外的空白区域
+          this.showMaterial = false
         }
       }
       if (this.$refs.diameter) {
         if (!this.$refs.diameter.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showDiameter = false;
+          // 点击除弹出层外的空白区域
+          this.showDiameter = false
         }
       }
       if (this.$refs.subsection) {
         if (!this.$refs.subsection.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showSubsection = false;
+          // 点击除弹出层外的空白区域
+          this.showSubsection = false
         }
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .condition {

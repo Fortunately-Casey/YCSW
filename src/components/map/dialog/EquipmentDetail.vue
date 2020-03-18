@@ -18,30 +18,30 @@
                 <!-- <li><span class="attr">比例尺:</span><span class="value">{{equipmentDetail.SCALE}}</span></li> -->
                 <li><span class="attr">探测方法:</span><span class="value">{{equipmentDetail.METHOD}}</span></li>
                 <!-- <li><span class="attr">备注:</span><span class="value">{{equipmentDetail.MEMO}}</span></li> -->
-            </ul>  
+            </ul>
         </div>
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    ...mapGetters(["equipmentDetail"])
+    ...mapGetters(['equipmentDetail'])
   },
-  created() {
+  created () {
   },
   methods: {
     ...mapActions({
-      showDetail: "setIsShowEquipment"
+      showDetail: 'setIsShowEquipment'
     }),
-    close() {
-      this.showDetail(false);
+    close () {
+      this.showDetail(false)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .detail {

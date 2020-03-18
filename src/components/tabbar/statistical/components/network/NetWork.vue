@@ -85,96 +85,96 @@
   </div>
 </template>
 <script>
-import MIndicators from "./Indicators.vue";
-import MSpace from "@/common/space/Space.vue";
-import MPie from "./Pie.vue";
-import MPillars from "./Pillars.vue";
-import esriLoader from "esri-loader";
-import { server } from "@/common/mapServer/config.js";
-import { mapGetters, mapActions } from "vuex";
-import { exportStaticData } from "@/api/statistic.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import MIndicators from './Indicators.vue'
+import MSpace from '@/common/space/Space.vue'
+import MPie from './Pie.vue'
+import MPillars from './Pillars.vue'
+import esriLoader from 'esri-loader'
+import { server } from '@/common/mapServer/config.js'
+import { mapGetters, mapActions } from 'vuex'
+import { exportStaticData } from '@/api/statistic.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
       isShowSearchBox: true,
       dialogVisible: false,
-      geometry: "",
+      geometry: '',
       length: 0,
-      subsection: "",
+      subsection: '',
       isMaterial: false,
       isType: false
-    };
+    }
   },
   computed: {
-    ...mapGetters(["netWorkRadio", "netWorkResult"]),
-    totalLength() {
-      let totalLength = 0;
+    ...mapGetters(['netWorkRadio', 'netWorkResult']),
+    totalLength () {
+      let totalLength = 0
       this.netWorkResult.map(v => {
-        totalLength += v.attributes.length;
-        v = JSON.stringify(v);
-      });
-      this.length = totalLength;
-      return totalLength;
+        totalLength += v.attributes.length
+        v = JSON.stringify(v)
+      })
+      this.length = totalLength
+      return totalLength
     }
   },
   methods: {
     ...mapActions({
-      setResult: "setNetWorkResult"
+      setResult: 'setNetWorkResult'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:400px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:400px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    setSubsection(value) {
-      this.subsection = value;
+    setSubsection (value) {
+      this.subsection = value
     },
-    output() {
-      var vm = this;
-      let arr = [];
+    output () {
+      var vm = this
+      let arr = []
       vm.netWorkResult.map((v, i) => {
         arr.push({
           序号: i + 1,
           材料: v.attributes.MATERIAL,
-          "长度(m)": v.attributes.length.toFixed(2),
-          "比例(%)": ((v.attributes.length / vm.length) * 100).toFixed(2) + "%"
-        });
-      });
+          '长度(m)': v.attributes.length.toFixed(2),
+          '比例(%)': ((v.attributes.length / vm.length) * 100).toFixed(2) + '%'
+        })
+      })
       exportStaticData({
         list: JSON.stringify(arr)
       }).then(resp => {
         if (resp.data.success) {
-          var download = document.createElement("iframe");
-          download.src = "http://49.4.55.238:8029/" + resp.data.rows;
-          download.style.display = "none";
-          document.body.appendChild(download);
+          var download = document.createElement('iframe')
+          download.src = 'http://10.11.222.52:14451/' + resp.data.rows
+          download.style.display = 'none'
+          document.body.appendChild(download)
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       esriLoader
         .loadModules([
-          "esri/tasks/QueryTask",
-          "esri/tasks/query",
-          "esri/symbols/SimpleLineSymbol",
-          "dojo/colors",
-          "esri/tasks/StatisticDefinition"
+          'esri/tasks/QueryTask',
+          'esri/tasks/query',
+          'esri/symbols/SimpleLineSymbol',
+          'dojo/colors',
+          'esri/tasks/StatisticDefinition'
         ])
         .then(
           ([
@@ -184,52 +184,52 @@ export default {
             Colors,
             StatisticDefinition
           ]) => {
-            //创建查询对象
-            var queryTask = new QueryTask(server.netWorkUrl + "/0");
-            var query = new Query();
-            query.where = "1=1 ";
-            if (vm.subsection !== "") {
-              query.where += ` and GXFD='${vm.subsection}'`;
+            // 创建查询对象
+            var queryTask = new QueryTask(server.netWorkUrl + '/0')
+            var query = new Query()
+            query.where = '1=1 '
+            if (vm.subsection !== '') {
+              query.where += ` and GXFD='${vm.subsection}'`
             }
-            //空间查询的几何对象
+            // 空间查询的几何对象
             if (vm.geometry) {
-              query.geometry = vm.geometry;
+              query.geometry = vm.geometry
             }
-            //空间参考信息
-            query.outSpatialReference = window.mapBase.map.spatialReference;
-            query.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
-            query.outFields = ["*"];
+            // 空间参考信息
+            query.outSpatialReference = window.mapBase.map.spatialReference
+            query.spatialRelationship = Query.SPATIAL_REL_INTERSECTS
+            query.outFields = ['*']
 
-            query.returnGeometry = true;
-            //统计条件
+            query.returnGeometry = true
+            // 统计条件
             // if(vm.subsection === '') {
             //   query.groupByFieldsForStatistics = [vm.netWorkRadio];
             // }else {
             //   query.groupByFieldsForStatistics = [vm.netWorkRadio,'GXFD'];
             // }
-            query.groupByFieldsForStatistics = [vm.netWorkRadio, "GXFD"];
-            var statDef = new StatisticDefinition();
-            statDef.statisticType = "sum";
-            statDef.onStatisticField = "SHAPE_Length";
-            statDef.outStatisticFieldName = "length";
-            query.outStatistics = [statDef];
+            query.groupByFieldsForStatistics = [vm.netWorkRadio, 'GXFD']
+            var statDef = new StatisticDefinition()
+            statDef.statisticType = 'sum'
+            statDef.onStatisticField = 'SHAPE_Length'
+            statDef.outStatisticFieldName = 'length'
+            query.outStatistics = [statDef]
 
-            //执行空间查询
+            // 执行空间查询
 
             queryTask.execute(
               query,
               queryResult => {
-                vm.setResult(queryResult.features);
+                vm.setResult(queryResult.features)
                 if (queryResult.features[0].attributes.MATERIAL === undefined) {
-                  vm.isMaterial = false;
-                  vm.isType = true;
+                  vm.isMaterial = false
+                  vm.isType = true
                 } else {
-                  vm.isMaterial = true;
-                  vm.isType = false;
+                  vm.isMaterial = true
+                  vm.isType = false
                 }
-                vm.isShowSearchBox = false;
-                vm.dialogVisible = true;
-                vm.chosedTab = "result";
+                vm.isShowSearchBox = false
+                vm.dialogVisible = true
+                vm.chosedTab = 'result'
                 // if(queryResult.features.length == 0 ) {
                 //   alert('查询结果为空');
                 //   return;
@@ -245,30 +245,30 @@ export default {
               },
               err => {
                 vm.$message({
-                  message: "未查询到数据",
-                  type: "warning"
-                });
+                  message: '未查询到数据',
+                  type: 'warning'
+                })
               }
-            );
+            )
           }
-        );
+        )
     },
-    back() {
-      this.dialogVisible = false;
-      this.isShowSearchBox = true;
-      this.chosedTab = "condition";
+    back () {
+      this.dialogVisible = false
+      this.isShowSearchBox = true
+      this.chosedTab = 'condition'
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    close() {
-      this.$refs.space.closeToolBar();
-      EventBus.$emit("changeChecked", [1, 62]);
+    close () {
+      this.$refs.space.closeToolBar()
+      EventBus.$emit('changeChecked', [1, 62])
       // window.mapBase.clearUI();
-      this.$emit("closeNetWork", "");
+      this.$emit('closeNetWork', '')
     }
   },
   components: {
@@ -277,7 +277,7 @@ export default {
     MPie,
     MPillars
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

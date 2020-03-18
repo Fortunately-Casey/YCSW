@@ -32,53 +32,53 @@
         </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
-import esriLoader from "esri-loader";
+import { mapGetters, mapActions } from 'vuex'
+import esriLoader from 'esri-loader'
 export default {
-  data() {
+  data () {
     return {
       stripe: true,
       page: 0
-    };
+    }
   },
-  props:{
-    isConnect:{
-      type:Boolean,
-      default:true
+  props: {
+    isConnect: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
-    ...mapGetters(["connectList"])
+    ...mapGetters(['connectList'])
   },
   methods: {
     ...mapActions({
-      setDetail:'setConnectDetail',
-      showConnect:'setIsShowConnect'
+      setDetail: 'setConnectDetail',
+      showConnect: 'setIsShowConnect'
     }),
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === 1 || rowIndex === 3) {
-        return "gray";
+        return 'gray'
       } else {
-        return "";
+        return ''
       }
-      return "gray";
+      return 'gray'
     },
-    changePage(page) {
-      this.page = page - 1;
+    changePage (page) {
+      this.page = page - 1
     },
-    goToDetail(item) {
-      var vm = this;
+    goToDetail (item) {
+      var vm = this
       vm.$emit('slideDown')
       esriLoader
         .loadModules([
-          "esri/geometry/Point",
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol"
+          'esri/geometry/Point',
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol'
         ])
         .then(
           ([
@@ -88,37 +88,37 @@ export default {
             Graphic,
             Colors,
             SimpleLineSymbol,
-            GraphicsLayer,           
+            GraphicsLayer,
             SimpleMarkerSymbol
           ]) => {
-            var newpoint=new Point(item.geometry.x,item.geometry.y,window.mapBase.map.spatialReference);
-            //将地图放大到第7级
-            window.mapBase.map.setZoom(16);
-            //获取外包矩形的中心点，把地图中心定位到中心点
-            window.mapBase.map.centerAt(newpoint);
-            var detailSymbol = new SimpleMarkerSymbol();
-            detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-            detailSymbol.setSize(10);
-            detailSymbol.setColor(new Colors("red"));
+            var newpoint = new Point(item.geometry.x, item.geometry.y, window.mapBase.map.spatialReference)
+            // 将地图放大到第7级
+            window.mapBase.map.setZoom(16)
+            // 获取外包矩形的中心点，把地图中心定位到中心点
+            window.mapBase.map.centerAt(newpoint)
+            var detailSymbol = new SimpleMarkerSymbol()
+            detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+            detailSymbol.setSize(10)
+            detailSymbol.setColor(new Colors('red'))
 
-            var graphicPoint = new Graphic(newpoint, detailSymbol);
-            
-            var graphicsLayer = window.mapBase.map.getLayer("pointTc"); //获取绘制图层
+            var graphicPoint = new Graphic(newpoint, detailSymbol)
+
+            var graphicsLayer = window.mapBase.map.getLayer('pointTc') // 获取绘制图层
 
             if (graphicsLayer != null) {
-              window.mapBase.map.removeLayer(graphicsLayer);
+              window.mapBase.map.removeLayer(graphicsLayer)
             }
-            graphicsLayer = new GraphicsLayer({ id: "pointTc" });
+            graphicsLayer = new GraphicsLayer({ id: 'pointTc' })
 
-            graphicsLayer.add(graphicPoint);
-            window.mapBase.map.addLayer(graphicsLayer, 1);
-            vm.setDetail(item.attributes);
-            vm.showConnect(true);
+            graphicsLayer.add(graphicPoint)
+            window.mapBase.map.addLayer(graphicsLayer, 1)
+            vm.setDetail(item.attributes)
+            vm.showConnect(true)
           }
-        );
+        )
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

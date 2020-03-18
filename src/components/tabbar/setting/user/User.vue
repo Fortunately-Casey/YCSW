@@ -97,16 +97,16 @@
     </div>
 </template>
 <script>
-import { GetUserInfo, GetRoleInfo } from "@/api/user.js";
+import { GetUserInfo, GetRoleInfo } from '@/api/user.js'
 export default {
-  data() {
+  data () {
     return {
-      username: "",
-      truename: "",
+      username: '',
+      truename: '',
       showRealName: false,
       showRoleName: false,
       roleNameOption: {
-        RoleName: "全部"
+        RoleName: '全部'
       },
       roleNameOptions: [],
       list: [],
@@ -115,179 +115,179 @@ export default {
       searchPage: 1,
       isSearch: false,
       listLength: 0,
-      showUserType:false,
+      showUserType: false,
       userTypeOption: {
-        userType: "全部",
-        id: ""
+        userType: '全部',
+        id: ''
       },
       userTypeOptions: [
         {
-          userType:'全部',
-          id:''
+          userType: '全部',
+          id: ''
         },
         {
-          userType: "PC端",
+          userType: 'PC端',
           id: 1
         },
         {
-          userType: "移动端",
+          userType: '移动端',
           id: 2
         },
         {
-          userType: "PC端与移动端",
+          userType: 'PC端与移动端',
           id: 3
         }
       ]
-    };
+    }
   },
-  created() {
-    this.getUserList();
-    this.getRoleInfo();
+  created () {
+    this.getUserList()
+    this.getRoleInfo()
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if (type === "rolename") {
-        this.roleNameOption.RoleName = option.RoleName;
-        this.showRoleName = false;
+    updateOption (type, option) {
+      if (type === 'rolename') {
+        this.roleNameOption.RoleName = option.RoleName
+        this.showRoleName = false
       }
-      if (type === "userType") {
-        this.userTypeOption.userType = option.userType;
-        this.userTypeOption.id = option.id;
-        this.showUserType = false;
+      if (type === 'userType') {
+        this.userTypeOption.userType = option.userType
+        this.userTypeOption.id = option.id
+        this.showUserType = false
       }
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.roleName) {
         if (!this.$refs.roleName.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showRoleName = false;
+          // 点击除弹出层外的空白区域
+          this.showRoleName = false
         }
       }
       if (this.$refs.userType) {
         if (!this.$refs.userType.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showUserType = false;
+          // 点击除弹出层外的空白区域
+          this.showUserType = false
         }
       }
     },
-    addUser() {
-      this.$emit("adduser", true);
+    addUser () {
+      this.$emit('adduser', true)
     },
-    getUserList() {
+    getUserList () {
       GetUserInfo({ Page: this.page, Rows: 12 }).then(resp => {
-        this.listLength = resp.data.total;
-        this.list = resp.data.rows;
-      });
+        this.listLength = resp.data.total
+        this.list = resp.data.rows
+      })
     },
     // 详情
-    getDetail(item) {
-      this.$emit("showDetail", { showDetail: true, userId: item.UserID });
+    getDetail (item) {
+      this.$emit('showDetail', { showDetail: true, userId: item.UserID })
     },
     // 编辑
-    editer(item) {
-      this.$emit("showEditer", {
+    editer (item) {
+      this.$emit('showEditer', {
         showEditer: true,
         userId: item.UserID,
         item: item,
         isSearch: this.isSearch
-      });
+      })
     },
-    resetPassWord(item) {
-      this.$emit("showReset", {
+    resetPassWord (item) {
+      this.$emit('showReset', {
         showReset: true,
         userId: item.UserID,
         isSearch: this.isSearch
       })
     },
     // 删除
-    deleteUser(item) {
-      this.$emit("showDelete", {
+    deleteUser (item) {
+      this.$emit('showDelete', {
         showDelete: true,
         userId: item.UserID,
         isSearch: this.isSearch
-      });
+      })
     },
-    changePage(page) {
-      this.page = page;
+    changePage (page) {
+      this.page = page
       if (this.isSearch) {
-        this.search();
+        this.search()
       } else {
-        this.getUserList();
+        this.getUserList()
       }
     },
-    getRoleInfo() {
-      var vm = this;
+    getRoleInfo () {
+      var vm = this
       GetRoleInfo({}).then(resp => {
         if (resp.data.success) {
-          vm.roleNameOptions = resp.data.rows;
-          vm.roleNameOptions.unshift({ RoleName: "全部" });
+          vm.roleNameOptions = resp.data.rows
+          vm.roleNameOptions.unshift({ RoleName: '全部' })
         }
-      });
+      })
     },
-    onSearch() {
-      var vm = this;
+    onSearch () {
+      var vm = this
       // if (!vm.isSearch) {
-      vm.page = 1;
+      vm.page = 1
       // }
-      vm.isSearch = true;
+      vm.isSearch = true
       GetUserInfo({
         Rows: 12,
         Page: 1,
         UserName: vm.username,
         TrueName: vm.truename,
         RoleName:
-          vm.roleNameOption.RoleName === "全部"
-            ? ""
+          vm.roleNameOption.RoleName === '全部'
+            ? ''
             : vm.roleNameOption.RoleName,
-        UserType:vm.userTypeOption.id,    
+        UserType: vm.userTypeOption.id
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
     // 查询
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       if (!vm.isSearch) {
-        vm.page = 1;
+        vm.page = 1
       }
-      vm.isSearch = true;
+      vm.isSearch = true
       GetUserInfo({
         Rows: 12,
         Page: vm.page,
         UserName: vm.username,
         TrueName: vm.truename,
         RoleName:
-          vm.roleNameOption.RoleName === "全部"
-            ? ""
+          vm.roleNameOption.RoleName === '全部'
+            ? ''
             : vm.roleNameOption.RoleName,
-        UserType:vm.userTypeOption.id,   
+        UserType: vm.userTypeOption.id
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   },
   components: {}
-};
+}
 </script>
 <style lang="less" scoped>
 .user {

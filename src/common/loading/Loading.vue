@@ -5,14 +5,14 @@
     </div>
 </template>
 <script>
-    export default {
-        props:{
-            title:{
-                type:String,
-                default:'正在载入...'
-            }
-        }
+export default {
+  props: {
+    title: {
+      type: String,
+      default: '正在载入...'
     }
+  }
+}
 </script>
 <style lang="less" scoped>
     .loading {

@@ -54,106 +54,106 @@
     </div>
 </template>
 <script>
-import { types } from "@/common/mapServer/config.js";
-import { mapActions } from "vuex";
+import { types } from '@/common/mapServer/config.js'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      typesOption: { name: "全部" },
-      numbersOption: { name: "" },
+      typesOption: { name: '全部' },
+      numbersOption: { name: '' },
       showTypes: false,
       types: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "排气阀"
+          name: '排气阀'
         },
         {
-          name: "蝶阀"
+          name: '蝶阀'
         },
         {
-          name: "闸阀井"
+          name: '闸阀井'
         },
         {
-          name: "阀门井"
+          name: '阀门井'
         },
         {
-          name:'法兰井'
+          name: '法兰井'
         },
         {
-          name:'排水阀'
+          name: '排水阀'
         }
       ],
-      minLength: "",
-      maxLength: "",
+      minLength: '',
+      maxLength: '',
       showSubsection: false,
       subsectionOptions: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "宝应至盐龙湖"
+          name: '宝应至盐龙湖'
         },
         {
-          name: "恒济至建湖"
+          name: '恒济至建湖'
         },
         {
-          name: "盐龙湖至大丰"
+          name: '盐龙湖至大丰'
         },
         {
-          name: "盐龙湖至射阳"
+          name: '盐龙湖至射阳'
         },
         {
-          name: "射阳至明湖"
+          name: '射阳至明湖'
         }
       ],
       subsectionOption: {
-        name: "全部"
+        name: '全部'
       }
-    };
+    }
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
     ...mapActions({
-      setParams: "setEquipmentParams"
+      setParams: 'setEquipmentParams'
     }),
-    updateOption(type, option) {
-      if (type === "type") {
-        this.typesOption.name = option.name;
-        this.showTypes = false;
+    updateOption (type, option) {
+      if (type === 'type') {
+        this.typesOption.name = option.name
+        this.showTypes = false
       }
-      if (type === "subsection") {
-        this.subsectionOption.name = option.name;
-        this.showSubsection = false;
+      if (type === 'subsection') {
+        this.subsectionOption.name = option.name
+        this.showSubsection = false
       }
     },
-    searchData() {
+    searchData () {
       this.setParams({
-        typesOption: this.typesOption.name === '全部'?{ name:''}:this.typesOption,
+        typesOption: this.typesOption.name === '全部' ? { name: ''} : this.typesOption,
         numbersOption: this.numbersOption,
-        subsectionOption: this.subsectionOption.name === '全部'? { name:''}:this.subsectionOption
-      });
+        subsectionOption: this.subsectionOption.name === '全部' ? { name: ''} : this.subsectionOption
+      })
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.material) {
         if (!this.$refs.material.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showTypes = false;
+          // 点击除弹出层外的空白区域
+          this.showTypes = false
         }
       }
       if (this.$refs.subsection) {
         if (!this.$refs.subsection.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showSubsection = false;
+          // 点击除弹出层外的空白区域
+          this.showSubsection = false
         }
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .condition {

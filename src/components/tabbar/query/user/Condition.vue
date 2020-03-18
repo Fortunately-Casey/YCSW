@@ -52,60 +52,60 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       scaleOption: {
-        name: "全部"
+        name: '全部'
       },
-      name:'',
+      name: '',
       showScale: false,
-      minSpace:'',
-      maxSpace:'',
+      minSpace: '',
+      maxSpace: '',
       scaleOptions: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "小型"
+          name: '小型'
         },
         {
-          name: "中型"
+          name: '中型'
         },
         {
-          name: "大型"
+          name: '大型'
         }
       ]
-    };
+    }
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if (type === "scale") {
-        this.scaleOption.name = option.name;
-        this.showScale = false;
+    updateOption (type, option) {
+      if (type === 'scale') {
+        this.scaleOption.name = option.name
+        this.showScale = false
       }
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.scale) {
         if (!this.$refs.scale.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showScale = false;
+          // 点击除弹出层外的空白区域
+          this.showScale = false
         }
       }
     },
-    getParams() {
-      this.$emit('getParams',{
-         CompanyName:this.name,
-         Production:this.scaleOption.name === '全部'?'':this.scaleOption.name,
-         Capacity:this.maxSpace,
-         MinCapacity:this.minSpace
+    getParams () {
+      this.$emit('getParams', {
+        CompanyName: this.name,
+        Production: this.scaleOption.name === '全部' ? '' : this.scaleOption.name,
+        Capacity: this.maxSpace,
+        MinCapacity: this.minSpace
       })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

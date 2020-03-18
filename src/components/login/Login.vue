@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 <template>
     <div class="login">
         <h3>盐城新水源地工程输水管网地理信息系统</h3>
@@ -14,10 +15,10 @@
                     <input type="password" style="display:none">
                     <input :type="isShowPassWord?'text':'password'" auto-complete="new-password" placeholder="密码" v-model="password" @keyup.enter="submit">
                     <div class="show-password"
-                        v-show="isShowPassWord" 
+                        v-show="isShowPassWord"
                         @click="isShowPassWord = !isShowPassWord"
                     ></div>
-                    <div class="hide-password" 
+                    <div class="hide-password"
                         v-show="!isShowPassWord"
                         @click="isShowPassWord = !isShowPassWord"
                     ></div>
@@ -36,20 +37,20 @@
     </div>
 </template>
 <script>
-import { b64DecodeUnicode }  from '@/common/utils/tool.js'
-import { b64EncodeUnicode } from '@/common/utils/tool.js'
+import { b64DecodeUnicode, b64EncodeUnicode } from '@/common/utils/tool.js'
+
 import { Login } from '@/api/login.js'
 
 export default {
-  data() {
+  data () {
     return {
       isShowPassWord: false,
-      isRememberPW:false,
-      username:'',
-      password:''
-    };
+      isRememberPW: false,
+      username: '',
+      password: ''
+    }
   },
-  created() {
+  created () {
     //   在页面加载时从cookie获取登录信息
     // let username = this.getCookie('username')
     // let password
@@ -64,23 +65,23 @@ export default {
     // }
   },
   methods: {
-    //登录  
-    submit() {
+    // 登录
+    submit () {
       var vm = this
       Login({
-        Username:vm.username,
-        Password:vm.password
+        Username: vm.username,
+        Password: vm.password
       }).then((resp) => {
-        if(resp.data.success) {
+        if (resp.data.success) {
           this.$router.push({
-              path: "/home"
-          });
-        }else {
+            path: '/home'
+          })
+        } else {
           alert('账号或密码错误')
         }
       })
     }
-    //储存表单信息
+    // 储存表单信息
     // setUserInfo() {
     //     //判断用户是否勾选记住密码，如果勾选，向cookie中存储登录信息
     //     //如果没有勾选，储存的信息为空
@@ -110,10 +111,10 @@ export default {
     //    var d = new Date();
     //    d.setTime(d.getTime() + (expiredays * 24 * 60 * 1000));
     //    var expires = "expires=" + d.toUTCString();
-    //    document.cookie = cName + '=' + value + ";" + expires + '; path=/'     
+    //    document.cookie = cName + '=' + value + ";" + expires + '; path=/'
     // }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .login {

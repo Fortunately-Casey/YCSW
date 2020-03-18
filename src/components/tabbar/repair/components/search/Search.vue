@@ -37,98 +37,98 @@
     </div>
 </template>
 <script>
-import MResult from "./Result.vue";
-import MSpace from "@/common/space/Space.vue";
-import MTable from "./Table.vue";
-import esriLoader from "esri-loader";
-import { GetServiceInfoList } from "@/api/repair.js";
-import { mapActions } from "vuex";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import MResult from './Result.vue'
+import MSpace from '@/common/space/Space.vue'
+import MTable from './Table.vue'
+import esriLoader from 'esri-loader'
+import { GetServiceInfoList } from '@/api/repair.js'
+import { mapActions } from 'vuex'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      geometry: "",
-      faultType: "",
-      subsection: "",
-      date: "",
-      equipmentNumber: "",
+      geometry: '',
+      faultType: '',
+      subsection: '',
+      date: '',
+      equipmentNumber: '',
       total: 0,
-      page:1
-    };
+      page: 1
+    }
   },
-  mounted() {
-    EventBus.$on("getNewList", () => {
-      this.pageSearch(this.page); 
-    });
+  mounted () {
+    EventBus.$on('getNewList', () => {
+      this.pageSearch(this.page)
+    })
   },
   methods: {
     ...mapActions({
-      setList: "setRepairSearchList"
+      setList: 'setRepairSearchList'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:460px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:460px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    getType(value) {
-      this.faultType = value;
+    getType (value) {
+      this.faultType = value
     },
-    getSubsection(value) {
-      this.subsection = value;
+    getSubsection (value) {
+      this.subsection = value
     },
-    getDate(value) {
-      this.date = value;
+    getDate (value) {
+      this.date = value
     },
-    getEquipmentNumber(value) {
-      this.equipmentNumber = value;
+    getEquipmentNumber (value) {
+      this.equipmentNumber = value
     },
-    search() {
-      var vm = this;
-      vm.page = 1;
-      if (vm.faultType === "") {
+    search () {
+      var vm = this
+      vm.page = 1
+      if (vm.faultType === '') {
         vm.$message({
-          message: "故障类型不可为空！",
-          type: "warning"
-        });
-        return;
+          message: '故障类型不可为空！',
+          type: 'warning'
+        })
+        return
       }
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
-        .then(function([ArcgisUtil]) {
+        .loadModules(['static/arcpackage/arcgisUtil'])
+        .then(function ([ArcgisUtil]) {
           if (vm.geometry) {
-            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry);
+            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry)
           }
           GetServiceInfoList({
-            ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : "",
-            ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : "",
-            GXFD: vm.subsection === "全部" ? "" : vm.subsection,
+            ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : '',
+            ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : '',
+            GXFD: vm.subsection === '全部' ? '' : vm.subsection,
             EquipmentNum: vm.equipmentNumber,
             FaultType: vm.faultType,
             Geometrystr: vm.geometry,
@@ -136,32 +136,32 @@ export default {
             Rows: 5
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.tableData = resp.data.rows;
-              vm.total = resp.data.total;
-              vm.setList(resp.data.rows);
-              vm.chosedTab = "result";
+              vm.tableData = resp.data.rows
+              vm.total = resp.data.total
+              vm.setList(resp.data.rows)
+              vm.chosedTab = 'result'
             } else {
               vm.$message({
-                message: "未查询到任何数据！",
-                type: "warning"
-              });
+                message: '未查询到任何数据！',
+                type: 'warning'
+              })
             }
-          });
-        });
+          })
+        })
     },
-    pageSearch(page) {
-      var vm = this;
-      vm.page = page;
+    pageSearch (page) {
+      var vm = this
+      vm.page = page
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
-        .then(function([ArcgisUtil]) {
+        .loadModules(['static/arcpackage/arcgisUtil'])
+        .then(function ([ArcgisUtil]) {
           if (vm.geometry) {
-            vm.geometry = ArcgisUtil.polygonToWKT(vm.params.geometry);
+            vm.geometry = ArcgisUtil.polygonToWKT(vm.params.geometry)
           }
           GetServiceInfoList({
-            ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : "",
-            ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : "",
-            GXFD: vm.subsection === "全部" ? "" : vm.subsection,
+            ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : '',
+            ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : '',
+            GXFD: vm.subsection === '全部' ? '' : vm.subsection,
             EquipmentNum: vm.equipmentNumber,
             FaultType: vm.faultType,
             Geometrystr: vm.geometry,
@@ -169,34 +169,34 @@ export default {
             Rows: 5
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.tableData = resp.data.rows;
-              vm.total = resp.data.total;
-              vm.setList(resp.data.rows);
-              vm.chosedTab = "result";
+              vm.tableData = resp.data.rows
+              vm.total = resp.data.total
+              vm.setList(resp.data.rows)
+              vm.chosedTab = 'result'
             } else {
               vm.$message({
-                message: "未查询到任何数据！",
-                type: "warning"
-              });
+                message: '未查询到任何数据！',
+                type: 'warning'
+              })
             }
-          });
-        });
+          })
+        })
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    close() {
-      this.$refs.space.closeToolBar();
-      this.$emit("close", "");
+    close () {
+      this.$refs.space.closeToolBar()
+      this.$emit('close', '')
     }
   },
   components: {
@@ -204,7 +204,7 @@ export default {
     MSpace,
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .search-box {

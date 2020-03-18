@@ -59,72 +59,70 @@
     </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
-import { server } from "@/common/mapServer/config.js";
-import PointChart from './PointChart.vue';
-import MChose from './Chose.vue';
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import esriLoader from 'esri-loader'
+import { server } from '@/common/mapServer/config.js'
+import PointChart from './PointChart.vue'
+import MChose from './Chose.vue'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      itemPoints:[]
-    };
+      itemPoints: []
+    }
   },
   methods: {
-    points(value) {
+    points (value) {
       this.itemPoints = value
     },
-    slideDown() {
-      this.$refs.content1.style = "display:none";
-      this.$refs.condition.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content1.style = 'display:none'
+      this.$refs.condition.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.condition.style = "height:200px;bottom:15px";
+    slideUp () {
+      this.$refs.condition.style = 'height:200px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content1.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content1.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    shotDown() {
-      this.$refs.content2.style = "display:none";
-      this.$refs.result.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    shotDown () {
+      this.$refs.content2.style = 'display:none'
+      this.$refs.result.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    shotUp() {
-      this.$refs.result.style = "height:430px;bottom:15px";
+    shotUp () {
+      this.$refs.result.style = 'height:430px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content2.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content2.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    choseCondition() {
-      this.chosedTab = 'condition';
+    choseCondition () {
+      this.chosedTab = 'condition'
     },
-    close() {
-      EventBus.$emit('clearDraw');
-      this.$emit("close", "");
+    close () {
+      EventBus.$emit('clearDraw')
+      this.$emit('close', '')
     },
-    search(value) {
-       
-       if(this.itemPoints.length > 0) {
-            this.chosedTab = value;
-       }else {
-          this.$message({
-              type:'warning',
-              message:'未分析到数据'
-          })
-       }
-      
+    search (value) {
+      if (this.itemPoints.length > 0) {
+        this.chosedTab = value
+      } else {
+        this.$message({
+          type: 'warning',
+          message: '未分析到数据'
+        })
+      }
     }
   },
   components: {
     PointChart,
     MChose
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .condition-box {

@@ -21,30 +21,30 @@
                 <li><span class="attr">探测方法:</span><span class="value">{{valveDetail.METHOD}}</span></li>
                 <li><span class="attr">测绘日期:</span><span class="value">{{valveDetail.CHDATE}}</span></li>
                 <!-- <li><span class="attr">备注:</span><span class="value">{{valveDetail.MEMO}}</span></li> -->
-            </ul>  
+            </ul>
         </div>
     </div>
 </template>
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-    export default {
-        data() {
-            return {
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  data () {
+    return {
 
-            }
-        },
-        computed:{
-            ...mapGetters(['valveDetail'])
-        },
-        methods:{
-            ...mapActions({
-                showDetail:'setIsShowValve'    
-            }),
-            close() {
-                this.showDetail(false);
-            }
-        }
     }
+  },
+  computed: {
+    ...mapGetters(['valveDetail'])
+  },
+  methods: {
+    ...mapActions({
+      showDetail: 'setIsShowValve'
+    }),
+    close () {
+      this.showDetail(false)
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
     .detail {

@@ -10,28 +10,28 @@
                 <li><span class="attr">规模:</span><span class="value">{{userQueryDetail.Production}}</span></li>
                 <li><span class="attr">库容:</span><span class="value">{{userQueryDetail.Capacity+userQueryDetail.CapacityUnit }}</span></li>
                 <li><span class="attr">地址:</span><span class="value">{{userQueryDetail.CompanyAddress}}</span></li>
-            </ul>  
+            </ul>
         </div>
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    ...mapGetters(["userQueryDetail"])
+    ...mapGetters(['userQueryDetail'])
   },
   methods: {
     ...mapActions({
-      showDetail: "setIsShowQueryDetail"
+      showDetail: 'setIsShowQueryDetail'
     }),
-    close() {
-      this.showDetail(false);
+    close () {
+      this.showDetail(false)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .detail {

@@ -4,71 +4,71 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  props:{
-    list:{
-      type:Array,
-      default:[]
+  props: {
+    list: {
+      type: Array,
+      default: []
     }
   },
-  data() {
+  data () {
     return {
-      
+
     }
   },
-  mounted() {
-    this.drawLine();
+  mounted () {
+    this.drawLine()
   },
   methods: {
-    drawLine() {
-      var vm = this;
-      let nameArr = [];
-      let dataArr = [];
+    drawLine () {
+      var vm = this
+      let nameArr = []
+      let dataArr = []
       vm.list.map((v) => {
         nameArr.push(v.TrueName)
         dataArr.push(v.InspectCount)
       })
-      let myPillars = this.$echarts.init(document.getElementById("myPillars"));
+      let myPillars = this.$echarts.init(document.getElementById('myPillars'))
       myPillars.setOption({
         tooltip: {
-          trigger: "axis",
+          trigger: 'axis',
           axisPointer: {
-            type: "shadow"
+            type: 'shadow'
           }
         },
-        color: ["#4886FF"],
+        color: ['#4886FF'],
         grid: {
-          left: "3%",
-          right: "10%",
-          bottom: "3%",
+          left: '3%',
+          right: '10%',
+          bottom: '3%',
           containLabel: true
         },
         xAxis: [
           {
-            name:"人员",
-            type: "category",
-            data: nameArr,
+            name: '人员',
+            type: 'category',
+            data: nameArr
           }
         ],
         yAxis: [
           {
-            name: "(次)",
-            type: "value"
+            name: '(次)',
+            type: 'value'
           }
         ],
         series: [
           {
-            name: "巡查次数",
-            type: "bar",
-            barWidth: "30%",
+            name: '巡查次数',
+            type: 'bar',
+            barWidth: '30%',
             data: dataArr
           }
         ]
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

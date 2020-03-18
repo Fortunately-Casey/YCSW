@@ -22,15 +22,15 @@ export default {
       default: []
     }
   },
-  data() {
-    return {};
+  data () {
+    return {}
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .table {
   //   height: 150px;
-  
+
   width: 820px;
   margin: 0 auto;
   background-color: #fff;

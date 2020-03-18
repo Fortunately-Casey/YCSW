@@ -31,25 +31,25 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
-      date: "",
-      name: ""
-    };
-  },
-  methods: {
-    getParams() {
-      this.$emit("getParams", {
-        CompanyName:this.name,
-      });
+      date: '',
+      name: ''
     }
   },
-  watch:{
-    date() {
+  methods: {
+    getParams () {
+      this.$emit('getParams', {
+        CompanyName: this.name
+      })
+    }
+  },
+  watch: {
+    date () {
       this.$emit('dateChange', this.date)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

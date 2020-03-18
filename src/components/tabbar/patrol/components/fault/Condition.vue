@@ -95,149 +95,149 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
-      date: "",
-      number: "",
-      address: "",
+      date: '',
+      number: '',
+      address: '',
       showFaultType: false,
       faultTypeOption: {
-        name: "全部",
-        id: ""
+        name: '全部',
+        id: ''
       },
       faultTypeOptions: [
         {
-          name: "全部",
-          id: ""
+          name: '全部',
+          id: ''
         },
         {
-          name: "阀门",
+          name: '阀门',
           id: 1
         },
         {
-          name: "管网设备",
+          name: '管网设备',
           id: 2
         },
         {
-          name: "节点",
+          name: '节点',
           id: 3
         },
         {
-          name: "给水管线",
+          name: '给水管线',
           id: 4
         }
       ],
       showFaultLevel: false,
       faultLevelOption: {
-        name: "全部",
-        id: ""
+        name: '全部',
+        id: ''
       },
       faultLevelOptions: [
         {
-          name: "全部",
-          id: ""
+          name: '全部',
+          id: ''
         },
         {
-          name: "紧急",
+          name: '紧急',
           id: 3
         },
         {
-          name: "中级",
+          name: '中级',
           id: 2
         },
         {
-          name: "一般",
+          name: '一般',
           id: 1
         }
       ],
       showStatus: false,
       statusOption: {
-        name: "全部",
-        id: ""
+        name: '全部',
+        id: ''
       },
       statusOptions: [
         {
-          name: "全部",
-          id: ""
+          name: '全部',
+          id: ''
         },
         {
-          name: "已解决",
+          name: '已解决',
           id: 1
         },
         {
-          name: "未解决",
+          name: '未解决',
           id: 0
         }
       ]
-    };
+    }
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if (type === "faultType") {
-        this.faultTypeOption.name = option.name;
-        this.faultTypeOption.id = option.id;
-        this.showFaultType = false;
+    updateOption (type, option) {
+      if (type === 'faultType') {
+        this.faultTypeOption.name = option.name
+        this.faultTypeOption.id = option.id
+        this.showFaultType = false
       }
-      if (type === "faultLevel") {
-        this.faultLevelOption.name = option.name;
-        this.faultLevelOption.id = option.id;
-        this.showFaultLevel = false;
+      if (type === 'faultLevel') {
+        this.faultLevelOption.name = option.name
+        this.faultLevelOption.id = option.id
+        this.showFaultLevel = false
       }
-      if (type === "status") {
-        this.statusOption.name = option.name;
-        this.statusOption.id = option.id;
-        this.showStatus = false;
+      if (type === 'status') {
+        this.statusOption.name = option.name
+        this.statusOption.id = option.id
+        this.showStatus = false
       }
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.faultType) {
         if (!this.$refs.faultType.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showFaultType = false;
+          // 点击除弹出层外的空白区域
+          this.showFaultType = false
         }
       }
       if (this.$refs.faultLevel) {
         if (!this.$refs.faultLevel.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showFaultLevel = false;
+          // 点击除弹出层外的空白区域
+          this.showFaultLevel = false
         }
       }
       if (this.$refs.status) {
         if (!this.$refs.status.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showStatus = false;
+          // 点击除弹出层外的空白区域
+          this.showStatus = false
         }
       }
     },
-    getParams() {
-      var vm = this;
+    getParams () {
+      var vm = this
       return {
         DeviceId: vm.number,
         Type: vm.faultTypeOption.id,
         Level: vm.faultLevelOption.id,
         IsSettle: vm.statusOption.id,
-        StartInspectTime: vm.date?vm.getTime(vm.date[0]):'',
-        EndInspectTime: vm.date?vm.getTime(vm.date[1]):''
-      };
+        StartInspectTime: vm.date ? vm.getTime(vm.date[0]) : '',
+        EndInspectTime: vm.date ? vm.getTime(vm.date[1]) : ''
+      }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .condition {

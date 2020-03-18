@@ -37,121 +37,121 @@
     </div>
 </template>
 <script>
-import MCondition from "./Condition.vue";
-import MSpace from "@/common/space/Space.vue";
-import MTable from "./Table.vue";
-import { GetWaterPlantYSL } from "@/api/query.js";
-import { mapActions } from "vuex";
-import esriLoader from "esri-loader";
+import MCondition from './Condition.vue'
+import MSpace from '@/common/space/Space.vue'
+import MTable from './Table.vue'
+import { GetWaterPlantYSL } from '@/api/query.js'
+import { mapActions } from 'vuex'
+import esriLoader from 'esri-loader'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      date: "",
-      companyName: "",
-      geometry: "",
+      date: '',
+      companyName: '',
+      geometry: '',
       total: 0
-    };
+    }
   },
   methods: {
     ...mapActions({
-      setList: "setComsuptionList"
+      setList: 'setComsuptionList'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:420px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:420px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    dateChange(date) {
-      this.date = date;
+    dateChange (date) {
+      this.date = date
     },
-    getParams(params) {
-      this.companyName = params.CompanyName;
+    getParams (params) {
+      this.companyName = params.CompanyName
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    search() {
-      var vm = this;
-      vm.$refs.condition.getParams();
+    search () {
+      var vm = this
+      vm.$refs.condition.getParams()
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
-        .then(function([ArcgisUtil]) {
+        .loadModules(['static/arcpackage/arcgisUtil'])
+        .then(function ([ArcgisUtil]) {
           GetWaterPlantYSL({
             Page: 1,
             Rows: 5,
             CompanyName: vm.companyName,
-            DateTimeBegin: vm.date ? vm.getTime(vm.date[0]) : "",
-            DateTimeEnd: vm.date ? vm.getTime(vm.date[1]) : "",
-            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ""
+            DateTimeBegin: vm.date ? vm.getTime(vm.date[0]) : '',
+            DateTimeEnd: vm.date ? vm.getTime(vm.date[1]) : '',
+            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ''
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.setList(resp.data.rows);
-              vm.total = resp.data.total;
-              vm.chosedTab = "result";
+              vm.setList(resp.data.rows)
+              vm.total = resp.data.total
+              vm.chosedTab = 'result'
             } else if (resp.data.rows === []) {
               vm.$message({
-                message: "未查询到数据",
-                type: "warning"
-              });
+                message: '未查询到数据',
+                type: 'warning'
+              })
             } else {
               vm.$message({
-                message: "未查询到数据",
-                type: "warning"
-              });
+                message: '未查询到数据',
+                type: 'warning'
+              })
             }
-          });
-        });
+          })
+        })
     },
-    pageSearch(page) {
-      var vm = this;
-      vm.$refs.condition.getParams();
+    pageSearch (page) {
+      var vm = this
+      vm.$refs.condition.getParams()
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
-        .then(function([ArcgisUtil]) {
+        .loadModules(['static/arcpackage/arcgisUtil'])
+        .then(function ([ArcgisUtil]) {
           GetWaterPlantYSL({
             Page: page,
             Rows: 5,
             CompanyName: vm.companyName,
-            DateTimeBegin: vm.date ? vm.getTime(vm.date[0]) : "",
-            DateTimeEnd: vm.date ? vm.getTime(vm.date[1]) : "",
-            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ""
+            DateTimeBegin: vm.date ? vm.getTime(vm.date[0]) : '',
+            DateTimeEnd: vm.date ? vm.getTime(vm.date[1]) : '',
+            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ''
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.setList(resp.data.rows);
-              vm.total = resp.data.total;
-              vm.chosedTab = "result";
+              vm.setList(resp.data.rows)
+              vm.total = resp.data.total
+              vm.chosedTab = 'result'
             }
-          });
-        });
+          })
+        })
     },
-    close() {
-      this.$refs.space.closeToolBar();
+    close () {
+      this.$refs.space.closeToolBar()
       // window.mapBase.clearUI();
-      this.$emit("closeTab", "");
+      this.$emit('closeTab', '')
     }
   },
   components: {
@@ -159,7 +159,7 @@ export default {
     MSpace,
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .search-box {

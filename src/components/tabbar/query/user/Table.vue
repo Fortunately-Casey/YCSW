@@ -30,8 +30,8 @@
         </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
-import { mapGetters, mapActions } from "vuex";
+import esriLoader from 'esri-loader'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   props: {
     total: {
@@ -40,43 +40,43 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["userQueryList"])
+    ...mapGetters(['userQueryList'])
   },
-  data() {
+  data () {
     return {
       page: 1
-    };
+    }
   },
   methods: {
     ...mapActions({
-      setDetail:'setUserQueryDetail',
-      showDetail:'setIsShowQueryDetail'
+      setDetail: 'setUserQueryDetail',
+      showDetail: 'setIsShowQueryDetail'
     }),
-    tableRowClassName({ row, rowIndex }) {
+    tableRowClassName ({ row, rowIndex }) {
       if (rowIndex === 1 || rowIndex === 3) {
-        return "gray";
+        return 'gray'
       } else {
-        return "";
+        return ''
       }
-      return "gray";
+      return 'gray'
     },
-    changePage(page) {
-      this.page = page;
-      this.$emit("pageSearch", page);
+    changePage (page) {
+      this.page = page
+      this.$emit('pageSearch', page)
     },
-    goToDetail(item) {
-      var vm = this;
-      vm.$emit('slideDown');
+    goToDetail (item) {
+      var vm = this
+      vm.$emit('slideDown')
       esriLoader
         .loadModules([
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol",
-          "esri/geometry/Point"
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol',
+          'esri/geometry/Point'
         ])
         .then(
           ([
@@ -89,29 +89,29 @@ export default {
             SimpleMarkerSymbol,
             Point
           ]) => {
-            window.mapBase.clearGraphic();
-            var startPointSymbol = new SimpleMarkerSymbol();
-            startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-            startPointSymbol.setSize(10);
-            startPointSymbol.setColor(new Colors("red"));
-            let x = arcgisUtil.wktToPoint(item.StrSHAPE).x;
-            let y = arcgisUtil.wktToPoint(item.StrSHAPE).y;
-            var point = new Point(x, y, window.mapBase.map.spatialReference);
+            window.mapBase.clearGraphic()
+            var startPointSymbol = new SimpleMarkerSymbol()
+            startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+            startPointSymbol.setSize(10)
+            startPointSymbol.setColor(new Colors('red'))
+            let x = arcgisUtil.wktToPoint(item.StrSHAPE).x
+            let y = arcgisUtil.wktToPoint(item.StrSHAPE).y
+            var point = new Point(x, y, window.mapBase.map.spatialReference)
 
-            var startPointGraphic = new Graphic(point, startPointSymbol);
-            window.mapBase.addGraphic(startPointGraphic);
+            var startPointGraphic = new Graphic(point, startPointSymbol)
+            window.mapBase.addGraphic(startPointGraphic)
 
-            //将地图放大到第7级
-            window.mapBase.map.setZoom(16);
+            // 将地图放大到第7级
+            window.mapBase.map.setZoom(16)
             // 把地图中心定位到中心点
-            window.mapBase.map.centerAt(point);
-            vm.setDetail(item);
-            vm.showDetail(true);
+            window.mapBase.map.centerAt(point)
+            vm.setDetail(item)
+            vm.showDetail(true)
           }
-        );
+        )
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

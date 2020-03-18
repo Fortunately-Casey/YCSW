@@ -48,61 +48,61 @@
   </div>
 </template>
 <script>
-import { getTime } from "@/common/utils/tool.js";
-import NetWork from "./components/network/NetWork.vue";
-import MEquipment from "./components/equipment/Equipment.vue";
-import MFactory from "./components/factory/Factory.vue";
-import MValve from "./components/valve/Valve.vue";
-import MNode from "./components/node/Node.vue";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
-import esriLoader from "esri-loader";
+import { getTime } from '@/common/utils/tool.js'
+import NetWork from './components/network/NetWork.vue'
+import MEquipment from './components/equipment/Equipment.vue'
+import MFactory from './components/factory/Factory.vue'
+import MValve from './components/valve/Valve.vue'
+import MNode from './components/node/Node.vue'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
+import esriLoader from 'esri-loader'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: "",
-      time: "",
-      timer: ""
-    };
+      chosedIndex: '',
+      time: '',
+      timer: ''
+    }
   },
-  created() {
-    this.initTime();
+  created () {
+    this.initTime()
   },
   methods: {
-    choseTab(index) {
-      this.chosedIndex = index;
+    choseTab (index) {
+      this.chosedIndex = index
       esriLoader
-        .loadModules(["esri/geometry/Point", "esri/SpatialReference"])
+        .loadModules(['esri/geometry/Point', 'esri/SpatialReference'])
         .then(([Point, SpatialReference]) => {
           var centerpoint = new Point(
             13348940,
             3952540,
             new SpatialReference({ wkid: 102100 })
-          );
-          window.mapBase.map.setZoom(10);
-          window.mapBase.map.centerAt(centerpoint);
-        });
-      clearAllGraphic();
+          )
+          window.mapBase.map.setZoom(10)
+          window.mapBase.map.centerAt(centerpoint)
+        })
+      clearAllGraphic()
       if (index === 0) {
-        EventBus.$emit("changeChecked", [1, 62]);
+        EventBus.$emit('changeChecked', [1, 62])
       } else if (index === 1) {
-        EventBus.$emit("changeChecked", [1, 2, 62]);
+        EventBus.$emit('changeChecked', [1, 2, 62])
       } else if (index === 2) {
-        EventBus.$emit("changeChecked", [1, 3, 62]);
+        EventBus.$emit('changeChecked', [1, 3, 62])
       } else if (index === 3) {
-        EventBus.$emit("changeChecked", [1, 4, 62]);
+        EventBus.$emit('changeChecked', [1, 4, 62])
       } else if (index === 4) {
-        EventBus.$emit("changeChecked", [1, 5, 62]);
+        EventBus.$emit('changeChecked', [1, 5, 62])
       }
     },
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    closeNetWork(value) {
-      this.chosedIndex = value;
+    closeNetWork (value) {
+      this.chosedIndex = value
     }
   },
   components: {
@@ -112,7 +112,7 @@ export default {
     MValve,
     MNode
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .statistical {

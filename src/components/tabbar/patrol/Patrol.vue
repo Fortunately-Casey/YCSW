@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-sequences */
 <template>
     <div class="patrol">
         <div class="top">
@@ -33,10 +35,10 @@
               <div class="timer">
                 {{time}}
               </div>
-            </span> 
-        </div> 
+            </span>
+        </div>
         <m-announce v-if="chosedIndex === 0 ? true : false" :total="total" :page="page" :list="list" @closeTab="choseTab" @search="search"  @showAdd="addPatrol" @showEdit="editPatrol" @showDelete="deletePatrol" @showDetail="showDetail" @showPublish="showPublish" @pageSearch="pageSearch"></m-announce>
-        <m-fault v-if="chosedIndex === 1 ? true : false" @closeTab="choseTab"></m-fault>  
+        <m-fault v-if="chosedIndex === 1 ? true : false" @closeTab="choseTab"></m-fault>
         <m-statistics v-if="chosedIndex === 2 ? true : false" @closeTab="choseTab"></m-statistics>
         <m-locus v-if="chosedIndex === 3 ? true : false" @closeTab="choseTab"></m-locus>
         <!-- 新增通告 -->
@@ -70,7 +72,7 @@
                                   @change="chosePatrol"
                                 >
                                   <el-checkbox :label="item.UserName" :title="item.TrueName">
-                                    {{item.TrueName}} 
+                                    {{item.TrueName}}
                                   </el-checkbox>
                                 </el-checkbox-group>
                               </li>
@@ -155,7 +157,7 @@
                                   @change="editChosePatrol"
                                 >
                                   <el-checkbox :label="item.UserName" :title="item.TrueName">
-                                    {{item.TrueName}} 
+                                    {{item.TrueName}}
                                   </el-checkbox>
                                 </el-checkbox-group>
                               </li>
@@ -274,7 +276,7 @@
                     <div class="right">
                       <input type="text" disabled="disabled" :value="detailObj.Title">
                     </div>
-                  </div>  
+                  </div>
                   <div class="text">
                     <div class="left">
                       发布内容:
@@ -337,16 +339,16 @@
             </div>
           </div>
         </el-dialog>
-    </div> 
+    </div>
 </template>
 <script>
-import { getTime } from "@/common/utils/tool.js";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
-import MAnnounce from "./components/announce/Announce.vue";
-import MFault from "./components/fault/Fault.vue";
-import MStatistics from "./components/statistics/Statistics.vue";
-import MLocus from "./components/locus/Locus.vue";
-import quillConfig from "./quill-config";
+import { getTime } from '@/common/utils/tool.js'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
+import MAnnounce from './components/announce/Announce.vue'
+import MFault from './components/fault/Fault.vue'
+import MStatistics from './components/statistics/Statistics.vue'
+import MLocus from './components/locus/Locus.vue'
+import quillConfig from './quill-config'
 import {
   GetMessageList,
   GetAPPUser,
@@ -355,13 +357,13 @@ import {
   UpdateMessage2,
   DeleteMessage,
   GetMessageReadeInfo
-} from "@/api/patrol.js";
-import { Permissions } from "@/api/user.js";
-import { mapActions, mapGetters } from "vuex";
+} from '@/api/patrol.js'
+import { Permissions } from '@/api/user.js'
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: "",
+      chosedIndex: '',
       isShowAddPatrol: false,
       isShowEditPatrol: false,
       isShowDeletePatrol: false,
@@ -369,226 +371,226 @@ export default {
       isShowPublish: false,
       showPatroler: false,
       patrolerOption: {
-        name: "请选择"
+        name: '请选择'
       },
       showEditPatrol: false,
       patrolerOptions: [],
-      patroler: "",
-      release: "",
-      date: "",
-      title: "",
-      text: "",
+      patroler: '',
+      release: '',
+      date: '',
+      title: '',
+      text: '',
       editorOption: quillConfig,
       page: 1,
       total: 0,
       rows: 12,
       list: [],
       params: {
-        Title: "",
-        Status: "",
-        ReceiverUserId: "",
-        StartSendTime: "",
-        EndSendTime: ""
+        Title: '',
+        Status: '',
+        ReceiverUserId: '',
+        StartSendTime: '',
+        EndSendTime: ''
       },
       editObj: {
-        title: "",
+        title: '',
         checked: [],
-        content: ""
+        content: ''
       },
       patrolerChecked: [],
-      menus: "",
-      editMenus: "",
-      publishId: "",
+      menus: '',
+      editMenus: '',
+      publishId: '',
       detailObj: {},
-      deleteId: "",
-      editTitle: "",
+      deleteId: '',
+      editTitle: '',
       readList: [],
-      publishItem:{}
-    };
+      publishItem: {}
+    }
   },
-  created() {
-    this.initTime();
-    this.date = this.getTime(new Date());
-    this.getMessageList();
-    this.getAppUsers();
-    this.getUserName();
+  created () {
+    this.initTime()
+    this.date = this.getTime(new Date())
+    this.getMessageList()
+    this.getAppUsers()
+    this.getUserName()
   },
   computed: {
-    ...mapGetters(["isShowBigImage", "bigImageUrl"])
+    ...mapGetters(['isShowBigImage', 'bigImageUrl'])
   },
-  mounted() {
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
     ...mapActions({
-      showFaultLevel: "setIsShowFaultLevel",
-      setShowBigImage: "setIsShowBigImage"
+      showFaultLevel: 'setIsShowFaultLevel',
+      setShowBigImage: 'setIsShowBigImage'
     }),
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    addPatrol() {
-      (this.title = ""),
-        (this.patrolerChecked = []),
-        (this.menus = ""),
-        (this.text = ""),
-        (this.isShowAddPatrol = true);
+    addPatrol () {
+      (this.title = ''),
+      (this.patrolerChecked = []),
+      (this.menus = ''),
+      (this.text = ''),
+      (this.isShowAddPatrol = true)
     },
-    editPatrol(item) {
-      this.editObj.checked = item.ReceiverUserId.split(",");
-      this.editObj.content = item.Content;
-      this.editObj.id = item.MessageId;
-      this.isShowEditPatrol = true;
-      this.editTitle = item.Title;
-      this.editMenus = this.editObj.checked.join(",");
+    editPatrol (item) {
+      this.editObj.checked = item.ReceiverUserId.split(',')
+      this.editObj.content = item.Content
+      this.editObj.id = item.MessageId
+      this.isShowEditPatrol = true
+      this.editTitle = item.Title
+      this.editMenus = this.editObj.checked.join(',')
     },
-    deletePatrol(item) {
-      this.deleteId = item.MessageId;
-      this.isShowDeletePatrol = true;
+    deletePatrol (item) {
+      this.deleteId = item.MessageId
+      this.isShowDeletePatrol = true
     },
-    showDetail(item) {
-      var vm = this;
-      this.detailObj = item;
-      vm.readList = [];
+    showDetail (item) {
+      var vm = this
+      this.detailObj = item
+      vm.readList = []
       GetMessageReadeInfo({
         MessageId: item.MessageId
       }).then(resp => {
         if (resp.data.success) {
-          vm.readList = resp.data.rows;
+          vm.readList = resp.data.rows
         }
-      });
+      })
 
-      this.isShowPatrolDetail = true;
+      this.isShowPatrolDetail = true
     },
-    showPublish(item) {
-      this.publishId = item.MessageId;
-      this.publishItem = item;
-      this.isShowPublish = true;
+    showPublish (item) {
+      this.publishId = item.MessageId
+      this.publishItem = item
+      this.isShowPublish = true
     },
-    updateOption(type, option) {
-      if (type === "patroler") {
-        this.patrolerOption.name = option.name;
-        this.showPatroler = false;
+    updateOption (type, option) {
+      if (type === 'patroler') {
+        this.patrolerOption.name = option.name
+        this.showPatroler = false
       }
     },
-    closeBigImage() {
-      this.setShowBigImage(false);
+    closeBigImage () {
+      this.setShowBigImage(false)
     },
-    getAppUsers() {
-      var vm = this;
+    getAppUsers () {
+      var vm = this
       GetAPPUser({}).then(resp => {
         if (resp.data.success) {
-          vm.patrolerOptions = resp.data.rows;
+          vm.patrolerOptions = resp.data.rows
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    getUserName() {
-      var vm = this;
+    getUserName () {
+      var vm = this
       Permissions().then(resp => {
         if (resp.data.success) {
-          this.release = resp.data.extraData;
+          this.release = resp.data.extraData
         }
-      });
+      })
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.patroler) {
         if (!this.$refs.patroler.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showPatroler = false;
+          // 点击除弹出层外的空白区域
+          this.showPatroler = false
         }
       }
       if (this.$refs.editPatrol) {
         if (!this.$refs.editPatrol.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showEditPatrol = false;
+          // 点击除弹出层外的空白区域
+          this.showEditPatrol = false
         }
       }
     },
-    getTime(CurrentTime) {
-      var timeStr;
+    getTime (CurrentTime) {
+      var timeStr
       if (CurrentTime) {
         timeStr =
           CurrentTime.getFullYear() +
-          "-" +
+          '-' +
           this.format2Len(CurrentTime.getMonth() + 1) +
-          "-" +
-          this.format2Len(CurrentTime.getDate());
+          '-' +
+          this.format2Len(CurrentTime.getDate())
       }
-      return timeStr;
+      return timeStr
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    choseTab(index) {
-      this.chosedIndex = index;
+    choseTab (index) {
+      this.chosedIndex = index
       if (this.chosedIndex === 1) {
-        this.showFaultLevel(true);
+        this.showFaultLevel(true)
       } else {
-        this.showFaultLevel(false);
+        this.showFaultLevel(false)
       }
-      window.mapBase.removeLayer("GZPoints");
-      clearAllGraphic();
+      window.mapBase.removeLayer('GZPoints')
+      clearAllGraphic()
     },
-    chosePatrol(obj) {
-      let arr = [];
+    chosePatrol (obj) {
+      let arr = []
       for (var k in obj) {
-        arr.push(obj[k]);
+        arr.push(obj[k])
       }
-      this.menus = arr.join(",");
+      this.menus = arr.join(',')
     },
-    editChosePatrol(obj) {
-      let arr = [];
+    editChosePatrol (obj) {
+      let arr = []
       for (var k in obj) {
-        arr.push(obj[k]);
+        arr.push(obj[k])
       }
-      this.editMenus = arr.join(",");
+      this.editMenus = arr.join(',')
     },
-    getMessageList() {
-      var vm = this;
+    getMessageList () {
+      var vm = this
       GetMessageList({
         Page: vm.page,
         Rows: vm.rows,
-        ReceiverUserId: "",
-        Status: "",
-        StartSendTime: "",
-        EndSendTime: ""
+        ReceiverUserId: '',
+        Status: '',
+        StartSendTime: '',
+        EndSendTime: ''
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.total = resp.data.total;
+          vm.list = resp.data.rows
+          vm.total = resp.data.total
         }
-      });
+      })
     },
-    confirm(status) {
-      var vm = this;
-      if (vm.menus === "") {
+    confirm (status) {
+      var vm = this
+      if (vm.menus === '') {
         vm.$message({
-          message: "巡查人员不能为空!",
-          type: "warning"
-        });
-        return;
+          message: '巡查人员不能为空!',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.title === "") {
+      if (vm.title === '') {
         vm.$message({
-          message: "标题不能为空!",
-          type: "warning"
-        });
-        return;
+          message: '标题不能为空!',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.text === "") {
+      if (vm.text === '') {
         vm.$message({
-          message: "发布内容不能为空!",
-          type: "warning"
-        });
-        return;
+          message: '发布内容不能为空!',
+          type: 'warning'
+        })
+        return
       }
       InsertMessage({
         ReceiverUserId: vm.menus,
@@ -599,20 +601,20 @@ export default {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.getMessageList();
-          vm.isShowAddPatrol = false;
+            type: 'success'
+          })
+          vm.getMessageList()
+          vm.isShowAddPatrol = false
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "error"
-          });
+            type: 'error'
+          })
         }
-      });
+      })
     },
-    editConfirm(status) {
-      var vm = this;
+    editConfirm (status) {
+      var vm = this
       UpdateMessage({
         ReceiverUserId: vm.editMenus,
         Title: vm.editTitle,
@@ -623,20 +625,20 @@ export default {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.getMessageList();
-          vm.isShowEditPatrol = false;
+            type: 'success'
+          })
+          vm.getMessageList()
+          vm.isShowEditPatrol = false
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "error"
-          });
+            type: 'error'
+          })
         }
-      });
+      })
     },
-    publishConfirm() {
-      var vm = this;
+    publishConfirm () {
+      var vm = this
       UpdateMessage2({
         MessageId: vm.publishId,
         Title: vm.publishItem.Title,
@@ -646,42 +648,42 @@ export default {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.getMessageList();
-          vm.isShowPublish = false;
+            type: 'success'
+          })
+          vm.getMessageList()
+          vm.isShowPublish = false
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "error"
-          });
+            type: 'error'
+          })
         }
-      });
+      })
     },
-    confirmDelete() {
-      var vm = this;
+    confirmDelete () {
+      var vm = this
       DeleteMessage({
         MessageId: vm.deleteId
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.getMessageList();
-          vm.isShowDeletePatrol = false;
+            type: 'success'
+          })
+          vm.getMessageList()
+          vm.isShowDeletePatrol = false
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "error"
-          });
+            type: 'error'
+          })
         }
-      });
+      })
     },
-    search(params) {
-      var vm = this;
-      vm.params = params;
-      vm.page = 1;
+    search (params) {
+      var vm = this
+      vm.params = params
+      vm.page = 1
       GetMessageList({
         Page: vm.page,
         Rows: vm.rows,
@@ -692,14 +694,14 @@ export default {
         EndSendTime: vm.params.EndSendTime
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.total = resp.data.total;
+          vm.list = resp.data.rows
+          vm.total = resp.data.total
         }
-      });
+      })
     },
-    pageSearch(page) {
-      var vm = this;
-      vm.page = page;
+    pageSearch (page) {
+      var vm = this
+      vm.page = page
       GetMessageList({
         Page: vm.page,
         Rows: vm.rows,
@@ -710,33 +712,31 @@ export default {
         EndSendTime: vm.params.EndSendTime
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.total = resp.data.total;
+          vm.list = resp.data.rows
+          vm.total = resp.data.total
         }
-      });
+      })
     },
-    alertValues(e) {
+    alertValues (e) {
       if (e.text.length > 1000) {
         this.$message({
-          message: "内容不可超过1000字符!",
-          type: "warning"
-        });
-        e.quill.deleteText(1000, 1, e.html);
-        return;
+          message: '内容不可超过1000字符!',
+          type: 'warning'
+        })
+        e.quill.deleteText(1000, 1, e.html)
       } else {
-        this.text = e.html;
+        this.text = e.html
       }
     },
-    editValues(e) {
+    editValues (e) {
       if (e.text.length > 1000) {
         this.$message({
-          message: "内容不可超过1000字符!",
-          type: "warning"
-        });
-        e.quill.deleteText(1000, 1, e.html);
-        return;
+          message: '内容不可超过1000字符!',
+          type: 'warning'
+        })
+        e.quill.deleteText(1000, 1, e.html)
       } else {
-        this.editObj.content = e.html;
+        this.editObj.content = e.html
       }
     }
   },
@@ -747,28 +747,28 @@ export default {
     MLocus
   },
   watch: {
-    title(next, prev) {
-      var vm = this;
+    title (next, prev) {
+      var vm = this
       if (next.length > 20) {
         vm.$message({
-          message: "标题内容不能超过20个字符！",
-          type: "warning"
-        });
-        vm.title = prev;
+          message: '标题内容不能超过20个字符！',
+          type: 'warning'
+        })
+        vm.title = prev
       }
     },
-    editTitle(next, prev) {
-      var vm = this;
+    editTitle (next, prev) {
+      var vm = this
       if (next.length > 20) {
         vm.$message({
-          message: "标题内容不能超过20个字符！",
-          type: "warning"
-        });
-        vm.editTitle = prev;
+          message: '标题内容不能超过20个字符！',
+          type: 'warning'
+        })
+        vm.editTitle = prev
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .patrol {

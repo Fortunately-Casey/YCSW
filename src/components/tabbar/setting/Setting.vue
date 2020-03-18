@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 <template>
   <div class="setting">
     <div class="top">
@@ -480,7 +481,7 @@
   </div>
 </template>
 <script>
-import { getTime } from "@/common/utils/tool.js";
+import { getTime } from '@/common/utils/tool.js'
 import {
   InsertUserInfo,
   GetRoleInfo,
@@ -493,18 +494,18 @@ import {
   DeleteRole,
   UpdateRoleInfo,
   ResetPassword
-} from "@/api/user.js";
-import MUser from "./user/User.vue";
-import MRole from "./role/Role.vue";
+} from '@/api/user.js'
+import MUser from './user/User.vue'
+import MRole from './role/Role.vue'
 export default {
-  data() {
+  data () {
     return {
-      username: "",
-      truename: "",
-      rolename: "",
+      username: '',
+      truename: '',
+      rolename: '',
       chosedIndex: 0,
-      time: "",
-      timer: "",
+      time: '',
+      timer: '',
       isShowAddUser: false,
       isShowUserDetail: false,
       isShowUserEditer: false,
@@ -519,651 +520,651 @@ export default {
       showUserType: false,
       isDisableRole: false,
       roleNameOption: {
-        RoleName: "请选择",
-        RoleID: ""
+        RoleName: '请选择',
+        RoleID: ''
       },
       editerRoleName: {
-        RoleName: "请选择",
-        RoleID: ""
+        RoleName: '请选择',
+        RoleID: ''
       },
       userTypeOption: {
-        userType: "请选择",
-        id: ""
+        userType: '请选择',
+        id: ''
       },
       userTypeOptions: [
         {
-          userType: "PC端",
+          userType: 'PC端',
           id: 1
         },
         {
-          userType: "移动端",
+          userType: '移动端',
           id: 2
         },
         {
-          userType: "PC端与移动端",
+          userType: 'PC端与移动端',
           id: 3
         }
       ],
       roleEnableOption: {
-        name: "请选择"
+        name: '请选择'
       },
       roleEnableEditer: {
-        name: "请选择"
+        name: '请选择'
       },
       roleEnableEditers: [
         {
           id: 0,
-          name: "禁用"
+          name: '禁用'
         },
         {
           id: 1,
-          name: "未禁用"
+          name: '未禁用'
         }
       ],
       roleEnableOptions: [
         {
           id: 0,
-          name: "禁用"
+          name: '禁用'
         },
         {
           id: 1,
-          name: "未禁用"
+          name: '未禁用'
         }
       ],
       editerDisable: {
-        name: "请选择"
+        name: '请选择'
       },
       disableOption: {
-        name: "请选择"
+        name: '请选择'
       },
       showEditUserType: false,
       editerUserType: {
-        userType: "全部",
-        id: ""
+        userType: '全部',
+        id: ''
       },
       roleNameOptions: [],
-      disableId: "",
+      disableId: '',
       disableOptions: [
         {
           id: 0,
-          name: "禁用"
+          name: '禁用'
         },
         {
           id: 1,
-          name: "未禁用"
+          name: '未禁用'
         }
       ],
       userDetail: {
-        UserName: "",
-        TrueName: "",
-        RoleName: "",
-        IsDisabled: ""
+        UserName: '',
+        TrueName: '',
+        RoleName: '',
+        IsDisabled: ''
       },
-      deleteUserId: "",
-      isSearch: "",
-      editer: "",
-      editerUserId: "",
+      deleteUserId: '',
+      isSearch: '',
+      editer: '',
+      editerUserId: '',
       roots: [],
-      menus: "",
-      phoneMenus: "",
+      menus: '',
+      phoneMenus: '',
       checkedRoot: [],
       checkedPhoneRoots: [],
       roleDetailChecked: [],
       roleEditerPhoneChecked: [],
-      note: "",
+      note: '',
       roleDetail: {},
-      deleteRoleId: "",
-      isRoleSearch: "",
+      deleteRoleId: '',
+      isRoleSearch: '',
       RoleEditer: {},
       roleEditerChecked: [],
       showEditUser: false,
       showDisableUser: false,
       editIsDisableRole: false,
       isShowResetPassword: false,
-      resetId: "",
+      resetId: '',
       phoneRoots: []
-    };
+    }
   },
-  created() {
-    this.initTime();
-    this.getRoleList();
-    this.getRoots();
-    this.getPhoneRoots();
+  created () {
+    this.initTime()
+    this.getRoleList()
+    this.getRoots()
+    this.getPhoneRoots()
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    choseTab(index) {
-      this.chosedIndex = index;
+    choseTab (index) {
+      this.chosedIndex = index
     },
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    add(value) {
-      var vm = this;
-      vm.username = "";
-      vm.truename = "";
+    add (value) {
+      var vm = this
+      vm.username = ''
+      vm.truename = ''
       vm.roleNameOption = {
-        RoleName: "请选择",
-        RoleID: ""
-      };
+        RoleName: '请选择',
+        RoleID: ''
+      }
       vm.disableOption = {
-        name: "请选择"
-      };
-      vm.getRoleList();
-      vm.isShowAddUser = value;
+        name: '请选择'
+      }
+      vm.getRoleList()
+      vm.isShowAddUser = value
     },
-    addRole(value) {
-      var vm = this;
-      vm.rolename = "";
-      vm.note = "";
+    addRole (value) {
+      var vm = this
+      vm.rolename = ''
+      vm.note = ''
       vm.roleEnableOption = {
-        name: "请选择"
-      };
-      vm.checkedRoot = [];
-      vm.checkedPhoneRoots = [];
-      this.isShowAddRole = value;
+        name: '请选择'
+      }
+      vm.checkedRoot = []
+      vm.checkedPhoneRoots = []
+      this.isShowAddRole = value
     },
-    updateOption(type, option) {
-      if (type === "rolename") {
-        this.roleNameOption.RoleName = option.RoleName;
-        this.roleNameOption.RoleID = option.RoleID;
-        this.showRoleName = false;
-      } else if (type === "disable") {
-        this.disableOption.name = option.name;
-        this.disableId = option.id;
-        this.showDisable = false;
-      } else if (type === "usertype") {
-        this.userTypeOption.userType = option.userType;
-        this.userTypeOption.id = option.id;
-        this.showUserType = false;
+    updateOption (type, option) {
+      if (type === 'rolename') {
+        this.roleNameOption.RoleName = option.RoleName
+        this.roleNameOption.RoleID = option.RoleID
+        this.showRoleName = false
+      } else if (type === 'disable') {
+        this.disableOption.name = option.name
+        this.disableId = option.id
+        this.showDisable = false
+      } else if (type === 'usertype') {
+        this.userTypeOption.userType = option.userType
+        this.userTypeOption.id = option.id
+        this.showUserType = false
       }
     },
-    showReset(item) {
-      (this.isShowResetPassword = item.showReset), (this.resetId = item.userId);
+    showReset (item) {
+      (this.isShowResetPassword = item.showReset), (this.resetId = item.userId)
     },
-    editerOption(type, option) {
-      if (type === "rolename") {
-        this.editerRoleName.RoleName = option.RoleName;
-        this.editerRoleName.RoleID = option.RoleID;
-        this.showEditUser = false;
-      } else if (type === "disable") {
-        this.editerDisable.name = option.name;
-        this.disableId = option.id;
-        this.showDisableUser = false;
-      } else if (type === "editUserType") {
+    editerOption (type, option) {
+      if (type === 'rolename') {
+        this.editerRoleName.RoleName = option.RoleName
+        this.editerRoleName.RoleID = option.RoleID
+        this.showEditUser = false
+      } else if (type === 'disable') {
+        this.editerDisable.name = option.name
+        this.disableId = option.id
+        this.showDisableUser = false
+      } else if (type === 'editUserType') {
         (this.editerUserType.userType = option.userType),
-          (this.editerUserType.id = option.id),
-          (this.showEditUserType = false);
+        (this.editerUserType.id = option.id),
+        (this.showEditUserType = false)
       }
     },
-    roleEnable(type, option) {
-      if (type === "enable") {
-        this.roleEnableOption.name = option.name;
-        this.isDisableRole = false;
-      } else if (type === "editerRole") {
-        this.roleEnableEditer.name = option.name;
-        this.editIsDisableRole = false;
+    roleEnable (type, option) {
+      if (type === 'enable') {
+        this.roleEnableOption.name = option.name
+        this.isDisableRole = false
+      } else if (type === 'editerRole') {
+        this.roleEnableEditer.name = option.name
+        this.editIsDisableRole = false
       }
     },
     // 新增用户
-    addUser() {
-      var vm = this;
-      if (vm.username === "") {
+    addUser () {
+      var vm = this
+      if (vm.username === '') {
         vm.$message({
-          message: "用户名不可为空",
-          type: "warning"
-        });
-        return;
+          message: '用户名不可为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.truename === "") {
+      if (vm.truename === '') {
         vm.$message({
-          message: "真实姓名不可为空",
-          type: "warning"
-        });
-        return;
+          message: '真实姓名不可为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.roleNameOption.RoleID === "") {
+      if (vm.roleNameOption.RoleID === '') {
         vm.$message({
-          message: "角色名不可为空",
-          type: "warning"
-        });
-        return;
+          message: '角色名不可为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.disableId === "") {
+      if (vm.disableId === '') {
         vm.$message({
-          message: "是否禁用不可为空",
-          type: "warning"
-        });
-        return;
+          message: '是否禁用不可为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.userTypeOption.id === "") {
+      if (vm.userTypeOption.id === '') {
         vm.$message({
-          message: "用户类型不可为空",
-          type: "warning"
-        });
-        return;
+          message: '用户类型不可为空',
+          type: 'warning'
+        })
+        return
       }
       InsertUserInfo({
         UserName: vm.username,
         TrueName: vm.truename,
         RoleID: vm.roleNameOption.RoleID,
-        IsEnable: vm.disableId ? true : false,
+        IsEnable: !!vm.disableId,
         UserType: vm.userTypeOption.id
       }).then(resp => {
         if (!resp.data.success) {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         } else {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.$refs.user.getUserList();
-          vm.isShowAddUser = false;
+            type: 'success'
+          })
+          vm.$refs.user.getUserList()
+          vm.isShowAddUser = false
         }
-      });
+      })
     },
     // 获取角色
-    getRoleList() {
+    getRoleList () {
       GetRoleInfo({}).then(resp => {
-        this.roleNameOptions = resp.data.rows;
-      });
+        this.roleNameOptions = resp.data.rows
+      })
     },
     // 获取pc权限
-    getRoots() {
-      var vm = this;
+    getRoots () {
+      var vm = this
       GetRoots({
         MenuType: 1
       }).then(resp => {
         if (resp.data.success) {
-          vm.roots = resp.data.rows;
+          vm.roots = resp.data.rows
         }
-      });
+      })
     },
     // 获取移动端权限
-    getPhoneRoots() {
-      var vm = this;
+    getPhoneRoots () {
+      var vm = this
       GetRoots({
         MenuType: 2
       }).then(resp => {
         if (resp.data.success) {
-          vm.phoneRoots = resp.data.rows;
+          vm.phoneRoots = resp.data.rows
         }
-      });
+      })
     },
-    showDetail(value) {
-      var vm = this;
+    showDetail (value) {
+      var vm = this
       GetUserDetail({
         UserId: value.userId
       }).then(resp => {
         if (resp.data.success) {
-          vm.userDetail = resp.data.rows;
-          vm.isShowUserDetail = value.showDetail;
+          vm.userDetail = resp.data.rows
+          vm.isShowUserDetail = value.showDetail
         }
-      });
+      })
     },
-    showEditer(value) {
-      this.isShowUserEditer = value.showEditer;
-      var _obj = JSON.stringify(value.item);
-      this.editer = JSON.parse(_obj);
-      this.isSearch = value.isSearch;
-      this.editerRoleName.RoleName = value.item.RoleName;
-      this.editerRoleName.RoleID = value.item.RoleID;
-      this.editerDisable.name = value.item.IsEnable ? "未禁用" : "禁用";
-      this.editerUserId = value.userId;
-      this.editerUserType.userType = value.item.StrUserType;
-      this.editerUserType.id = value.item.UserType;
+    showEditer (value) {
+      this.isShowUserEditer = value.showEditer
+      var _obj = JSON.stringify(value.item)
+      this.editer = JSON.parse(_obj)
+      this.isSearch = value.isSearch
+      this.editerRoleName.RoleName = value.item.RoleName
+      this.editerRoleName.RoleID = value.item.RoleID
+      this.editerDisable.name = value.item.IsEnable ? '未禁用' : '禁用'
+      this.editerUserId = value.userId
+      this.editerUserType.userType = value.item.StrUserType
+      this.editerUserType.id = value.item.UserType
     },
-    showDelete(value) {
-      this.isShowUserDelete = value.showDelete;
-      this.deleteUserId = value.userId;
-      this.isSearch = value.isSearch;
+    showDelete (value) {
+      this.isShowUserDelete = value.showDelete
+      this.deleteUserId = value.userId
+      this.isSearch = value.isSearch
     },
-    showRoleDetail(value) {
-      var vm = this;
+    showRoleDetail (value) {
+      var vm = this
       GetRoleDetail({
         RoleID: value.roleId
       }).then(resp => {
         if (resp.data.success) {
-          vm.roleDetail = resp.data.rows;
-          vm.roleDetailChecked = resp.data.rows.MenuID.split(",");
-          vm.isShowRoleDetail = value.showRoleDetail;
+          vm.roleDetail = resp.data.rows
+          vm.roleDetailChecked = resp.data.rows.MenuID.split(',')
+          vm.isShowRoleDetail = value.showRoleDetail
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    showRoleEditer(value) {
-      var vm = this;
+    showRoleEditer (value) {
+      var vm = this
       GetRoleDetail({
         RoleID: value.roleId
       }).then(resp => {
         if (resp.data.success) {
-          let arr1 = [];
-          let arr2 = [];
-          let roots = resp.data.rows.MenuID.split(",");
-          var noneArr1 = [];
-          var noneArr2 = [];
+          let arr1 = []
+          let arr2 = []
+          let roots = resp.data.rows.MenuID.split(',')
+          var noneArr1 = []
+          var noneArr2 = []
           vm.phoneRoots.map(v => {
-            noneArr1.push(v.MenuID);
-          });
+            noneArr1.push(v.MenuID)
+          })
           vm.roots.map(v => {
-            noneArr2.push(v.MenuID);
-          });
-          arr2 = this.getArrEqual(roots, noneArr1);
-          arr1 = this.getArrEqual(roots, noneArr2);
-          vm.roleEditerChecked = arr1;
-          vm.roleEditerPhoneChecked = arr2;
+            noneArr2.push(v.MenuID)
+          })
+          arr2 = this.getArrEqual(roots, noneArr1)
+          arr1 = this.getArrEqual(roots, noneArr2)
+          vm.roleEditerChecked = arr1
+          vm.roleEditerPhoneChecked = arr2
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
 
-      vm.isShowRoleEditer = value.showEditer;
-      var _obj = JSON.stringify(value.item);
-      vm.RoleEditer = JSON.parse(_obj);
-      vm.isRoleSearch = value.isSearch;
-      vm.roleEnableEditer.name = value.item.IsEnable ? "未禁用" : "禁用";
-      vm.editerRoleId = value.roleId;
+      vm.isShowRoleEditer = value.showEditer
+      var _obj = JSON.stringify(value.item)
+      vm.RoleEditer = JSON.parse(_obj)
+      vm.isRoleSearch = value.isSearch
+      vm.roleEnableEditer.name = value.item.IsEnable ? '未禁用' : '禁用'
+      vm.editerRoleId = value.roleId
     },
-    getArrDifference(arr1, arr2) {
-      return arr1.concat(arr2).filter(function(v, i, arr) {
-        return arr.indexOf(v) === arr.lastIndexOf(v);
-      });
+    getArrDifference (arr1, arr2) {
+      return arr1.concat(arr2).filter(function (v, i, arr) {
+        return arr.indexOf(v) === arr.lastIndexOf(v)
+      })
     },
-    showRoleDelete(value) {
-      this.deleteRoleId = value.roleId;
-      this.isShowRoleDelete = value.showRoleDelete;
-      this.isRoleSearch = value.isSearch;
+    showRoleDelete (value) {
+      this.deleteRoleId = value.roleId
+      this.isShowRoleDelete = value.showRoleDelete
+      this.isRoleSearch = value.isSearch
     },
     // 删除用户
-    deleteUser() {
-      var vm = this;
+    deleteUser () {
+      var vm = this
       UserDelete({
         UserID: vm.deleteUserId
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.isShowUserDelete = false;
+            type: 'success'
+          })
+          vm.isShowUserDelete = false
           if (vm.isSearch) {
-            vm.$refs.user.search();
+            vm.$refs.user.search()
           } else {
-            vm.$refs.user.getUserList();
+            vm.$refs.user.getUserList()
           }
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    resetPassWord() {
-      var vm = this;
+    resetPassWord () {
+      var vm = this
       ResetPassword({
         UserId: vm.resetId
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.isShowResetPassword = false;
+            type: 'success'
+          })
+          vm.isShowResetPassword = false
         } else {
           vm.$message({
-            message: "重置密码失败!",
-            type: "warning"
-          });
+            message: '重置密码失败!',
+            type: 'warning'
+          })
         }
-      });
+      })
     },
     // 删除角色
-    deleteRole() {
-      var vm = this;
+    deleteRole () {
+      var vm = this
       DeleteRole({
         RoleID: vm.deleteRoleId
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.isShowRoleDelete = false;
+            type: 'success'
+          })
+          vm.isShowRoleDelete = false
 
           if (vm.isRoleSearch) {
-            vm.$refs.role.search();
+            vm.$refs.role.search()
           } else {
-            vm.$refs.role.getRoleList();
+            vm.$refs.role.getRoleList()
           }
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
     // 编辑用户
-    editerUser() {
-      var vm = this;
+    editerUser () {
+      var vm = this
       UpdateUserInfo({
         UserID: vm.editerUserId,
         TrueName: vm.editer.TrueName,
         RoleID: vm.editerRoleName.RoleID,
-        IsEnable: vm.editerDisable.name === "禁用" ? false : true,
+        IsEnable: vm.editerDisable.name !== '禁用',
         UserType: vm.editerUserType.id
       }).then(resp => {
         if (!resp.data.success) {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         } else {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.$refs.user.getUserList();
-          vm.isShowUserEditer = false;
+            type: 'success'
+          })
+          vm.$refs.user.getUserList()
+          vm.isShowUserEditer = false
         }
-      });
+      })
     },
     // 选择权限
-    choseRoot(obj) {
-      let arr = [];
+    choseRoot (obj) {
+      let arr = []
       for (var k in obj) {
-        arr.push(obj[k]);
+        arr.push(obj[k])
       }
-      this.menus = arr.join(",");
+      this.menus = arr.join(',')
     },
-    chosePhoneRoot(obj) {
-      let arr = [];
+    chosePhoneRoot (obj) {
+      let arr = []
       for (var k in obj) {
-        arr.push(obj[k]);
+        arr.push(obj[k])
       }
-      this.phoneMenus = arr.join(",");
+      this.phoneMenus = arr.join(',')
     },
-    choseEditer(obj) {
-      this.roleEditerChecked = obj;
+    choseEditer (obj) {
+      this.roleEditerChecked = obj
       // console.log(this.roleEditerChecked);
-      console.log(obj);
+      console.log(obj)
     },
-    chosePhoneEditer(obj) {
-      this.roleEditerPhoneChecked = obj;
+    chosePhoneEditer (obj) {
+      this.roleEditerPhoneChecked = obj
       // console.log(this.roleEditerPhoneChecked);
-      console.log(obj);
+      console.log(obj)
     },
     // 新增角色
-    saveRole() {
-      var vm = this;
-      if (vm.rolename === "") {
+    saveRole () {
+      var vm = this
+      if (vm.rolename === '') {
         vm.$message({
-          message: "角色名称不可为空",
-          type: "warning"
-        });
-        return;
+          message: '角色名称不可为空',
+          type: 'warning'
+        })
+        return
       }
-      if (vm.roleEnableOption.name === "请选择") {
+      if (vm.roleEnableOption.name === '请选择') {
         vm.$message({
-          message: "是否禁用不可为空",
-          type: "warning"
-        });
-        return;
+          message: '是否禁用不可为空',
+          type: 'warning'
+        })
+        return
       }
       if (vm.phoneMenus.length === 0 && vm.menus.length === 0) {
         vm.$message({
-          message: "权限不可为空",
-          type: "warning"
-        });
-        return;
+          message: '权限不可为空',
+          type: 'warning'
+        })
+        return
       }
       AddRole({
         RoleName: vm.rolename,
         Remark: vm.note,
-        isEnable: vm.roleEnableOption.name === "禁用" ? false : true,
-        MenuID: this.menus + "," + this.phoneMenus
+        isEnable: vm.roleEnableOption.name !== '禁用',
+        MenuID: this.menus + ',' + this.phoneMenus
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.isShowAddRole = false;
-          vm.$refs.role.getRoleList();
+            type: 'success'
+          })
+          vm.isShowAddRole = false
+          vm.$refs.role.getRoleList()
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.addRole) {
         if (!this.$refs.addRole.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showRoleName = false;
+          // 点击除弹出层外的空白区域
+          this.showRoleName = false
         }
       }
       if (this.$refs.addDisable) {
         if (!this.$refs.addDisable.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showDisable = false;
+          // 点击除弹出层外的空白区域
+          this.showDisable = false
         }
       }
       if (this.$refs.editRole) {
         if (!this.$refs.editRole.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showEditUser = false;
+          // 点击除弹出层外的空白区域
+          this.showEditUser = false
         }
       }
       if (this.$refs.editDisable) {
         if (!this.$refs.editDisable.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showDisableUser = false;
+          // 点击除弹出层外的空白区域
+          this.showDisableUser = false
         }
       }
       if (this.$refs.isDisableRole) {
         if (!this.$refs.isDisableRole.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.isDisableRole = false;
+          // 点击除弹出层外的空白区域
+          this.isDisableRole = false
         }
       }
       if (this.$refs.editIsDisableRole) {
         if (!this.$refs.editIsDisableRole.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.editIsDisableRole = false;
+          // 点击除弹出层外的空白区域
+          this.editIsDisableRole = false
         }
       }
       if (this.$refs.userType) {
         if (!this.$refs.userType.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showUserType = false;
+          // 点击除弹出层外的空白区域
+          this.showUserType = false
         }
       }
       if (this.$refs.editUserType) {
         if (!this.$refs.editUserType.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showEditUserType = false;
+          // 点击除弹出层外的空白区域
+          this.showEditUserType = false
         }
       }
     },
-    getArrEqual(arr1, arr2) {
-      let newArr = [];
+    getArrEqual (arr1, arr2) {
+      let newArr = []
       for (let i = 0; i < arr2.length; i++) {
         for (let j = 0; j < arr1.length; j++) {
           if (arr1[j] === arr2[i]) {
-            newArr.push(arr1[j]);
+            newArr.push(arr1[j])
           }
         }
       }
-      return newArr;
+      return newArr
     },
-    saveRoleEditer() {
-      var vm = this;
+    saveRoleEditer () {
+      var vm = this
       if (
         vm.roleEditerPhoneChecked.length === 0 &&
         vm.roleEditerChecked === 0
       ) {
         vm.$message({
-          message: "权限不能为空!",
-          type: "warning"
-        });
-        return;
+          message: '权限不能为空!',
+          type: 'warning'
+        })
+        return
       }
       let arr = (
-        vm.roleEditerPhoneChecked.join(",") +
-        "," +
-        vm.roleEditerChecked.join(",")
-      ).split(",");
+        vm.roleEditerPhoneChecked.join(',') +
+        ',' +
+        vm.roleEditerChecked.join(',')
+      ).split(',')
       UpdateRoleInfo({
         RoleID: vm.editerRoleId,
         Remark: vm.RoleEditer.Remark,
-        IsEnable: vm.roleEnableEditer.name === "禁用" ? false : true,
-        MenuID: arr.join(",")
+        IsEnable: vm.roleEnableEditer.name !== '禁用',
+        MenuID: arr.join(',')
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
+            type: 'success'
+          })
           if (vm.isRoleSearch) {
-            vm.$refs.role.search();
+            vm.$refs.role.search()
           } else {
-            vm.$refs.role.getRoleList();
+            vm.$refs.role.getRoleList()
           }
-          vm.isShowRoleEditer = false;
+          vm.isShowRoleEditer = false
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   },
   components: {
     MUser,
     MRole
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .setting {

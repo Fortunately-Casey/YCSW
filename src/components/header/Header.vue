@@ -20,10 +20,10 @@
                 退出
             </span>
         </div>
-        <el-dialog 
+        <el-dialog
             width="32%"
             :visible.sync="isShowEditPassWord"
-            :show-close="false"  
+            :show-close="false"
             class="dialog"
             custom-class="bgc"
         >
@@ -63,57 +63,57 @@
     </div>
 </template>
 <script>
-import { Permissions } from "@/api/user.js";
-import { EditPassword } from "@/api/login.js";
+import { Permissions } from '@/api/user.js'
+import { EditPassword } from '@/api/login.js'
 export default {
-  data() {
+  data () {
     return {
-      extraData: "",
+      extraData: '',
       isShowEditPassWord: false,
       isShowLogout: false,
-      oldPassword: "",
-      inputPassword: "",
-      confirmPassword: ""
-    };
+      oldPassword: '',
+      inputPassword: '',
+      confirmPassword: ''
+    }
   },
-  created() {
-    this.getUserName();
+  created () {
+    this.getUserName()
   },
   methods: {
-    getUserName() {
-      var vm = this;
+    getUserName () {
+      var vm = this
       Permissions().then(resp => {
         // alert('111')
         if (resp.data.success) {
-          this.extraData = resp.data.extraData;
+          this.extraData = resp.data.extraData
         } else {
           vm.$message({
-            message: "登录过期，请退出账号重新登录！",
-            type: "warning"
-          });
+            message: '登录过期，请退出账号重新登录！',
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    editPassWord() {
-      this.isShowEditPassWord = true;
-      this.oldPassword = "";
-      this.inputPassword = "";
-      this.confirmPassword = "";
+    editPassWord () {
+      this.isShowEditPassWord = true
+      this.oldPassword = ''
+      this.inputPassword = ''
+      this.confirmPassword = ''
     },
-    confirm() {
-      var vm = this;
+    confirm () {
+      var vm = this
       if (vm.inputPassword !== vm.confirmPassword) {
         vm.$message({
-          message: "输入的两次新密码不一致！",
-          type: "warning"
-        });
-        return;
+          message: '输入的两次新密码不一致！',
+          type: 'warning'
+        })
+        return
       } else if (!vm.oldPassword || !vm.inputPassword || !vm.confirmPassword) {
         vm.$message({
-          message: "原密码与新密码不可为空！",
-          type: "warning"
-        });
-        return;
+          message: '原密码与新密码不可为空！',
+          type: 'warning'
+        })
+        return
       }
       EditPassword({
         Password: vm.oldPassword,
@@ -122,27 +122,27 @@ export default {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
+            type: 'success'
+          })
           vm.$router.push({
-            path: "/login"
-          });
+            path: '/login'
+          })
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    logOut() {
+    logOut () {
       (this.isShowLogout = false),
-        this.$router.push({
-          path: "/login"
-        });
+      this.$router.push({
+        path: '/login'
+      })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .header {

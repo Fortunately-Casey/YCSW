@@ -32,61 +32,61 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       showSubsection: false,
       subsectionOptions: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "宝应至盐龙湖"
+          name: '宝应至盐龙湖'
         },
         {
-          name: "恒济至建湖"
+          name: '恒济至建湖'
         },
         {
-          name: "盐龙湖至大丰"
+          name: '盐龙湖至大丰'
         },
         {
-          name: "盐龙湖至射阳"
+          name: '盐龙湖至射阳'
         },
         {
-          name: "射阳至明湖"
+          name: '射阳至明湖'
         }
       ],
       subsectionOption: {
-        name: "全部"
+        name: '全部'
       }
-    };
+    }
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if (type === "subsection") {
-        this.subsectionOption.name = option.name;
-        this.showSubsection = false;
+    updateOption (type, option) {
+      if (type === 'subsection') {
+        this.subsectionOption.name = option.name
+        this.showSubsection = false
         this.$emit(
-          "subsection",
-          this.subsectionOption.name === "全部"
-            ? ""
+          'subsection',
+          this.subsectionOption.name === '全部'
+            ? ''
             : this.subsectionOption.name
-        );
+        )
       }
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.subsection) {
         if (!this.$refs.subsection.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showSubsection = false;
+          // 点击除弹出层外的空白区域
+          this.showSubsection = false
         }
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .water {

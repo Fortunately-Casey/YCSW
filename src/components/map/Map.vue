@@ -1,3 +1,5 @@
+/* eslint-disable no-template-curly-in-string */
+/* eslint-disable no-undef */
 <template >
   <div class="arcmap">
     <div id="mapDiv">
@@ -74,99 +76,99 @@
   </div>
 </template>
 <script>
-import ToolBar from "./components/ToolBar.vue";
-import MapSwitch from "./components/MapSwitch.vue";
+import ToolBar from './components/ToolBar.vue'
+import MapSwitch from './components/MapSwitch.vue'
 // import SearchBar from './components/SearchBar.vue'
-import SearchDetail from "./dialog/SearchDetail.vue";
-import ConnectDetail from "./dialog/ConnectDetail.vue";
-import ValveDetail from "./dialog/ValveDetail.vue";
-import RepairDetail from "./dialog/RepairDetail.vue";
-import EquipmentDetail from "./dialog/EquipmentDetail.vue";
-import RealTime from "./components/RealTime.vue";
-import RealTimeDetail from "./dialog/RealTimeDetail.vue";
-import ClickDetail from "./dialog/ClickDetail.vue";
-import UserqueryDetail from "./dialog/UserqueryDetail.vue";
-import ComsuptionDetail from "./dialog/ComsuptionDetail.vue";
-import FaultDetail from "./dialog/FaultDetail.vue";
-import FaultLevel from "./components/FaultLevel.vue";
-import esriLoader from "esri-loader";
-import { mapGetters, mapActions } from "vuex";
-import { GetSCADALive } from "@/api/realTime.js";
-import { getDate, getClock } from "@/common/utils/tool.js";
+import SearchDetail from './dialog/SearchDetail.vue'
+import ConnectDetail from './dialog/ConnectDetail.vue'
+import ValveDetail from './dialog/ValveDetail.vue'
+import RepairDetail from './dialog/RepairDetail.vue'
+import EquipmentDetail from './dialog/EquipmentDetail.vue'
+import RealTime from './components/RealTime.vue'
+import RealTimeDetail from './dialog/RealTimeDetail.vue'
+import ClickDetail from './dialog/ClickDetail.vue'
+import UserqueryDetail from './dialog/UserqueryDetail.vue'
+import ComsuptionDetail from './dialog/ComsuptionDetail.vue'
+import FaultDetail from './dialog/FaultDetail.vue'
+import FaultLevel from './components/FaultLevel.vue'
+import esriLoader from 'esri-loader'
+import { mapGetters, mapActions } from 'vuex'
+import { GetSCADALive } from '@/api/realTime.js'
+import { getDate, getClock } from '@/common/utils/tool.js'
 
 export default {
-  data() {
+  data () {
     return {
       realTimeList: [],
-      date: "",
-      clock: "",
-      timer: "",
+      date: '',
+      clock: '',
+      timer: '',
       isCenter: false,
-      baseMap: "",
-      time: ""
-    };
+      baseMap: '',
+      time: ''
+    }
   },
 
   computed: {
     ...mapGetters([
-      "isShowDetail",
-      "isShowConnect",
-      "isShowValve",
-      "isShowRepairDetail",
-      "isShowEquipment",
-      "EquimentType",
-      "Geometrystr",
-      "isShowRealTimeDetail",
-      "isShowClickDetail",
-      "isMeasure",
-      "clickResult",
-      "isShowUserQueryDetail",
-      "isShowComsuptionDetail",
-      "isOpenTimer",
-      "isShowFaultLevel",
-      "isShowFaultDetail"
+      'isShowDetail',
+      'isShowConnect',
+      'isShowValve',
+      'isShowRepairDetail',
+      'isShowEquipment',
+      'EquimentType',
+      'Geometrystr',
+      'isShowRealTimeDetail',
+      'isShowClickDetail',
+      'isMeasure',
+      'clickResult',
+      'isShowUserQueryDetail',
+      'isShowComsuptionDetail',
+      'isOpenTimer',
+      'isShowFaultLevel',
+      'isShowFaultDetail'
     ]),
-    isShowRealTime() {
-      return this.$route.name === "realtime" ? true : false;
+    isShowRealTime () {
+      return this.$route.name === 'realtime'
     }
   },
-  mounted() {
-    this.createMap();
-    if (this.$route.name === "realtime") {
-      this.setisOpenTimer(true);
+  mounted () {
+    this.createMap()
+    if (this.$route.name === 'realtime') {
+      this.setisOpenTimer(true)
     }
   },
   //
-  created() {
+  created () {
     // this.getRealTime();
-    this.initTime();
+    this.initTime()
     setInterval(() => {
-      this.initTime();
-    }, 1000);
+      this.initTime()
+    }, 1000)
   },
   methods: {
     ...mapActions({
-      setClick: "setClickResult",
-      showClick: "setIsShowClickDetail",
-      setMap: "setMapBase",
-      setisOpenTimer: "setIsOpenTimer",
-      showFaultDetail: "setIsShowFaultDetail",
-      setFaultDetail: "setFaultDetailValue"
+      setClick: 'setClickResult',
+      showClick: 'setIsShowClickDetail',
+      setMap: 'setMapBase',
+      setisOpenTimer: 'setIsOpenTimer',
+      showFaultDetail: 'setIsShowFaultDetail',
+      setFaultDetail: 'setFaultDetailValue'
     }),
-    createMap() {
-      var vm = this;
+    createMap () {
+      var vm = this
       esriLoader
         .loadModules([
-          "static/arcpackage/mapBaseNew",
-          "esri/geometry/Point",
-          "esri/geometry/Extent",
-          "esri/SpatialReference",
-          "esri/layers/ArcGISTiledMapServiceLayer",
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters",
-          "esri/layers/WebTiledLayer"
+          'static/arcpackage/mapBaseNew',
+          'esri/geometry/Point',
+          'esri/geometry/Extent',
+          'esri/SpatialReference',
+          'esri/layers/ArcGISTiledMapServiceLayer',
+          'esri/tasks/IdentifyTask',
+          'esri/tasks/IdentifyParameters',
+          'esri/layers/WebTiledLayer'
         ])
-        .then(function([
+        .then(function ([
           CreateMap,
           Point,
           Extent,
@@ -176,33 +178,33 @@ export default {
           IdentifyParameters,
           WebTiledLayer
         ]) {
-          dojo.addOnLoad(function() {
+          dojo.addOnLoad(function () {
             esriConfig.defaults.io.proxyUrl =
-              "http://49.4.55.238:8029/Proxy/proxy.ashx";
-            esriConfig.defaults.io.alwaysUseProxy = false;
-          });
+              'http://10.11.222.52:14451/Proxy/proxy.ashx'
+            esriConfig.defaults.io.alwaysUseProxy = false
+          })
           var centerpoint = new Point(
             13348940,
             3952540,
             new SpatialReference({ wkid: 102100 })
-          );
-          vm.baseMap = new CreateMap("mapDiv", {
+          )
+          vm.baseMap = new CreateMap('mapDiv', {
             center: centerpoint,
             logo: false,
             wrapAround180: false,
             slider: false,
             zoom: 10
-          });
-          vm.baseMap.map.on("load", function() {
-            vm.registerMapClick();
-          });
-          vm.baseMap.map.on("zoom-end", evt => {
+          })
+          vm.baseMap.map.on('load', function () {
+            vm.registerMapClick()
+          })
+          vm.baseMap.map.on('zoom-end', evt => {
             if (evt.level < 9) {
-              vm.baseMap.map.setLevel(10);
-              vm.baseMap.map.centerAt(centerpoint);
+              vm.baseMap.map.setLevel(10)
+              vm.baseMap.map.centerAt(centerpoint)
             }
-          });
-          vm.baseMap.map.on("mouse-drag-end", evt => {
+          })
+          vm.baseMap.map.on('mouse-drag-end', evt => {
             // console.log(vm.baseMap.map.extent.xmax);
             // console.log(evt.mapPoint.x);
             // if (evt.mapPoint.x < vm.baseMap.map.extent.xmax) {
@@ -216,52 +218,52 @@ export default {
             //     new SpatialReference({ wkid: 102100 })
             //   )
             // );
-          });
+          })
           var googleMap1 = new WebTiledLayer(
-            "http://mt${subDomain}.google.cn/maps/vt?lyrs=s%40717&hl=zh-CN&gl=CN&x=${col}&y=${row}&z=${level}",
+            'http://mt${subDomain}.google.cn/maps/vt?lyrs=s%40717&hl=zh-CN&gl=CN&x=${col}&y=${row}&z=${level}',
             {
-              id: "googleMap1",
-              subDomains: ["0", "1", "2"]
+              id: 'googleMap1',
+              subDomains: ['0', '1', '2']
             }
-          );
+          )
           var googleMap2 = new WebTiledLayer(
-            "http://mt${subDomain}.google.cn/maps/vt/imgtp=png32&lyrs=h@262&hl=x-local&gl=cn&x=${col}&y=${row}&z=${level}&s=G",
+            'http://mt${subDomain}.google.cn/maps/vt/imgtp=png32&lyrs=h@262&hl=x-local&gl=cn&x=${col}&y=${row}&z=${level}&s=G',
             {
-              id: "googleMap2",
-              subDomains: ["0", "1", "2"]
+              id: 'googleMap2',
+              subDomains: ['0', '1', '2']
             }
-          );
+          )
           var googleMap3 = new WebTiledLayer(
-            "http://mt${subDomain}.google.cn/maps/vt?lyrs=m@748&gl=cn&x=${col}&y=${row}&z=${level}",
+            'http://mt${subDomain}.google.cn/maps/vt?lyrs=m@748&gl=cn&x=${col}&y=${row}&z=${level}',
             {
-              id: "googleMap3",
-              subDomains: ["0", "1", "2"]
+              id: 'googleMap3',
+              subDomains: ['0', '1', '2']
             }
-          );
+          )
 
-          vm.baseMap.map.addLayer(googleMap1);
-          vm.baseMap.map.addLayer(googleMap2);
-          vm.baseMap.map.addLayer(googleMap3);
-          vm.baseMap.map.on("click", function(result) {
-            if (vm.$route.name === "patrol" && vm.isShowFaultLevel) {
+          vm.baseMap.map.addLayer(googleMap1)
+          vm.baseMap.map.addLayer(googleMap2)
+          vm.baseMap.map.addLayer(googleMap3)
+          vm.baseMap.map.on('click', function (result) {
+            if (vm.$route.name === 'patrol' && vm.isShowFaultLevel) {
               if (result.graphic) {
                 if (result.graphic.attributes) {
-                  vm.setFaultDetail(result.graphic.attributes);
-                  vm.showFaultDetail(true);
+                  vm.setFaultDetail(result.graphic.attributes)
+                  vm.showFaultDetail(true)
                 } else {
                   vm.$message({
-                    message: "数据为空",
-                    type: "warning"
-                  });
+                    message: '数据为空',
+                    type: 'warning'
+                  })
                 }
               } else {
-                vm.showFaultDetail(false);
+                vm.showFaultDetail(false)
               }
             }
-          });
+          })
 
           // vm.baseMap.addTiledMapServiceLayer(
-          //   "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/YCDZDT_XA80/MapServer",
+          //   "http://10.11.222.52:6080/arcgis/rest/services/YCSWData/YCDZDT_XA80/MapServer",
           //   {
           //     id: "basemap",
           //     visible: true,
@@ -270,7 +272,7 @@ export default {
           //   }
           // );
           // vm.baseMap.addTiledMapServiceLayer(
-          //   "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/YCSWYXService/MapServer",
+          //   "http://10.11.222.52:6080/arcgis/rest/services/YCSWData/YCSWYXService/MapServer",
           //   {
           //     id: "cultrue",
           //     visible: true,
@@ -279,22 +281,22 @@ export default {
           //   }
           // );
           vm.baseMap.addDynamicMapServiceLayer(
-            "ssg",
-            // "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/JSX_XA80/MapServer",
-            "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/JSX_XA80/MapServer",
+            'ssg',
+            // "http://10.11.222.52:6080/arcgis/rest/services/YCSWData/JSX_XA80/MapServer",
+            'http://10.11.222.52:6080/arcgis/rest/services/YCSWData/JSX_XA80/MapServer',
             true,
             1,
             4
-          );
+          )
           vm.baseMap.addDynamicMapServiceLayer(
-            "xzqh",
-            "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/YCSWXZQH_XA80/MapServer",
+            'xzqh',
+            'http://10.11.222.52:6080/arcgis/rest/services/YCSWData/YCSWXZQH_XA80/MapServer',
             true,
             0.7,
             3
-          );
+          )
           // vm.baseMap.addTiledMapServiceLayer(
-          //   "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/DXT_XA80/MapServer",
+          //   "http://10.11.222.52:6080/arcgis/rest/services/YCSWData/DXT_XA80/MapServer",
           //   {
           //     id: "dxt",
           //     visible: true,
@@ -303,102 +305,102 @@ export default {
           //   }
           // );
           // vm.baseMap.hideLayer("dxt");
-          vm.baseMap.hideLayer("googleMap3");
+          vm.baseMap.hideLayer('googleMap3')
 
-          window.mapBase = vm.baseMap;
-        });
+          window.mapBase = vm.baseMap
+        })
     },
-    registerMapClick() {
-      var vm = this;
-      vm.baseMap.registerMapClick(function(e) {
-        if (vm.$route.name !== "analysis" && vm.isShowFaultLevel !== true) {
-          vm.showClick(false);
-          var result = [];
-          var visiblelayers = vm.baseMap.identityQuery(e);
+    registerMapClick () {
+      var vm = this
+      vm.baseMap.registerMapClick(function (e) {
+        if (vm.$route.name !== 'analysis' && vm.isShowFaultLevel !== true) {
+          vm.showClick(false)
+          var result = []
+          var visiblelayers = vm.baseMap.identityQuery(e)
           visiblelayers.map((v, i) => {
             vm.mapIdentifyTask(v, e.mapPoint).then(resp => {
-              result.push(resp);
-              vm.showClick(true);
-              vm.setClick(result);
-            });
-          });
+              result.push(resp)
+              vm.showClick(true)
+              vm.setClick(result)
+            })
+          })
         }
-      });
+      })
     },
-    mapIdentifyTask(identifier, geometry) {
-      var deferred = new dojo.Deferred();
-      var vm = this;
+    mapIdentifyTask (identifier, geometry) {
+      var deferred = new dojo.Deferred()
+      var vm = this
       esriLoader
         .loadModules([
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters"
+          'esri/tasks/IdentifyTask',
+          'esri/tasks/IdentifyParameters'
         ])
-        .then(function([IdentifyTask, IdentifyParameters]) {
-          var mapIdentifyTask = new IdentifyTask(identifier.url);
-          var identifyParams = new IdentifyParameters();
-          identifyParams.tolerance = 3;
-          identifyParams.returnGeometry = true;
-          identifyParams.layerIds = [0];
-          identifyParams.layerOption = IdentifyParameters.LAYER_OPTION_ALL;
-          identifyParams.width = vm.baseMap.map.width;
-          identifyParams.height = vm.baseMap.map.height;
-          identifyParams.geometry = geometry;
-          identifyParams.mapExtent = vm.baseMap.map.extent;
+        .then(function ([IdentifyTask, IdentifyParameters]) {
+          var mapIdentifyTask = new IdentifyTask(identifier.url)
+          var identifyParams = new IdentifyParameters()
+          identifyParams.tolerance = 3
+          identifyParams.returnGeometry = true
+          identifyParams.layerIds = [0]
+          identifyParams.layerOption = IdentifyParameters.LAYER_OPTION_ALL
+          identifyParams.width = vm.baseMap.map.width
+          identifyParams.height = vm.baseMap.map.height
+          identifyParams.geometry = geometry
+          identifyParams.mapExtent = vm.baseMap.map.extent
           mapIdentifyTask.execute(
             identifyParams,
-            function(identifyResults) {
+            function (identifyResults) {
               if (identifyResults.length > 0) {
                 deferred.resolve({
                   url: identifier.url,
                   feature: identifyResults[0].feature
-                });
+                })
               } else {
               }
             },
-            function() {
-              deferred.reject("查询失败！");
+            function () {
+              deferred.reject('查询失败！')
             }
-          );
-        });
-      return deferred.promise;
+          )
+        })
+      return deferred.promise
     },
-    getRealTime() {
-      var vm = this;
+    getRealTime () {
+      var vm = this
       GetSCADALive({
         EquimentType: vm.EquimentType,
         Geometrystr: vm.Geometrystr
       }).then(resp => {
         if (resp.data.success) {
-          vm.realTimeList = resp.data.rows;
+          vm.realTimeList = resp.data.rows
           if (vm.realTimeList.length > 5) {
-            vm.isCenter = false;
+            vm.isCenter = false
           } else {
-            vm.isCenter = true;
+            vm.isCenter = true
           }
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    initTime() {
+    initTime () {
       this.timer = setInterval(() => {
-        this.date = getDate();
-        this.clock = getClock();
-      }, 1000);
+        this.date = getDate()
+        this.clock = getClock()
+      }, 1000)
     }
   },
   watch: {
-    isOpenTimer() {
-      var vm = this;
+    isOpenTimer () {
+      var vm = this
       if (vm.isOpenTimer) {
         vm.time = setInterval(() => {
-          this.getRealTime();
-        }, 1000);
+          this.getRealTime()
+        }, 1000)
       } else {
-        clearInterval(vm.time);
+        clearInterval(vm.time)
       }
     }
   },
@@ -418,7 +420,7 @@ export default {
     FaultLevel,
     FaultDetail
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .arcmap {

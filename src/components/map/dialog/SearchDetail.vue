@@ -9,7 +9,7 @@
                 <li><span class="attr">要素名称:</span><span class="value">{{detailValues.YSMC}}</span></li>
                 <!-- <li><span class="attr">要素代码:</span><span class="value">{{detailValues.YSDM}}</span></li> -->
                 <!-- <li><span class="attr">比例尺:</span><span class="value">{{detailValues.SCALE}}</span></li> -->
-                <li><span class="attr">长度(m):</span><span class="value">{{detailValues.SHAPE_Length&&detailValues.SHAPE_Length.toFixed(2)}}</span></li>               
+                <li><span class="attr">长度(m):</span><span class="value">{{detailValues.SHAPE_Length&&detailValues.SHAPE_Length.toFixed(2)}}</span></li>
                 <li><span class="attr">起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点:</span><span class="value">{{detailValues.S_POINT}}</span></li>
                 <li><span class="attr">终&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点:</span><span class="value">{{detailValues.E_POINT }}</span></li>
                 <li><span class="attr">起点埋深(m):</span><span class="value">{{detailValues.S_DEEP}}</span></li>
@@ -18,30 +18,30 @@
                 <li><span class="attr">埋设类型:</span><span class="value">{{detailValues.D_TYPE }}</span></li>
                 <li><span class="attr">管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径:</span><span class="value">{{detailValues.D_S + 'mm'}}</span></li>
                 <li><span class="attr">建设年代:</span><span class="value">{{detailValues.MDATE}}</span></li>
-                <li><span class="attr">管线座落:</span><span class="value">{{detailValues.ROADNAME}}</span></li>               
+                <li><span class="attr">管线座落:</span><span class="value">{{detailValues.ROADNAME}}</span></li>
                 <!-- <li><span class="attr">备注:</span><span class="value">{{detailValues.MEMO_}}</span></li> -->
-            </ul>  
+            </ul>
         </div>
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data() {
-    return {};
+  data () {
+    return {}
   },
   computed: {
-    ...mapGetters(["detailValues"])
+    ...mapGetters(['detailValues'])
   },
   methods: {
     ...mapActions({
-      showDetail: "setIsShowDetail"
+      showDetail: 'setIsShowDetail'
     }),
-    close() {
-      this.showDetail(false);
+    close () {
+      this.showDetail(false)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .detail {

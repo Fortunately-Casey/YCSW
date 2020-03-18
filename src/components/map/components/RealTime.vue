@@ -1,3 +1,4 @@
+/* eslint-disable vue/require-valid-default-prop */
 <template>
     <div class="content" @click="chose" :class="isCenter?'center':''">
         <div :id="myChart" :style="{width: '200px', height: '165px'}"></div>
@@ -8,53 +9,53 @@
     </div>
 </template>
 <script>
-import { getDate, getClock } from "@/common/utils/tool.js";
-import { mapGetters, mapActions } from "vuex";
-import { GetPumpDetailSCAD } from "@/api/realTime.js";
-import esriLoader from "esri-loader";
-import { server } from "@/common/mapServer/config.js";
+import { getDate, getClock } from '@/common/utils/tool.js'
+import { mapGetters, mapActions } from 'vuex'
+import { GetPumpDetailSCAD } from '@/api/realTime.js'
+import esriLoader from 'esri-loader'
+import { server } from '@/common/mapServer/config.js'
 export default {
   props: {
     myChart: {
       type: String,
-      default: ""
+      default: ''
     },
     data: {
       type: Object,
-      default: ""
+      default: ''
     },
     isCenter: {
       type: Boolean,
-      default: ""
+      default: ''
     }
   },
-  data() {
+  data () {
     return {
-      date: "",
-      clock: "",
-      timer: ""
-    };
+      date: '',
+      clock: '',
+      timer: ''
+    }
   },
   computed: {},
-  created() {
-    this.initTime();
+  created () {
+    this.initTime()
   },
-  mounted() {
-    this.drawLine();
+  mounted () {
+    this.drawLine()
   },
   methods: {
     ...mapActions({
-      setDetail: "setRealTimeDetail",
-      isShowDetail: "setIsShowRealTimeDetail"
+      setDetail: 'setRealTimeDetail',
+      isShowDetail: 'setIsShowRealTimeDetail'
     }),
-    drawLine() {
-      var vm = this;
-      let myChart = vm.$echarts.init(document.getElementById(vm.myChart));
+    drawLine () {
+      var vm = this
+      let myChart = vm.$echarts.init(document.getElementById(vm.myChart))
       let option = {
         tooltip: {
-          formatter: function() {
-            var company = vm.data.EquimentType === '测流表'?'km³':'Kpa'
-            return vm.data.Value + company;
+          formatter: function () {
+            var company = vm.data.EquimentType === '测流表' ? 'km³' : 'Kpa'
+            return vm.data.Value + company
           }
         },
         toolbox: {
@@ -62,8 +63,8 @@ export default {
         },
         series: [
           {
-            name: "实时数据",
-            type: "gauge",
+            name: '实时数据',
+            type: 'gauge',
             // min:vm.data.MinValue/1000,
             min:
               vm.data.MinValue < -1000
@@ -76,9 +77,9 @@ export default {
             axisLine: {
               lineStyle: {
                 color: [
-                  [1 / 22, "#c23531"],
-                  [21 / 22, "#63869e"],
-                  [1, "#c23531"]
+                  [1 / 22, '#c23531'],
+                  [21 / 22, '#63869e'],
+                  [1, '#c23531']
                 ],
                 width: 5
               }
@@ -87,64 +88,64 @@ export default {
               fontSize: 9,
               formatter:
                 vm.data.Value > -20 && vm.data.Value < 20
-                  ? "{value}"
-                  : "{value}k"
+                  ? '{value}'
+                  : '{value}k'
             },
-            radius: "90%",
+            radius: '90%',
             axisTick: {
               length: 6,
               lineStyle: {
-                color: "auto"
+                color: 'auto'
               }
             },
             splitLine: {
               length: 8,
               lineStyle: {
-                color: "auto"
+                color: 'auto'
               }
             },
             pointer: {
               width: 4
             },
             title: {
-              offsetCenter: [0, "-35%"],
-              fontSize: "10",
-              color: "#B3B3B3"
+              offsetCenter: [0, '-35%'],
+              fontSize: '10',
+              color: '#B3B3B3'
             },
             detail: {
-              formatter: function() {
-                var company = vm.data.EquimentType === '测流表'?'km³':'Kpa'
-                return vm.data.Value + company;
+              formatter: function () {
+                var company = vm.data.EquimentType === '测流表' ? 'km³' : 'Kpa'
+                return vm.data.Value + company
               },
-              fontSize: "10",
+              fontSize: '10',
               // backgroundColor: "#E6E6E7",
               borderRadius: 6,
-              offsetCenter: [0, "80%"]
+              offsetCenter: [0, '80%']
             },
             data: [{ value: vm.data.Value / 1000, name: vm.data.TagName }]
           }
         ]
-      };
-      myChart.setOption(option, true);
+      }
+      myChart.setOption(option, true)
     },
-    initTime() {
+    initTime () {
       this.timer = setInterval(() => {
-        this.date = getDate();
-        this.clock = getClock();
-      }, 1000);
+        this.date = getDate()
+        this.clock = getClock()
+      }, 1000)
     },
-    chose() {
-      var vm = this;
+    chose () {
+      var vm = this
       esriLoader
         .loadModules([
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol",
-          "esri/geometry/Point"
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol',
+          'esri/geometry/Point'
         ])
         .then(
           ([
@@ -157,24 +158,24 @@ export default {
             SimpleMarkerSymbol,
             Point
           ]) => {
-            window.mapBase.clearGraphic();
-            var startPointSymbol = new SimpleMarkerSymbol();
-            startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-            startPointSymbol.setSize(10);
-            startPointSymbol.setColor(new Colors("red"));
-            let x = arcgisUtil.wktToPoint(vm.data.StrSHAPE).x;
-            let y = arcgisUtil.wktToPoint(vm.data.StrSHAPE).y;
-            var point = new Point(x, y, window.mapBase.map.spatialReference);
+            window.mapBase.clearGraphic()
+            var startPointSymbol = new SimpleMarkerSymbol()
+            startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+            startPointSymbol.setSize(10)
+            startPointSymbol.setColor(new Colors('red'))
+            let x = arcgisUtil.wktToPoint(vm.data.StrSHAPE).x
+            let y = arcgisUtil.wktToPoint(vm.data.StrSHAPE).y
+            var point = new Point(x, y, window.mapBase.map.spatialReference)
 
-            var startPointGraphic = new Graphic(point, startPointSymbol);
-            window.mapBase.addGraphic(startPointGraphic);
+            var startPointGraphic = new Graphic(point, startPointSymbol)
+            window.mapBase.addGraphic(startPointGraphic)
 
-            //将地图放大到第7级
-            window.mapBase.map.setZoom(16);
+            // 将地图放大到第7级
+            window.mapBase.map.setZoom(16)
             // 把地图中心定位到中心点
-            window.mapBase.map.centerAt(point);
+            window.mapBase.map.centerAt(point)
           }
-        );
+        )
       GetPumpDetailSCAD({
         EquimentType: vm.data.EquimentType,
         PumpStationNum: vm.data.PumpStationNum
@@ -182,32 +183,32 @@ export default {
         if (resp.data.success) {
           if (resp.data.rows) {
             vm.setDetail({
-              detail:resp.data.rows,
-              tagName:vm.data.TagName
-            });
-            vm.isShowDetail(true);
+              detail: resp.data.rows,
+              tagName: vm.data.TagName
+            })
+            vm.isShowDetail(true)
           } else {
-            vm.isShowDetail(false);
+            vm.isShowDetail(false)
             vm.$message({
-              message: "该泵站内无设备！",
-              type: "warning"
-            });
+              message: '该泵站内无设备！',
+              type: 'warning'
+            })
           }
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   },
   watch: {
-    data() {
-      this.drawLine();
+    data () {
+      this.drawLine()
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

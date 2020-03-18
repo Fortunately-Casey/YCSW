@@ -60,93 +60,93 @@
     </div>
 </template>
 <script>
-import { Permissions } from "@/api/user.js";
-import { mapActions } from "vuex";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import { Permissions } from '@/api/user.js'
+import { mapActions } from 'vuex'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: "",
+      chosedIndex: '',
       permissions: []
-    };
+    }
   },
-  created() {
-    this.getPermission();
+  created () {
+    this.getPermission()
   },
   methods: {
     ...mapActions({
-      clear: "setEquimentType",
-      setIndex: "setRealTimeIndex",
-      setisShowConnect: "setIsShowConnect",
-      setisShowValve: "setIsShowValve",
-      setisShowClickDetail: "setIsShowClickDetail",
-      setisShowQueryDetail: "setIsShowQueryDetail",
-      setisShowComsuption: "setIsShowComsuption",
-      setisShowRealTimeDetail: "setIsShowRealTimeDetail",
-      setisShowRepairDetail: "setIsShowRepairDetail",
-      setisShowDetail: "setIsShowDetail",
-      setisShowEquipment: "setIsShowEquipment",
-      setisOpenTimer:"setIsOpenTimer",
-      setdisableClick:'setDisableClick',
-      showFaultLevel:'setIsShowFaultLevel'
+      clear: 'setEquimentType',
+      setIndex: 'setRealTimeIndex',
+      setisShowConnect: 'setIsShowConnect',
+      setisShowValve: 'setIsShowValve',
+      setisShowClickDetail: 'setIsShowClickDetail',
+      setisShowQueryDetail: 'setIsShowQueryDetail',
+      setisShowComsuption: 'setIsShowComsuption',
+      setisShowRealTimeDetail: 'setIsShowRealTimeDetail',
+      setisShowRepairDetail: 'setIsShowRepairDetail',
+      setisShowDetail: 'setIsShowDetail',
+      setisShowEquipment: 'setIsShowEquipment',
+      setisOpenTimer: 'setIsOpenTimer',
+      setdisableClick: 'setDisableClick',
+      showFaultLevel: 'setIsShowFaultLevel'
     }),
-    getPermission() {
-      var vm = this;
+    getPermission () {
+      var vm = this
       Permissions().then(resp => {
         if (resp.data.success) {
-          this.permissions = resp.data.rows;
+          this.permissions = resp.data.rows
         }
-      });
+      })
     },
-    hasPermissions(name) {
+    hasPermissions (name) {
       return this.permissions.some((v, i) => {
-        return v.MenuName === name;
-      });
+        return v.MenuName === name
+      })
     },
-    clearAll() {
-      EventBus.$emit("changeChecked", [1, 62]);
-      clearAllGraphic();
-      EventBus.$emit('clearDraw');
-      this.setisOpenTimer(false);//关闭计时器
-      this.setisShowConnect(false);
-      this.setisShowValve(false);
-      this.setisShowClickDetail(false);
-      this.setisShowQueryDetail(false);
-      this.setisShowComsuption(false);
-      this.setisShowRealTimeDetail(false);
-      this.setisShowRepairDetail(false);
-      this.setisShowDetail(false);
-      this.setisShowEquipment(false);
-      this.showFaultLevel(false);
-      window.mapBase.removeLayer('GZPoints');
+    clearAll () {
+      EventBus.$emit('changeChecked', [1, 62])
+      clearAllGraphic()
+      EventBus.$emit('clearDraw')
+      this.setisOpenTimer(false)// 关闭计时器
+      this.setisShowConnect(false)
+      this.setisShowValve(false)
+      this.setisShowClickDetail(false)
+      this.setisShowQueryDetail(false)
+      this.setisShowComsuption(false)
+      this.setisShowRealTimeDetail(false)
+      this.setisShowRepairDetail(false)
+      this.setisShowDetail(false)
+      this.setisShowEquipment(false)
+      this.showFaultLevel(false)
+      window.mapBase.removeLayer('GZPoints')
     },
-    clearEquimentType() {
-      EventBus.$emit("changeChecked", [1, 62]);
-      clearAllGraphic();
-      EventBus.$emit('clearDraw');
-      this.setisOpenTimer(true);//开启计时器
-      this.clear("");
-      this.setIndex("");
-      this.setisShowConnect(false);
-      this.setisShowValve(false);
-      this.setisShowClickDetail(false);
-      this.setisShowQueryDetail(false);
-      this.setisShowComsuption(false);
-      this.setisShowRealTimeDetail(false);
-      this.setisShowRepairDetail(false);
-      this.setisShowDetail(false);
-      this.setisShowEquipment(false);
-      this.showFaultLevel(false);
-      window.mapBase.removeLayer('GZPoints');
+    clearEquimentType () {
+      EventBus.$emit('changeChecked', [1, 62])
+      clearAllGraphic()
+      EventBus.$emit('clearDraw')
+      this.setisOpenTimer(true)// 开启计时器
+      this.clear('')
+      this.setIndex('')
+      this.setisShowConnect(false)
+      this.setisShowValve(false)
+      this.setisShowClickDetail(false)
+      this.setisShowQueryDetail(false)
+      this.setisShowComsuption(false)
+      this.setisShowRealTimeDetail(false)
+      this.setisShowRepairDetail(false)
+      this.setisShowDetail(false)
+      this.setisShowEquipment(false)
+      this.showFaultLevel(false)
+      window.mapBase.removeLayer('GZPoints')
     }
   },
   computed: {
-    router() {
-      return this.$route.name;
+    router () {
+      return this.$route.name
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .aside {
@@ -226,7 +226,7 @@ export default {
         height: 20px;
         display: inline-block;
         background: url("../../../assets/icon/maps.png") no-repeat;
-        
+
       }
       .line {
         width: 4px;

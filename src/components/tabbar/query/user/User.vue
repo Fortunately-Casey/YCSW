@@ -37,43 +37,43 @@
     </div>
 </template>
 <script>
-import MCondition from "./Condition.vue";
-import MSpace from "@/common/space/Space.vue";
-import MTable from "./Table.vue";
-import esriLoader from "esri-loader";
-import { GetServiceInfoList } from "@/api/query.js";
-import { mapActions } from "vuex";
+import MCondition from './Condition.vue'
+import MSpace from '@/common/space/Space.vue'
+import MTable from './Table.vue'
+import esriLoader from 'esri-loader'
+import { GetServiceInfoList } from '@/api/query.js'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      geometry: "",
+      geometry: '',
       params: {},
       total: 0
-    };
+    }
   },
   methods: {
     ...mapActions({
-      setList: "setUserQueryList"
+      setList: 'setUserQueryList'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:460px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:460px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    search() {
-      var vm = this;
-      this.$refs.condition.getParams();
+    search () {
+      var vm = this
+      this.$refs.condition.getParams()
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
+        .loadModules(['static/arcpackage/arcgisUtil'])
         .then(([ArcgisUtil]) => {
           GetServiceInfoList({
             Page: 1,
@@ -82,31 +82,31 @@ export default {
             Production: vm.params.Production,
             MaxCapacity: vm.params.Capacity,
             MinCapacity: vm.params.MinCapacity,
-            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ""
+            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ''
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.setList(resp.data.rows);
-              vm.total = resp.data.total;
-              vm.chosedTab = "result";
+              vm.setList(resp.data.rows)
+              vm.total = resp.data.total
+              vm.chosedTab = 'result'
             } else if (resp.data.rows === []) {
               vm.$message({
-                message: "未查询到数据",
-                type: "warning"
-              });
+                message: '未查询到数据',
+                type: 'warning'
+              })
             } else {
               vm.$message({
-                message: "未查询到数据",
-                type: "warning"
-              });
+                message: '未查询到数据',
+                type: 'warning'
+              })
             }
-          });
-        });
+          })
+        })
     },
-    pageSearch(page) {
-      var vm = this;
-      this.$refs.condition.getParams();
+    pageSearch (page) {
+      var vm = this
+      this.$refs.condition.getParams()
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
+        .loadModules(['static/arcpackage/arcgisUtil'])
         .then(([ArcgisUtil]) => {
           GetServiceInfoList({
             Page: page,
@@ -115,29 +115,29 @@ export default {
             Production: vm.params.Production,
             Capacity: vm.params.Capacity,
             MinCapacity: vm.params.MinCapacity,
-            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ""
+            Geometrystr: vm.geometry ? ArcgisUtil.polygonToWKT(vm.geometry) : ''
           }).then(resp => {
             if (resp.data.success && resp.data.rows !== null) {
-              vm.setList(resp.data.rows);
-              vm.total = resp.data.total;
-              vm.chosedTab = "result";
+              vm.setList(resp.data.rows)
+              vm.total = resp.data.total
+              vm.chosedTab = 'result'
             }
-          });
-        });
+          })
+        })
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    getParams(params) {
-      this.params = params;
+    getParams (params) {
+      this.params = params
     },
-    close() {
-      this.$refs.space.closeToolBar();
+    close () {
+      this.$refs.space.closeToolBar()
       // window.mapBase.clearUI();
-      this.$emit("closeTab", "");
+      this.$emit('closeTab', '')
     }
   },
   components: {
@@ -145,7 +145,7 @@ export default {
     MSpace,
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .search-box {

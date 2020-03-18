@@ -6,16 +6,16 @@
 
 <script>
 export default {
-  name: "App",
-  data() {
+  name: 'App',
+  data () {
     return {
-      
+
     }
   },
-  methods:{
+  methods: {
 
   }
-};
+}
 </script>
 
 <style>

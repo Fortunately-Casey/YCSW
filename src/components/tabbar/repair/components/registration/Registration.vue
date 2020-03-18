@@ -119,115 +119,115 @@
     </div>
 </template>
 <script>
-import { Permissions } from "@/api/user.js";
-import { InsertServieceInfo } from "@/api/repair.js";
+import { Permissions } from '@/api/user.js'
+import { InsertServieceInfo } from '@/api/repair.js'
 export default {
-  data() {
+  data () {
     return {
       startDate: new Date(),
       endDate: new Date(new Date().getTime() + 7 * 1000 * 60 * 60 * 24),
-      statisDate: "",
-      serialNumber: "",
-      serviceman: "",
+      statisDate: '',
+      serialNumber: '',
+      serviceman: '',
       typeOption: {
-        name: ""
+        name: ''
       },
       statusOption: {
-        name: ""
+        name: ''
       },
       showType: false,
       showStatus: false,
-      extraData: "",
-      serviceDes: "",
+      extraData: '',
+      serviceDes: '',
       isClick: true,
       typeOptions: [
         {
-          name: "给水管线"
+          name: '给水管线'
         },
         {
-          name: "阀门"
+          name: '阀门'
         },
         {
-          name: "泵站"
+          name: '泵站'
         }
       ],
       statusOptions: [
         {
-          name: "已维修"
+          name: '已维修'
         },
         {
-          name: "维修中"
+          name: '维修中'
         },
         {
-          name: "未维修"
+          name: '未维修'
         }
       ]
-    };
+    }
   },
-  created() {
-    this.getUserName();
-    this.statisDate = this.getTime(new Date());
+  created () {
+    this.getUserName()
+    this.statisDate = this.getTime(new Date())
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    getUserName() {
-      var vm = this;
+    getUserName () {
+      var vm = this
       Permissions().then(resp => {
-        this.extraData = resp.data.extraData;
-      });
+        this.extraData = resp.data.extraData
+      })
     },
-    updateOption(type, option) {
-      if (type === "type") {
-        this.typeOption.name = option.name;
-        this.showType = false;
-      } else if (type === "status") {
-        this.statusOption.name = option.name;
-        this.showStatus = false;
+    updateOption (type, option) {
+      if (type === 'type') {
+        this.typeOption.name = option.name
+        this.showType = false
+      } else if (type === 'status') {
+        this.statusOption.name = option.name
+        this.showStatus = false
       }
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
-      var timeStr;
+    getTime (CurrentTime) {
+      var timeStr
       if (CurrentTime) {
         timeStr =
           CurrentTime.getFullYear() +
-          "-" +
+          '-' +
           this.format2Len(CurrentTime.getMonth() + 1) +
-          "-" +
-          this.format2Len(CurrentTime.getDate());
+          '-' +
+          this.format2Len(CurrentTime.getDate())
       }
-      return timeStr;
+      return timeStr
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.type) {
         if (!this.$refs.type.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showType = false;
+          // 点击除弹出层外的空白区域
+          this.showType = false
         }
       }
       if (this.$refs.status) {
         if (!this.$refs.status.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showStatus = false;
+          // 点击除弹出层外的空白区域
+          this.showStatus = false
         }
       }
     },
-    save() {
-      var vm = this;
+    save () {
+      var vm = this
       if (!vm.startDate || !vm.endDate) {
         vm.$message({
-          message: "维修开始结束日期不可为空",
-          type: "warning"
-        });
-        return;
+          message: '维修开始结束日期不可为空',
+          type: 'warning'
+        })
+        return
       }
       if (vm.isClick) {
-        vm.isClick = false;
+        vm.isClick = false
         if (vm.serialNumber && vm.typeOption.name) {
           InsertServieceInfo({
             EquipmentNum: vm.serialNumber,
@@ -240,33 +240,33 @@ export default {
             RegisteredDate: vm.statisDate,
             ServiceDes: vm.serviceDes
           }).then(resp => {
-            vm.isClick = true;
+            vm.isClick = true
             if (resp.data.success) {
               vm.$message({
                 message: resp.data.rows,
-                type: "success"
-              });
-              vm.close();
+                type: 'success'
+              })
+              vm.close()
             } else {
               vm.$message({
                 message: resp.data.message,
-                type: "warning"
-              });
+                type: 'warning'
+              })
             }
-          });
+          })
         } else {
           vm.$message({
-            message: "设备编号与故障类型不能为空！",
-            type: "warning"
-          });
+            message: '设备编号与故障类型不能为空！',
+            type: 'warning'
+          })
         }
       }
     },
-    close() {
-      this.$emit("close", "");
+    close () {
+      this.$emit('close', '')
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .registration {

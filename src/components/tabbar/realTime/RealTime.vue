@@ -20,53 +20,53 @@
                 {{time}}
               </div>
             </span>
-        </div> 
+        </div>
         <m-pressure v-if="realTimeIndex === 0?true:false"></m-pressure>
         <m-pressure v-if="realTimeIndex === 1?true:false"></m-pressure>
     </div>
 </template>
 <script>
-import MPressure from "./components/Pressure.vue";
-import { mapActions, mapGetters } from "vuex";
-import { getTime } from "@/common/utils/tool.js";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
+import MPressure from './components/Pressure.vue'
+import { mapActions, mapGetters } from 'vuex'
+import { getTime } from '@/common/utils/tool.js'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: ""
-    };
+      chosedIndex: ''
+    }
   },
   computed: {
-    ...mapGetters(["realTimeIndex"])
+    ...mapGetters(['realTimeIndex'])
   },
-  created() {
-    this.initTime();
+  created () {
+    this.initTime()
   },
   methods: {
     ...mapActions({
-      setParams: "setEquimentType",
-      setIndex: "setRealTimeIndex"
+      setParams: 'setEquimentType',
+      setIndex: 'setRealTimeIndex'
     }),
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    choseTab(index) {
-      this.setIndex(index);
-      clearAllGraphic();
+    choseTab (index) {
+      this.setIndex(index)
+      clearAllGraphic()
       if (index === 0) {
-        this.setParams("测压表");
+        this.setParams('测压表')
       } else {
-        this.setParams("测流表");
+        this.setParams('测流表')
       }
     }
   },
   components: {
     MPressure
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .real-time {

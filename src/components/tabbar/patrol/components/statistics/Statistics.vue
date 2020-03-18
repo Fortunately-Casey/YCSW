@@ -43,89 +43,89 @@
     </div>
 </template>
 <script>
-import MPillars from "./Pillars.vue";
-import MTable from "./Table.vue";
+import MPillars from './Pillars.vue'
+import MTable from './Table.vue'
 import {
   GetInspectStaticRecord,
   ExportInspectStaticRecord
-} from "@/api/patrol.js";
+} from '@/api/patrol.js'
 export default {
-  data() {
+  data () {
     return {
       isShowResult: false,
       isSlideUp: true,
-      date: "",
+      date: '',
       list: []
-    };
+    }
   },
   methods: {
-    close() {
-      this.$emit("closeTab", "");
+    close () {
+      this.$emit('closeTab', '')
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    statistic() {
-      var vm = this;
+    statistic () {
+      var vm = this
       GetInspectStaticRecord({
-        StartInspectTime: vm.date ? vm.getTime(vm.date[0]) : "",
-        EndInspectTime: vm.date ? vm.getTime(vm.date[1]) : ""
+        StartInspectTime: vm.date ? vm.getTime(vm.date[0]) : '',
+        EndInspectTime: vm.date ? vm.getTime(vm.date[1]) : ''
       }).then(resp => {
         if (resp.data.success && resp.data.rows) {
-          vm.list = resp.data.rows;
-          vm.isShowResult = true;
+          vm.list = resp.data.rows
+          vm.isShowResult = true
         } else {
-          vm.isShowResult = false;
+          vm.isShowResult = false
           vm.$message({
-            message: "未统计到数据！",
-            type: "warning"
-          });
+            message: '未统计到数据！',
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:550px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:550px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    outPut() {
-      var vm = this;
+    outPut () {
+      var vm = this
       ExportInspectStaticRecord().then(resp => {
         if (resp.data.success) {
-          var download = document.createElement("iframe");
-          download.src = "http://49.4.55.238:8029/" + resp.data.rows;
-          download.style.display = "none";
-          document.body.appendChild(download);
+          var download = document.createElement('iframe')
+          download.src = 'http://10.11.222.52:14451/' + resp.data.rows
+          download.style.display = 'none'
+          document.body.appendChild(download)
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   },
   components: {
     MPillars,
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .statistic-box {

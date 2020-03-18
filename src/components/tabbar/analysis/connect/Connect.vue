@@ -76,45 +76,45 @@
     </div>
 </template>
 <script>
-import MTable from "./Table.vue";
-import esriLoader from "esri-loader";
-import { server } from "@/common/mapServer/config.js";
-import { mapActions } from "vuex";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
+import MTable from './Table.vue'
+import esriLoader from 'esri-loader'
+import { server, clearAllGraphic } from '@/common/mapServer/config.js'
+import { mapActions } from 'vuex'
+
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
       startPoint: {},
       endPoint: {},
-      startNumber: "",
-      endNumber: "",
-      isConnect:false,
-    };
+      startNumber: '',
+      endNumber: '',
+      isConnect: false
+    }
   },
-  mounted() {
-    this.drawLineSegment();
+  mounted () {
+    this.drawLineSegment()
   },
   methods: {
     ...mapActions({
-      setList: "setConnectList",
-      setMeasure: "setIsMeasure"
+      setList: 'setConnectList',
+      setMeasure: 'setIsMeasure'
     }),
-    drawLineSegment() {
-      var vm = this;
+    drawLineSegment () {
+      var vm = this
       esriLoader
         .loadModules([
-          "dojo/on",
-          "dojo/dom",
-          "esri/graphic",
-          "esri/symbols/SimpleFillSymbol",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters",
-          "esri/geometry/Polyline",
-          "dojo/colors",
-          "esri/layers/GraphicsLayer"
+          'dojo/on',
+          'dojo/dom',
+          'esri/graphic',
+          'esri/symbols/SimpleFillSymbol',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/tasks/IdentifyTask',
+          'esri/tasks/IdentifyParameters',
+          'esri/geometry/Polyline',
+          'dojo/colors',
+          'esri/layers/GraphicsLayer'
         ])
         .then(
           ([
@@ -130,178 +130,178 @@ export default {
             GraphicsLayer
           ]) => {
             // 获取起点
-            on(dom.byId("start"), "click", function() {
-              //激活绘图工具，绘制面要素
+            on(dom.byId('start'), 'click', function () {
+              // 激活绘图工具，绘制面要素
               var mapClickHandler = dojo.connect(
                 window.mapBase.map,
-                "onClick",
-                function(e) {
-                  let identifyTask = new IdentifyTask(server.netWorkUrl);
-                  let identifyParams = new IdentifyParameters();
-                  identifyParams.tolerance = 3;
-                  identifyParams.returnGeometry = true;
-                  identifyParams.layerIds = ["*"];
+                'onClick',
+                function (e) {
+                  let identifyTask = new IdentifyTask(server.netWorkUrl)
+                  let identifyParams = new IdentifyParameters()
+                  identifyParams.tolerance = 3
+                  identifyParams.returnGeometry = true
+                  identifyParams.layerIds = ['*']
                   identifyParams.layerOption =
-                    IdentifyParameters.LAYER_OPTION_ALL;
-                  identifyParams.width = window.mapBase.map.width;
-                  identifyParams.height = window.mapBase.map.height;
-                  identifyParams.geometry = e.mapPoint;
-                  identifyParams.mapExtent = window.mapBase.map.extent;
+                    IdentifyParameters.LAYER_OPTION_ALL
+                  identifyParams.width = window.mapBase.map.width
+                  identifyParams.height = window.mapBase.map.height
+                  identifyParams.geometry = e.mapPoint
+                  identifyParams.mapExtent = window.mapBase.map.extent
                   identifyTask.execute(identifyParams, result => {
                     var lineSymbol = new SimpleLineSymbol(
                       SimpleLineSymbol.STYLE_SOLID,
                       new Colors([84, 228, 203]),
                       4
-                    );
-                    if(result.length > 0) {
-                      var graphic = result[0].feature;
-                      graphic.setSymbol(lineSymbol);
+                    )
+                    if (result.length > 0) {
+                      var graphic = result[0].feature
+                      graphic.setSymbol(lineSymbol)
 
                       var graphicsLayer = window.mapBase.map.getLayer(
-                        "startgraphiclayer"
-                      ); //获取绘制图层
+                        'startgraphiclayer'
+                      ) // 获取绘制图层
 
                       if (graphicsLayer != null) {
-                        window.mapBase.map.removeLayer(graphicsLayer);
+                        window.mapBase.map.removeLayer(graphicsLayer)
                       }
                       graphicsLayer = new GraphicsLayer({
-                        id: "startgraphiclayer"
-                      });
-                      graphicsLayer.add(graphic);
-                      vm.startNumber =
-                        graphic.attributes["S_POINT"] +
-                        "-" +
-                        graphic.attributes["E_POINT"];
-                      window.mapBase.map.addLayer(graphicsLayer, 1);
-                      vm.startPoint = graphic.geometry.getPoint(0, 0);
-                    }else {
-                      vm.$message({
-                        message:'请按水流方向在管线上选取',
-                        type:'warning'
+                        id: 'startgraphiclayer'
                       })
-                    }  
-                  });
-                  if (mapClickHandler != null) {
-                    dojo.disconnect(mapClickHandler);
-                  }
-                }
-              );
-            });
-            //获取终点
-            on(dom.byId("end"), "click", function() {
-              vm.setMeasure(true);
-              //激活绘图工具，绘制面要素
-              var mapClickHandler = dojo.connect(
-                window.mapBase.map,
-                "onClick",
-                function(e) {
-                  let identifyTask = new IdentifyTask(server.netWorkUrl);
-                  let identifyParams = new IdentifyParameters();
-                  identifyParams.tolerance = 3;
-                  identifyParams.returnGeometry = true;
-                  identifyParams.layerIds = ["*"];
-                  identifyParams.layerOption =
-                    IdentifyParameters.LAYER_OPTION_ALL;
-                  identifyParams.width = window.mapBase.map.width;
-                  identifyParams.height = window.mapBase.map.height;
-                  identifyParams.geometry = e.mapPoint;
-                  identifyParams.mapExtent = window.mapBase.map.extent;
-                  identifyTask.execute(identifyParams, result => {
-                    var lineSymbol = new SimpleLineSymbol(
-                      SimpleLineSymbol.STYLE_SOLID,
-                      new Colors([84, 228, 203]),
-                      4
-                    );
-                    if(result.length > 0) {
-                      var graphic = result[0].feature;
-                      graphic.setSymbol(lineSymbol);
-
-                      var graphicsLayer = window.mapBase.map.getLayer(
-                        "endgraphiclayer"
-                      ); //获取绘制图层
-
-                      if (graphicsLayer != null) {
-                        window.mapBase.map.removeLayer(graphicsLayer);
-                      }
-                      graphicsLayer = new GraphicsLayer({
-                        id: "endgraphiclayer"
-                      });
-                      graphicsLayer.add(graphic);
-                      vm.endNumber =
-                        graphic.attributes["S_POINT"] +
-                        "-" +
-                        graphic.attributes["E_POINT"];
-                      window.mapBase.map.addLayer(graphicsLayer, 1);
-                      let endIndex = graphic.geometry.paths.length - 1;
-                      vm.endPoint = graphic.geometry.getPoint(endIndex, 1);
-                    }else {
+                      graphicsLayer.add(graphic)
+                      vm.startNumber =
+                        graphic.attributes['S_POINT'] +
+                        '-' +
+                        graphic.attributes['E_POINT']
+                      window.mapBase.map.addLayer(graphicsLayer, 1)
+                      vm.startPoint = graphic.geometry.getPoint(0, 0)
+                    } else {
                       vm.$message({
-                        message:'请按水流方向在管线上选取',
-                        type:'warning'
+                        message: '请按水流方向在管线上选取',
+                        type: 'warning'
                       })
                     }
-                  });
+                  })
                   if (mapClickHandler != null) {
-                    dojo.disconnect(mapClickHandler);
+                    dojo.disconnect(mapClickHandler)
                   }
                 }
-              );
-            });
+              )
+            })
+            // 获取终点
+            on(dom.byId('end'), 'click', function () {
+              vm.setMeasure(true)
+              // 激活绘图工具，绘制面要素
+              var mapClickHandler = dojo.connect(
+                window.mapBase.map,
+                'onClick',
+                function (e) {
+                  let identifyTask = new IdentifyTask(server.netWorkUrl)
+                  let identifyParams = new IdentifyParameters()
+                  identifyParams.tolerance = 3
+                  identifyParams.returnGeometry = true
+                  identifyParams.layerIds = ['*']
+                  identifyParams.layerOption =
+                    IdentifyParameters.LAYER_OPTION_ALL
+                  identifyParams.width = window.mapBase.map.width
+                  identifyParams.height = window.mapBase.map.height
+                  identifyParams.geometry = e.mapPoint
+                  identifyParams.mapExtent = window.mapBase.map.extent
+                  identifyTask.execute(identifyParams, result => {
+                    var lineSymbol = new SimpleLineSymbol(
+                      SimpleLineSymbol.STYLE_SOLID,
+                      new Colors([84, 228, 203]),
+                      4
+                    )
+                    if (result.length > 0) {
+                      var graphic = result[0].feature
+                      graphic.setSymbol(lineSymbol)
+
+                      var graphicsLayer = window.mapBase.map.getLayer(
+                        'endgraphiclayer'
+                      ) // 获取绘制图层
+
+                      if (graphicsLayer != null) {
+                        window.mapBase.map.removeLayer(graphicsLayer)
+                      }
+                      graphicsLayer = new GraphicsLayer({
+                        id: 'endgraphiclayer'
+                      })
+                      graphicsLayer.add(graphic)
+                      vm.endNumber =
+                        graphic.attributes['S_POINT'] +
+                        '-' +
+                        graphic.attributes['E_POINT']
+                      window.mapBase.map.addLayer(graphicsLayer, 1)
+                      let endIndex = graphic.geometry.paths.length - 1
+                      vm.endPoint = graphic.geometry.getPoint(endIndex, 1)
+                    } else {
+                      vm.$message({
+                        message: '请按水流方向在管线上选取',
+                        type: 'warning'
+                      })
+                    }
+                  })
+                  if (mapClickHandler != null) {
+                    dojo.disconnect(mapClickHandler)
+                  }
+                }
+              )
+            })
           }
-        );
+        )
     },
-    choseCondition() {
-      this.chosedTab = 'condition';
-      clearAllGraphic();
-      this.startNumber = "";
-      this.endNumber = "";
+    choseCondition () {
+      this.chosedTab = 'condition'
+      clearAllGraphic()
+      this.startNumber = ''
+      this.endNumber = ''
     },
-    slideDown() {
-      this.$refs.content1.style = "display:none";
-      this.$refs.condition.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content1.style = 'display:none'
+      this.$refs.condition.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.condition.style = "height:260px;bottom:15px";
+    slideUp () {
+      this.$refs.condition.style = 'height:260px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content1.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content1.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    shotDown() {
-      this.$refs.content2.style = "display:none";
-      this.$refs.result.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    shotDown () {
+      this.$refs.content2.style = 'display:none'
+      this.$refs.result.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    shotUp() {
-      this.$refs.result.style = "height:430px;bottom:15px";
+    shotUp () {
+      this.$refs.result.style = 'height:430px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content2.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content2.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    close() {
-      this.$emit("close", "");
+    close () {
+      this.$emit('close', '')
     },
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       esriLoader
         .loadModules([
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/tasks/RouteTask",
-          "esri/tasks/RouteParameters",
-          "esri/tasks/FeatureSet",
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters",
-          "esri/symbols/SimpleMarkerSymbol",
-          "esri/tasks/query",
-          "esri/tasks/QueryTask",
-          "esri/tasks/BufferParameters"
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/tasks/RouteTask',
+          'esri/tasks/RouteParameters',
+          'esri/tasks/FeatureSet',
+          'esri/tasks/IdentifyTask',
+          'esri/tasks/IdentifyParameters',
+          'esri/symbols/SimpleMarkerSymbol',
+          'esri/tasks/query',
+          'esri/tasks/QueryTask',
+          'esri/tasks/BufferParameters'
         ])
         .then(
           ([
@@ -321,107 +321,106 @@ export default {
             QueryTask,
             BufferParameters
           ]) => {
-            var shortesAnalyst = new RouteTask(server.RouteUrl);
-            var routeParas = new RouteParameters();
-            routeParas.routeParas = ["S_POINT ", "E_POINT "];
-            routeParas.barriers = new FeatureSet(); //阻碍  x
-            routeParas.stops = new FeatureSet(); //终点
-            routeParas.returnDirections = false; //方向
-            routeParas.returnRoutes = true; //路径
-            routeParas.returnStops = true; //节点
+            var shortesAnalyst = new RouteTask(server.RouteUrl)
+            var routeParas = new RouteParameters()
+            routeParas.routeParas = ['S_POINT ', 'E_POINT ']
+            routeParas.barriers = new FeatureSet() // 阻碍  x
+            routeParas.stops = new FeatureSet() // 终点
+            routeParas.returnDirections = false // 方向
+            routeParas.returnRoutes = true // 路径
+            routeParas.returnStops = true // 节点
             routeParas.outSpatialReference =
-              window.mapBase.map.spatialReference;
+              window.mapBase.map.spatialReference
 
-            var start = new Graphic(vm.startPoint);
-            var end = new Graphic(vm.endPoint);
+            var start = new Graphic(vm.startPoint)
+            var end = new Graphic(vm.endPoint)
             if (!start.geometry || !end.geometry) {
               vm.$message({
-                message: "输入参数不全，无法分析",
-                type: "warning"
-              });
-              return;
+                message: '输入参数不全，无法分析',
+                type: 'warning'
+              })
+              return
             }
-            routeParas.stops.features.push(start);
-            routeParas.stops.features.push(end);
-
+            routeParas.stops.features.push(start)
+            routeParas.stops.features.push(end)
 
             shortesAnalyst.solve(
               routeParas,
               solveResult => {
-                var routeResults = solveResult.routeResults;
-                var res = routeResults.length;
+                var routeResults = solveResult.routeResults
+                var res = routeResults.length
                 var routeSymbol = new SimpleLineSymbol(
                   SimpleLineSymbol.STYLE_SOLID,
                   new Colors([84, 228, 203]),
                   4
-                );
+                )
                 if (res > 0) {
                   for (var i = 0; i < res; i++) {
-                    var graphicroute = routeResults[i];
-                    var graphic = graphicroute.route;
-                    graphic.setSymbol(routeSymbol);
-                    window.mapBase.map.graphics.add(graphic);
+                    var graphicroute = routeResults[i]
+                    var graphic = graphicroute.route
+                    graphic.setSymbol(routeSymbol)
+                    window.mapBase.map.graphics.add(graphic)
 
-                    //创建缓冲区,构建空间条件
-                    var pGeometryService = window.mapBase.geometryService;
-                    var params = new BufferParameters();
-                    params.distances = [1];
+                    // 创建缓冲区,构建空间条件
+                    var pGeometryService = window.mapBase.geometryService
+                    var params = new BufferParameters()
+                    params.distances = [1]
                     params.outSpatialReference =
-                      window.mapBase.map.spatialReference;
+                      window.mapBase.map.spatialReference
                     params.bufferSpatialReference =
-                      window.mapBase.map.spatialReference;
-                    params.geometries = [graphicroute.route.geometry];
+                      window.mapBase.map.spatialReference
+                    params.geometries = [graphicroute.route.geometry]
                     pGeometryService.buffer(
                       params,
-                      function(geometries) {
+                      function (geometries) {
                         if (geometries.length > 0) {
                           geometries.map(v => {
                             // var graphic = new esri.Graphic(v, polygonSymbol);
                             // window.mapBase.map.graphics.add(graphic);
 
-                            var query = new Query();
+                            var query = new Query()
                             var queryTask = new QueryTask(
-                              server.SSGDUrl + "/0"
-                            );
-                            query.geometry = v;
-                            //空间参考信息
+                              server.SSGDUrl + '/0'
+                            )
+                            query.geometry = v
+                            // 空间参考信息
                             query.outSpatialReference =
-                              window.mapBase.map.spatialReference;
+                              window.mapBase.map.spatialReference
                             query.spatialRelationship =
-                              Query.SPATIAL_REL_INTERSECTS;
-                            query.outFields = ["*"];
-                            query.returnGeometry = true;
+                              Query.SPATIAL_REL_INTERSECTS
+                            query.outFields = ['*']
+                            query.returnGeometry = true
                             queryTask.execute(query, result => {
-                              vm.setList(result.features);
-                              vm.isConnect = true;
-                              vm.chosedTab = "result";
-                            });
-                          });
+                              vm.setList(result.features)
+                              vm.isConnect = true
+                              vm.chosedTab = 'result'
+                            })
+                          })
                         }
                       },
-                      function() {
+                      function () {
                         vm.$message({
-                          message:'未分析到结果！',
-                          type:'warning'
+                          message: '未分析到结果！',
+                          type: 'warning'
                         })
                       }
-                    );
+                    )
                   }
                 }
               },
-              function() {
-                vm.isConnect = false;
-                vm.chosedTab = "result";
+              function () {
+                vm.isConnect = false
+                vm.chosedTab = 'result'
               }
-            );
+            )
           }
-        );
+        )
     }
   },
   components: {
     MTable
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .condition-box {

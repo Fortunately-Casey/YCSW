@@ -7,49 +7,49 @@
     </div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
       nameArr: [],
       dataArr: [],
       totalLength: 0
-    };
+    }
   },
-  mounted() {
-    this.drawLine();
+  mounted () {
+    this.drawLine()
   },
   computed: {
-    ...mapGetters(["searchList"])
+    ...mapGetters(['searchList'])
   },
   methods: {
-    drawLine() {
-      var vm = this;
-      let result = vm.searchList;
+    drawLine () {
+      var vm = this
+      let result = vm.searchList
       result.map(v => {
-        vm.nameArr.push(v.SUBSID + "-" + v.GXFD);
-        vm.dataArr.push(v.StaticCount);
-        vm.totalLength += v.StaticCount;
-      });
-      let myPillars = this.$echarts.init(document.getElementById("myPillars"));
+        vm.nameArr.push(v.SUBSID + '-' + v.GXFD)
+        vm.dataArr.push(v.StaticCount)
+        vm.totalLength += v.StaticCount
+      })
+      let myPillars = this.$echarts.init(document.getElementById('myPillars'))
       myPillars.setOption({
         tooltip: {
-          trigger: "axis",
+          trigger: 'axis',
           axisPointer: {
-            type: "shadow"
+            type: 'shadow'
           }
         },
-        color: ["#4886FF"],
+        color: ['#4886FF'],
         grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
           containLabel: true
         },
         xAxis: [
           {
-            name: "类型",
-            type: "category",
+            name: '类型',
+            type: 'category',
             data: vm.nameArr,
             axisTick: {
               alignWidthLabel: true
@@ -58,22 +58,22 @@ export default {
         ],
         yAxis: [
           {
-            name: "(个)",
-            type: "value"
+            name: '(个)',
+            type: 'value'
           }
         ],
         series: [
           {
-            name: "阀门个数",
-            type: "bar",
-            barWidth: "30%",
+            name: '阀门个数',
+            type: 'bar',
+            barWidth: '30%',
             data: vm.dataArr
           }
         ]
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

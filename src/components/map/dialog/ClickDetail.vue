@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 <template>
     <div class="content">
         <div class="header">
@@ -11,7 +12,7 @@
                 </div>
             </div>
             <div class="right">
-                <ul v-if="clickResult[chosedIndex].feature.attributes.YSMC === '给水管线'?false:true"> 
+                <ul v-if="clickResult[chosedIndex].feature.attributes.YSMC === '给水管线'?false:true">
                     <li><div class="key">要素名称:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.YSMC}}</div></li>
                     <li><div class="key">X(m):</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.X}}</div></li>
                     <li><div class="key">Y(m):</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.Y}}</div></li>
@@ -29,7 +30,7 @@
                     <!-- <li><div class="key">要素代码:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.YSDM}}</div></li> -->
                     <li><div class="key">设备编号:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.EXP_NO}}</div></li>
                     <!-- <li><div class="key">比例尺:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.SCALE}}</div></li> -->
-                    <li><div class="key">长度(m):</div><div class="value">{{clickResult.length&&Number(clickResult[chosedIndex].feature.attributes.SHAPE_Length).toFixed(2)}}</div></li>               
+                    <li><div class="key">长度(m):</div><div class="value">{{clickResult.length&&Number(clickResult[chosedIndex].feature.attributes.SHAPE_Length).toFixed(2)}}</div></li>
                     <li><div class="key">起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.S_POINT}}</div></li>
                     <li><div class="key">终&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.E_POINT }}</div></li>
                     <li><div class="key">起点埋深(m):</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.S_DEEP}}</div></li>
@@ -38,7 +39,7 @@
                     <li><div class="key">埋设类型:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.D_TYPE }}</div></li>
                     <li><div class="key">管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.D_S}}</div></li>
                     <li><div class="key">建设年代:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.MDATE}}</div></li>
-                    <li><div class="key">管线座落:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.ROADNAME}}</div></li>               
+                    <li><div class="key">管线座落:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.ROADNAME}}</div></li>
                     <!-- <li><div class="key">备注:</div><div class="value">{{clickResult.length&&clickResult[chosedIndex].feature.attributes.MEMO_}}</div></li> -->
                 </ul>
             </div>
@@ -46,29 +47,28 @@
     </div>
 </template>
 <script>
-//netWorkUrl GWJDUrl GWFMUrl CZUrl GWSBUrl
-import { mapGetters, mapActions } from "vuex";
-import { server } from "@/common/mapServer/config.js";
+import { mapGetters, mapActions } from 'vuex'
+import { server } from '@/common/mapServer/config.js'
 export default {
-  data() {
+  data () {
     return {
       chosedIndex: 0
-    };
+    }
   },
   computed: {
-    ...mapGetters(["clickResult"])
+    ...mapGetters(['clickResult'])
   },
-  mounted() {},
+  mounted () {},
   methods: {
     ...mapActions({
-      closeDetail: "setIsShowClickDetail"
+      closeDetail: 'setIsShowClickDetail'
     }),
-    close() {
-      this.closeDetail(false);
+    close () {
+      this.closeDetail(false)
     },
-    chose(index) {
-      this.chosedIndex = index;
-    },
+    chose (index) {
+      this.chosedIndex = index
+    }
     // type(url) {
     //   if (url === server.BYTTagUrl || url === server.BYTUrl) {
     //     return "补压塔";
@@ -151,7 +151,7 @@ export default {
       height: 375px;
       float: left;
       ul {
-        margin-top: 10px;  
+        margin-top: 10px;
         font-size: 12px;
         list-style: none;
         li {

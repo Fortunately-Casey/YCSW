@@ -63,92 +63,92 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
-      radio: "1",
-      date: "",
+      radio: '1',
+      date: '',
       typeOption: {
-        name: "全部"
+        name: '全部'
       },
       showType: false,
       showSubsection: false,
       subsectionOption: {
-        name: "全部"
+        name: '全部'
       },
-      equipmentNumber: "",
+      equipmentNumber: '',
       subsectionOptions: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "宝应至盐龙湖"
+          name: '宝应至盐龙湖'
         },
         {
-          name: "恒济至建湖"
+          name: '恒济至建湖'
         },
         {
-          name: "盐龙湖至大丰"
+          name: '盐龙湖至大丰'
         },
         {
-          name: "盐龙湖至射阳"
+          name: '盐龙湖至射阳'
         },
         {
-          name: "射阳至明湖"
+          name: '射阳至明湖'
         }
       ],
       typeOptions: [
         {
-          name: "全部"
+          name: '全部'
         },
         {
-          name: "给水管线"
+          name: '给水管线'
         },
         {
-          name: "阀门"
+          name: '阀门'
         },
         {
-          name: "泵站"
+          name: '泵站'
         }
       ]
-    };
+    }
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if (type === "type") {
-        this.typeOption.name = option.name;
-        this.showType = false;
-        this.$emit("type", option.name);
-      } else if (type === "subsection") {
-        this.subsectionOption.name = option.name;
-        this.showSubsection = false;
-        this.$emit("subsection", option.name);
+    updateOption (type, option) {
+      if (type === 'type') {
+        this.typeOption.name = option.name
+        this.showType = false
+        this.$emit('type', option.name)
+      } else if (type === 'subsection') {
+        this.subsectionOption.name = option.name
+        this.showSubsection = false
+        this.$emit('subsection', option.name)
       }
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.subsection) {
         if (!this.$refs.subsection.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showSubsection = false;
+          // 点击除弹出层外的空白区域
+          this.showSubsection = false
         }
       }
       if (this.$refs.type) {
         if (!this.$refs.type.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showType = false;
+          // 点击除弹出层外的空白区域
+          this.showType = false
         }
       }
     }
   },
   watch: {
-    date() {
-      this.$emit("dateChange", this.date);
+    date () {
+      this.$emit('dateChange', this.date)
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .water {

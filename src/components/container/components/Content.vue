@@ -1,21 +1,21 @@
 <template>
     <div class="main">
         <router-view></router-view>
-        <m-map></m-map>    
+        <m-map></m-map>
     </div>
 </template>
 <script>
-import MMap from '../../map/Map.vue';
-    export default {
-        data() {
-            return {
-                
-            }
-        },
-        components:{
-            MMap
-        }
+import MMap from '../../map/Map.vue'
+export default {
+  data () {
+    return {
+
     }
+  },
+  components: {
+    MMap
+  }
+}
 </script>
 <style lang="less" scoped>
     .main {

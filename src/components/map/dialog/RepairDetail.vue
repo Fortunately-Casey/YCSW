@@ -27,7 +27,7 @@
                 <!-- <li><span class="attr">比例尺:</span><span class="value">{{repairDetail.SCALE}}</span></li> -->
                 <li><span class="attr">探测方法:</span><span class="value">{{repairDetail.METHOD}}</span></li>
                 <!-- <li><span class="attr">备注:</span><span class="value">{{repairDetail.MEMO}}</span></li> -->
-            </ul>  
+            </ul>
             <ul v-else>
                 <li><span class="attr">设备编号:</span><span class="value">{{repairDetail.ID}}</span></li>
                 <li><span class="attr">故障类型:</span><span class="value">{{repairDetail.FEATURE}}</span></li>
@@ -41,7 +41,7 @@
                 <li><span class="attr">要素名称:</span><span class="value">{{repairDetail.YSMC}}</span></li>
                 <!-- <li><span class="attr">要素代码:</span><span class="value">{{repairDetail.YSDM}}</span></li> -->
                 <!-- <li><span class="attr">比例尺:</span><span class="value">{{repairDetail.SCALE}}</span></li> -->
-                <li><span class="attr">长度(m):</span><span class="value">{{repairDetail.SHAPE_Length&&repairDetail.SHAPE_Length.toFixed(2)}}</span></li>               
+                <li><span class="attr">长度(m):</span><span class="value">{{repairDetail.SHAPE_Length&&repairDetail.SHAPE_Length.toFixed(2)}}</span></li>
                 <li><span class="attr">起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点:</span><span class="value">{{repairDetail.S_POINT}}</span></li>
                 <li><span class="attr">终&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点:</span><span class="value">{{repairDetail.E_POINT }}</span></li>
                 <li><span class="attr">起点埋深(m):</span><span class="value">{{repairDetail.S_DEEP}}</span></li>
@@ -50,32 +50,32 @@
                 <li><span class="attr">埋设类型:</span><span class="value">{{repairDetail.D_TYPE }}</span></li>
                 <li><span class="attr">管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径:</span><span class="value">{{repairDetail.D_S}}</span></li>
                 <li><span class="attr">建设年代:</span><span class="value">{{repairDetail.MDATE}}</span></li>
-                <li><span class="attr">管线座落:</span><span class="value">{{repairDetail.ROADNAME}}</span></li>               
+                <li><span class="attr">管线座落:</span><span class="value">{{repairDetail.ROADNAME}}</span></li>
                 <!-- <li><span class="attr">备注:</span><span class="value">{{repairDetail.MEMO_}}</span></li> -->
-            </ul>  
+            </ul>
         </div>
     </div>
 </template>
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-    export default {
-        data() {
-            return {
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  data () {
+    return {
 
-            }
-        },
-        computed:{
-            ...mapGetters(['repairDetail'])
-        },
-        methods:{
-            ...mapActions({
-                showDetail:'setIsShowRepairDetail'    
-            }),
-            close() {
-                this.showDetail(false);
-            }
-        }
     }
+  },
+  computed: {
+    ...mapGetters(['repairDetail'])
+  },
+  methods: {
+    ...mapActions({
+      showDetail: 'setIsShowRepairDetail'
+    }),
+    close () {
+      this.showDetail(false)
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
     .detail {

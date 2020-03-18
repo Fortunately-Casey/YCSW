@@ -1,175 +1,193 @@
 <template>
-    <div class="locus-box" ref='searchbox'>
-        <div class="search-header">
-            <div class="chose-tab">
-                <span class="condition" :class="chosedTab === 'condition' ?'active':''" @click="chosedTab = 'condition'">
-                    条&nbsp;&nbsp;件
-                </span>
-            </div>
-            <div class="icons">
-                <div class="slide-up" :class="!isSlideUp ? 'active':''" @click="slideUp">
-                    <i class="el-icon-arrow-up"></i>
-                </div>
-                <div class="slide-down" :class="isSlideUp ? 'active':''" @click="slideDown">
-                    <i class="el-icon-arrow-down"></i>
-                </div>
-                <div class="close">
-                    <i class="el-icon-close" @click="close"></i>
-                </div>
-            </div>
+  <div class="locus-box" ref="searchbox">
+    <div class="search-header">
+      <div class="chose-tab">
+        <span
+          class="condition"
+          :class="chosedTab === 'condition' ?'active':''"
+          @click="chosedTab = 'condition'"
+        >条&nbsp;&nbsp;件</span>
+      </div>
+      <div class="icons">
+        <div class="slide-up" :class="!isSlideUp ? 'active':''" @click="slideUp">
+          <i class="el-icon-arrow-up"></i>
         </div>
-        <div ref="content">
-            <div class="condition-content" v-show="chosedTab === 'condition'? true : false">
-                <div class="conditions">
-                    <div class="true-name">
-                        <div class="left">巡查人员:</div>
-                        <div class="right">
-                            <div class="drop-down" ref="trueName">
-                                <div class="dropdown-toggle" @click="showTrueName = !showTrueName">
-                                {{ personelOption.TrueName }}
-                                    <span class="cart"></span>
-                                </div>
-                                <el-collapse-transition>
-                                    <ul class="dropdown-menu" v-show="showTrueName">
-                                        <li v-for="(option,index) in personelOptions" :key="index">
-                                            <a href="javascript:void(0)" @click="updateOption('trueName',option)">
-                                                {{ option.TrueName }}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </el-collapse-transition>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="date">
-                        <div class="left">巡查日期:</div>
-                        <div class="right el">
-                        <el-date-picker
-                            class="announce-date"
-                            v-model="date"
-                            type="date"
-                        >
-                        </el-date-picker>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="footer">
-                    <div class="cancel" @click="search">轨 迹 查 询</div>
-                    <div class="determine" @click="playBack">轨 迹 回 放</div>
-                </div>
-            </div>
+        <div class="slide-down" :class="isSlideUp ? 'active':''" @click="slideDown">
+          <i class="el-icon-arrow-down"></i>
         </div>
+        <div class="close">
+          <i class="el-icon-close" @click="close"></i>
+        </div>
+      </div>
     </div>
+    <div ref="content">
+      <div class="condition-content" v-show="chosedTab === 'condition'? true : false">
+        <div class="conditions">
+          <div class="true-name">
+            <div class="left">巡查人员:</div>
+            <div class="right">
+              <div class="drop-down" ref="trueName">
+                <div
+                  class="dropdown-toggle"
+                  :style="'padding:0'"
+                  @click="showTrueName = !showTrueName"
+                >
+                  <!-- {{ personelOption.TrueName }} -->
+                  <input type="text" v-model="personelOption.TrueName" @input="nameSearch" />
+                  <span class="cart"></span>
+                </div>
+                <el-collapse-transition>
+                  <ul class="dropdown-menu" v-show="showTrueName">
+                    <li v-for="(option,index) in personelOptions" :key="index">
+                      <a
+                        href="javascript:void(0)"
+                        @click="updateOption('trueName',option)"
+                      >{{ option.TrueName }}</a>
+                    </li>
+                  </ul>
+                </el-collapse-transition>
+              </div>
+            </div>
+          </div>
+          <div class="date">
+            <div class="left">巡查日期:</div>
+            <div class="right el">
+              <el-date-picker class="announce-date" v-model="date" type="date"></el-date-picker>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer">
+          <div class="cancel" @click="search">轨 迹 查 询</div>
+          <div class="determine" @click="playBack">轨 迹 回 放</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-import { GetInspectTrack, GetAPPUser } from "@/api/patrol.js";
-import esriLoader from "esri-loader";
+import { GetInspectTrack, GetAPPUser } from '@/api/patrol.js'
+import esriLoader from 'esri-loader'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      date: "",
-      trueName: "",
+      date: '',
+      trueName: '',
       personelOption: {
-        TrueName: "",
-        UserName: ""
+        TrueName: '',
+        UserName: ''
       },
       personelOptions: [],
+      personelOptions1: [],
       showTrueName: false,
       pointList: []
-    };
+    }
   },
-  created() {
-    this.getAppUsers();
+  created () {
+    this.getAppUsers()
   },
-  mounted() {
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    close() {
-      this.$emit("closeTab", "");
+    close () {
+      this.$emit('closeTab', '')
     },
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:260px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:260px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    getAppUsers() {
-      var vm = this;
+    nameSearch () {
+      this.personelOptions = this.searchData(this.personelOption.TrueName, this.personelOptions1)
+    },
+    searchData (keyWord, list) {
+      if (!Array.isArray(list) && keyWord !== '') return
+      let arr = []
+      let keyword = keyWord.toLocaleLowerCase() // 不区分大小写
+      for (let i = 0; i < list.length; i++) {
+        if (list[i].TrueName.indexOf(keyword) !== -1) arr.push(list[i])
+      }
+      return arr
+    },
+    getAppUsers () {
+      var vm = this
       GetAPPUser({}).then(resp => {
         if (resp.data.success) {
-          vm.personelOptions = resp.data.rows;
+          vm.personelOptions = resp.data.rows
+          vm.personelOptions1 = resp.data.rows
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    updateOption(type, option) {
-      if (type === "trueName") {
-        this.personelOption.TrueName = option.TrueName;
-        this.personelOption.UserName = option.UserName;
-        this.showTrueName = false;
+    updateOption (type, option) {
+      if (type === 'trueName') {
+        this.personelOption.TrueName = option.TrueName
+        this.personelOption.UserName = option.UserName
+        this.showTrueName = false
+        console.log(this.personelOption.TrueName)
       }
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.trueName) {
         if (!this.$refs.trueName.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showTrueName = false;
+          // 点击除弹出层外的空白区域
+          this.showTrueName = false
         }
       }
     },
-    search() {
-      var vm = this;
-      vm.slideDown();
+    search () {
+      var vm = this
+      vm.slideDown()
       if (!vm.personelOption.UserName) {
         vm.$message({
-          message: "请选择巡查人员！",
-          type: "warning"
-        });
-        return;
+          message: '请选择巡查人员！',
+          type: 'warning'
+        })
+        return
       }
       if (!vm.date) {
         vm.$message({
-          message: "请选择巡查日期！",
-          type: "warning"
-        });
-        return;
+          message: '请选择巡查日期！',
+          type: 'warning'
+        })
+        return
       }
       esriLoader
         .loadModules([
-          "esri/geometry/Point",
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol"
+          'esri/geometry/Point',
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol'
         ])
         .then(
           ([
@@ -182,68 +200,68 @@ export default {
             GraphicsLayer,
             SimpleMarkerSymbol
           ]) => {
-            window.mapBase.clearGraphic();
+            window.mapBase.clearGraphic()
             GetInspectTrack({
               UserId: vm.personelOption.UserName,
               PosTime: vm.getTime(vm.date)
             }).then(resp => {
               if (resp.data.success && resp.data.rows) {
-                vm.pointList = resp.data.rows;
+                vm.pointList = resp.data.rows
                 vm.pointList.map(v => {
                   let point = new Point(
                     v.X,
                     v.Y,
                     window.mapBase.map.spatialReference
-                  );
-                  //将地图放大到第7级
-                  window.mapBase.map.setZoom(14);
-                  //获取外包矩形的中心点，把地图中心定位到中心点
-                  window.mapBase.map.centerAt(point);
-                  var detailSymbol = new SimpleMarkerSymbol();
-                  detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-                  detailSymbol.setSize(16);
-                  detailSymbol.setColor(new Colors("#FF2222"));
-                  var startPointGraphic = new Graphic(point, detailSymbol);
-                  startPointGraphic.attributes = v;
-                  window.mapBase.addGraphic(startPointGraphic);
-                });
+                  )
+                  // 将地图放大到第7级
+                  window.mapBase.map.setZoom(14)
+                  // 获取外包矩形的中心点，把地图中心定位到中心点
+                  window.mapBase.map.centerAt(point)
+                  var detailSymbol = new SimpleMarkerSymbol()
+                  detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+                  detailSymbol.setSize(16)
+                  detailSymbol.setColor(new Colors('#FF2222'))
+                  var startPointGraphic = new Graphic(point, detailSymbol)
+                  startPointGraphic.attributes = v
+                  window.mapBase.addGraphic(startPointGraphic)
+                })
               } else {
                 vm.$message({
-                  message: "未查询到数据",
-                  type: "warning"
-                });
+                  message: '未查询到数据',
+                  type: 'warning'
+                })
               }
-            });
+            })
           }
-        );
+        )
     },
-    playBack() {
-      var vm = this;
-      vm.slideDown();
+    playBack () {
+      var vm = this
+      vm.slideDown()
       if (!vm.personelOption.UserName) {
         vm.$message({
-          message: "请选择巡查人员！",
-          type: "warning"
-        });
-        return;
+          message: '请选择巡查人员！',
+          type: 'warning'
+        })
+        return
       }
       if (!vm.date) {
         vm.$message({
-          message: "请选择巡查日期！",
-          type: "warning"
-        });
-        return;
+          message: '请选择巡查日期！',
+          type: 'warning'
+        })
+        return
       }
       esriLoader
         .loadModules([
-          "esri/geometry/Point",
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol"
+          'esri/geometry/Point',
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol'
         ])
         .then(
           ([
@@ -256,46 +274,46 @@ export default {
             GraphicsLayer,
             SimpleMarkerSymbol
           ]) => {
-            window.mapBase.clearGraphic();
+            window.mapBase.clearGraphic()
             GetInspectTrack({
               UserId: vm.personelOption.UserName,
               PosTime: vm.getTime(vm.date)
             }).then(resp => {
               if (resp.data.success && resp.data.rows) {
-                vm.pointList = resp.data.rows;
+                vm.pointList = resp.data.rows
                 for (let i = 0; i < vm.pointList.length; i++) {
                   setTimeout(() => {
                     let point = new Point(
                       vm.pointList[i].X,
                       vm.pointList[i].Y,
                       window.mapBase.map.spatialReference
-                    );
-                    //将地图放大到第7级
-                    window.mapBase.map.setZoom(14);
-                    //获取外包矩形的中心点，把地图中心定位到中心点
-                    window.mapBase.map.centerAt(point);
-                    var detailSymbol = new SimpleMarkerSymbol();
-                    detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-                    detailSymbol.setSize(16);
-                    detailSymbol.setColor(new Colors("#FF2222"));
-                    var startPointGraphic = new Graphic(point, detailSymbol);
-                    startPointGraphic.attributes = vm.pointList[i];
-                    window.mapBase.addGraphic(startPointGraphic);
-                  }, 1000 * i);
+                    )
+                    // 将地图放大到第7级
+                    window.mapBase.map.setZoom(14)
+                    // 获取外包矩形的中心点，把地图中心定位到中心点
+                    window.mapBase.map.centerAt(point)
+                    var detailSymbol = new SimpleMarkerSymbol()
+                    detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+                    detailSymbol.setSize(16)
+                    detailSymbol.setColor(new Colors('#FF2222'))
+                    var startPointGraphic = new Graphic(point, detailSymbol)
+                    startPointGraphic.attributes = vm.pointList[i]
+                    window.mapBase.addGraphic(startPointGraphic)
+                  }, 1000 * i)
                 }
               } else {
                 vm.$message({
-                  message: "未查询到数据",
-                  type: "warning"
-                });
+                  message: '未查询到数据',
+                  type: 'warning'
+                })
               }
-            });
+            })
           }
-      );
+        )
     }
   },
   components: {}
-};
+}
 </script>
 <style lang="less" scoped>
 .locus-box {
@@ -421,11 +439,20 @@ export default {
               font-weight: 300;
               border-radius: 0;
               font-size: 14px;
+              input {
+                position: absolute;
+                left: 0;
+                top: 0;
+                border: none;
+              }
+              input[type="text"]:focus {
+                outline: none;
+              }
               .cart {
                 width: 0;
                 position: relative;
                 top: 18px;
-                left: -20px;
+                left: 0px;
                 height: 0;
                 margin-left: 2px;
                 vertical-align: middle;

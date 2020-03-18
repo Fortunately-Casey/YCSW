@@ -64,61 +64,61 @@
     </div>
 </template>
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import { GetInspectRecordPics } from '@/api/patrol.js';
-import { faultImageUrl } from '@/common/mapServer/config.js';
+import { mapGetters, mapActions } from 'vuex'
+import { GetInspectRecordPics } from '@/api/patrol.js'
+import { faultImageUrl } from '@/common/mapServer/config.js'
 export default {
-  data() {
+  data () {
     return {
-        textarea:"",
-        imgList:[],
-        faultImageUrl:faultImageUrl
-    };
+      textarea: '',
+      imgList: [],
+      faultImageUrl: faultImageUrl
+    }
   },
-  computed:{
-      ...mapGetters([
-          'faultDetailValue'
-      ]),
-      faultLevel() {
-          if(this.faultDetailValue.Level === 1) {
-              return "一般"
-          }else if(this.faultDetailValue.Level === 2) {
-              return "中等"
-          }else if(this.faultDetailValue.Level === 3) {
-              return "紧急"
-          }
+  computed: {
+    ...mapGetters([
+      'faultDetailValue'
+    ]),
+    faultLevel () {
+      if (this.faultDetailValue.Level === 1) {
+        return '一般'
+      } else if (this.faultDetailValue.Level === 2) {
+        return '中等'
+      } else if (this.faultDetailValue.Level === 3) {
+        return '紧急'
       }
+    }
   },
-  created() {
-      this.getImages();
+  created () {
+    this.getImages()
   },
-  methods:{
-      ...mapActions({
-          closeDetail:'setIsShowFaultDetail',
-          setShowBigImage:'setIsShowBigImage',
-          setImageUrl:'setBigImageUrl'
+  methods: {
+    ...mapActions({
+      closeDetail: 'setIsShowFaultDetail',
+      setShowBigImage: 'setIsShowBigImage',
+      setImageUrl: 'setBigImageUrl'
 
-      }),
-      close() {
-          this.closeDetail(false);
-      },
-      getImages() {
-          var vm = this;
-          GetInspectRecordPics({
-              InspectRecdId:vm.faultDetailValue.InspectRecdId
-          }).then((resp) => {
-              if(resp.data.success) {
-                  console.log(vm.imgList,'1111')
-                  vm.imgList = resp.data.rows;
-              }
-          })
-      },
-      showBigImage(imgUrl) {
-        this.setImageUrl(imgUrl);
-        this.setShowBigImage(true);
-      }
+    }),
+    close () {
+      this.closeDetail(false)
+    },
+    getImages () {
+      var vm = this
+      GetInspectRecordPics({
+        InspectRecdId: vm.faultDetailValue.InspectRecdId
+      }).then((resp) => {
+        if (resp.data.success) {
+          console.log(vm.imgList, '1111')
+          vm.imgList = resp.data.rows
+        }
+      })
+    },
+    showBigImage (imgUrl) {
+      this.setImageUrl(imgUrl)
+      this.setShowBigImage(true)
+    }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .faultDetail {

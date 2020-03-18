@@ -10,29 +10,29 @@
     </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
-import { mapActions } from "vuex";
+import esriLoader from 'esri-loader'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      toolBar:{}
+      toolBar: {}
     }
   },
-  mounted() {
-    this.drawRectangular();
+  mounted () {
+    this.drawRectangular()
   },
   methods: {
-    drawRectangular() {
-      var vm = this;
+    drawRectangular () {
+      var vm = this
       esriLoader
         .loadModules([
           // "static/arcpackage/mapBase",
-          "esri/toolbars/draw",
-          "dojo/on",
-          "dojo/dom",
-          "esri/graphic",
-          "esri/symbols/SimpleFillSymbol",
-          "esri/symbols/SimpleLineSymbol"
+          'esri/toolbars/draw',
+          'dojo/on',
+          'dojo/dom',
+          'esri/graphic',
+          'esri/symbols/SimpleFillSymbol',
+          'esri/symbols/SimpleLineSymbol'
         ])
         .then(
           ([
@@ -44,33 +44,33 @@ export default {
             SimpleFillSymbol,
             SimpleLineSymbol
           ]) => {
-            vm.toolBar = new Draw(window.mapBase.map);
-            let flag = "";
+            vm.toolBar = new Draw(window.mapBase.map)
+            let flag = ''
             // 绘制矩形
-            on(dom.byId("rectangular"), "click", function() {
-              flag = "rectangular";
-              window.mapBase.clearGraphic();
-              //激活绘图工具，绘制面要素
-              vm.toolBar.activate(Draw.RECTANGLE);
+            on(dom.byId('rectangular'), 'click', function () {
+              flag = 'rectangular'
+              window.mapBase.clearGraphic()
+              // 激活绘图工具，绘制面要素
+              vm.toolBar.activate(Draw.RECTANGLE)
               vm.$emit('slideDown')
-            });
+            })
 
             // 绘制多边形
-            on(dom.byId("polygon"), "click", function() {
-              flag = "polygon";
-              window.mapBase.clearGraphic();
-              //激活绘图工具，绘制面要素
-              vm.toolBar.activate(Draw.POLYGON);
+            on(dom.byId('polygon'), 'click', function () {
+              flag = 'polygon'
+              window.mapBase.clearGraphic()
+              // 激活绘图工具，绘制面要素
+              vm.toolBar.activate(Draw.POLYGON)
               vm.$emit('slideDown')
-            });
+            })
 
             // 绘制结束
-            on(vm.toolBar, "draw-complete", function(result) {
+            on(vm.toolBar, 'draw-complete', function (result) {
               // console.log(result)
-              if ((flag = "rectangular")) {
-                vm.$emit("rectangular", result.geometry);
+              if ((flag = 'rectangular')) {
+                vm.$emit('rectangular', result.geometry)
               } else {
-                vm.$emit("polygon", result.geometry);
+                vm.$emit('polygon', result.geometry)
               }
               var graphic = new Graphic(
                 result.geometry,
@@ -83,19 +83,19 @@ export default {
                   ),
                   new dojo.Color([255, 255, 0, 0.25])
                 )
-              );
-              window.mapBase.addGraphic(graphic);
-              vm.toolBar.deactivate();
-              vm.$emit('slideUp');
-            });
+              )
+              window.mapBase.addGraphic(graphic)
+              vm.toolBar.deactivate()
+              vm.$emit('slideUp')
+            })
           }
-        );
+        )
     },
-    closeToolBar() {
-      this.toolBar.deactivate();
+    closeToolBar () {
+      this.toolBar.deactivate()
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .space {

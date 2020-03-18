@@ -117,7 +117,7 @@
     </div>
 </template>
 <script>
-import { GetMessageList, GetAPPUser } from "@/api/patrol.js";
+import { GetMessageList, GetAPPUser } from '@/api/patrol.js'
 export default {
   props: {
     list: {
@@ -133,128 +133,128 @@ export default {
       default: 0
     }
   },
-  data() {
+  data () {
     return {
-      title: "",
-      date: "",
+      title: '',
+      date: '',
       showStatus: false,
       statusOption: {
-        name: "全部",
-        id: ""
+        name: '全部',
+        id: ''
       },
       statusOptions: [
         {
-          name: "全部",
-          id: ""
+          name: '全部',
+          id: ''
         },
         {
-          name: "未发布",
+          name: '未发布',
           id: -1
         },
         {
-          name: "已发布",
+          name: '已发布',
           id: 0
         }
       ],
       showPersonel: false,
       personelOption: {
-        TrueName: "全部",
-        UserName: ""
+        TrueName: '全部',
+        UserName: ''
       },
       personelOptions: []
-    };
+    }
   },
-  created() {
-    this.getAppUsers();
+  created () {
+    this.getAppUsers()
   },
-  mounted() {
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    onSearch() {
-      this.$emit("search", {
+    onSearch () {
+      this.$emit('search', {
         Title: this.title,
         Status: this.statusOption.id,
         ReceiverUserId: this.personelOption.UserName,
-        StartSendTime: this.date ? this.getTime(this.date[0]) : "",
-        EndSendTime: this.date ? this.getTime(this.date[1]) : ""
-      });
+        StartSendTime: this.date ? this.getTime(this.date[0]) : '',
+        EndSendTime: this.date ? this.getTime(this.date[1]) : ''
+      })
     },
-    updateOption(type, option) {
-      if (type === "status") {
-        this.statusOption.name = option.name;
-        this.statusOption.id = option.id;
-        this.showStatus = false;
+    updateOption (type, option) {
+      if (type === 'status') {
+        this.statusOption.name = option.name
+        this.statusOption.id = option.id
+        this.showStatus = false
       }
-      if (type === "personel") {
-        this.personelOption.UserName = option.UserName;
-        this.personelOption.TrueName = option.TrueName;
-        this.showPersonel = false;
+      if (type === 'personel') {
+        this.personelOption.UserName = option.UserName
+        this.personelOption.TrueName = option.TrueName
+        this.showPersonel = false
       }
     },
-    addPersonnel() {
-      this.$emit("showAdd");
+    addPersonnel () {
+      this.$emit('showAdd')
     },
-    editPatrol(item) {
-      this.$emit("showEdit", item);
+    editPatrol (item) {
+      this.$emit('showEdit', item)
     },
-    deletePatrol(item) {
-      this.$emit("showDelete", item);
+    deletePatrol (item) {
+      this.$emit('showDelete', item)
     },
-    getDetail(item) {
-      this.$emit("showDetail", item);
+    getDetail (item) {
+      this.$emit('showDetail', item)
     },
-    publishPatrol(item) {
-      this.$emit("showPublish", item);
+    publishPatrol (item) {
+      this.$emit('showPublish', item)
     },
-    changePage(page) {
-      this.$emit("pageSearch", page);
+    changePage (page) {
+      this.$emit('pageSearch', page)
     },
-    getAppUsers() {
-      var vm = this;
+    getAppUsers () {
+      var vm = this
       GetAPPUser({}).then(resp => {
         if (resp.data.success) {
-          vm.personelOptions = resp.data.rows;
+          vm.personelOptions = resp.data.rows
           vm.personelOptions.unshift({
-            TrueName: "全部",
-            UserName: ""
+            TrueName: '全部',
+            UserName: ''
           })
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.status) {
         if (!this.$refs.status.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showStatus = false;
+          // 点击除弹出层外的空白区域
+          this.showStatus = false
         }
       }
       if (this.$refs.personel) {
         if (!this.$refs.personel.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showPersonel = false;
+          // 点击除弹出层外的空白区域
+          this.showPersonel = false
         }
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .announce {

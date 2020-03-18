@@ -25,7 +25,7 @@
                     <div class="title">选取爆管点:</div>
                     <div class="chose" id="burstPoint">选&nbsp;&nbsp;取</div>
                     <div class="button" @click="search">分&nbsp;&nbsp;析</div>
-                </div> 
+                </div>
                 <div class="table">
                   <div class="header">
                     <span>序号</span>
@@ -41,49 +41,49 @@
                        <span class="detail" @click="goToDetail(item)">详情</span>
                     </li>
                   </ul>
-                </div> 
+                </div>
               </div>
           </div>
         </div>
     </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
-import { server } from "@/common/mapServer/config.js";
-import { mapGetters, mapActions } from "vuex";
+import esriLoader from 'esri-loader'
+import { server } from '@/common/mapServer/config.js'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
       startPoint: {},
       dataList: []
-    };
+    }
   },
-  mounted() {
-    this.drawPointSegment();
+  mounted () {
+    this.drawPointSegment()
   },
   methods: {
     ...mapActions({
-      isshowValve: "setIsShowValve",
-      valveDetail: "setValveDetail",
-      setMeasure:"setIsMeasure"
+      isshowValve: 'setIsShowValve',
+      valveDetail: 'setValveDetail',
+      setMeasure: 'setIsMeasure'
     }),
-    drawPointSegment() {
-      var vm = this;
+    drawPointSegment () {
+      var vm = this
       esriLoader
         .loadModules([
-          "dojo/on",
-          "dojo/dom",
-          "esri/graphic",
-          "esri/symbols/SimpleFillSymbol",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters",
-          "esri/geometry/Polyline",
-          "dojo/colors",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol"
+          'dojo/on',
+          'dojo/dom',
+          'esri/graphic',
+          'esri/symbols/SimpleFillSymbol',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/tasks/IdentifyTask',
+          'esri/tasks/IdentifyParameters',
+          'esri/geometry/Polyline',
+          'dojo/colors',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol'
         ])
         .then(
           ([
@@ -100,96 +100,96 @@ export default {
             SimpleMarkerSymbol
           ]) => {
             // 选取爆点
-            on(dom.byId("burstPoint"), "click", function() {
+            on(dom.byId('burstPoint'), 'click', function () {
               vm.setMeasure(true)
-              //激活绘图工具，绘制面要素
+              // 激活绘图工具，绘制面要素
               var mapClickHandler = dojo.connect(
                 window.mapBase.map,
-                "onClick",
-                function(e) {
-                  var startPointSymbol = new SimpleMarkerSymbol();
-                  startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-                  startPointSymbol.setSize(10);
-                  startPointSymbol.setColor(new Colors("red"));
+                'onClick',
+                function (e) {
+                  var startPointSymbol = new SimpleMarkerSymbol()
+                  startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+                  startPointSymbol.setSize(10)
+                  startPointSymbol.setColor(new Colors('red'))
 
                   var startPointGraphic = new Graphic(
                     e.mapPoint,
                     startPointSymbol
-                  );
-                  vm.startPoint = startPointGraphic;
-                  var graphicsLayer = window.mapBase.map.getLayer("pointTc"); //获取绘制图层
+                  )
+                  vm.startPoint = startPointGraphic
+                  var graphicsLayer = window.mapBase.map.getLayer('pointTc') // 获取绘制图层
 
                   if (graphicsLayer != null) {
-                    window.mapBase.map.removeLayer(graphicsLayer);
+                    window.mapBase.map.removeLayer(graphicsLayer)
                   }
-                  graphicsLayer = new GraphicsLayer({ id: "pointTc" });
+                  graphicsLayer = new GraphicsLayer({ id: 'pointTc' })
 
-                  graphicsLayer.add(startPointGraphic);
-                  window.mapBase.map.addLayer(graphicsLayer, 1);
+                  graphicsLayer.add(startPointGraphic)
+                  window.mapBase.map.addLayer(graphicsLayer, 1)
 
                   if (mapClickHandler != null) {
-                    dojo.disconnect(mapClickHandler);
+                    dojo.disconnect(mapClickHandler)
                   }
                 }
-              );
-            });
+              )
+            })
           }
-        );
+        )
     },
-    slideDown() {
-      this.$refs.content1.style = "display:none";
-      this.$refs.condition.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content1.style = 'display:none'
+      this.$refs.condition.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.condition.style = "height:280px;bottom:15px";
+    slideUp () {
+      this.$refs.condition.style = 'height:280px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content1.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content1.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    shotDown() {
-      this.$refs.content2.style = "display:none";
-      this.$refs.result.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    shotDown () {
+      this.$refs.content2.style = 'display:none'
+      this.$refs.result.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    shotUp() {
-      this.$refs.result.style = "height:430px;bottom:15px";
+    shotUp () {
+      this.$refs.result.style = 'height:430px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content2.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content2.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    close() {
-      this.$emit("close", "");
+    close () {
+      this.$emit('close', '')
     },
-    search() {
+    search () {
       this.dataList = []
-      this.analysis(1); //自动
-      this.analysis(0); //手动
+      this.analysis(1) // 自动
+      this.analysis(0) // 手动
     },
-    analysis(index) {
-      var vm = this;
+    analysis (index) {
+      var vm = this
       esriLoader
         .loadModules([
-          "dojo/on",
-          "dojo/dom",
-          "esri/graphic",
-          "esri/symbols/SimpleFillSymbol",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters",
-          "esri/geometry/Polyline",
-          "dojo/colors",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol",
-          "esri/tasks/ClosestFacilityTask",
-          "esri/tasks/ClosestFacilityParameters",
-          "esri/tasks/FeatureSet",
-          "esri/layers/FeatureLayer",
-          "esri/tasks/query",
-          "esri/tasks/QueryTask",
-          "esri/geometry/Point"
+          'dojo/on',
+          'dojo/dom',
+          'esri/graphic',
+          'esri/symbols/SimpleFillSymbol',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/tasks/IdentifyTask',
+          'esri/tasks/IdentifyParameters',
+          'esri/geometry/Polyline',
+          'dojo/colors',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol',
+          'esri/tasks/ClosestFacilityTask',
+          'esri/tasks/ClosestFacilityParameters',
+          'esri/tasks/FeatureSet',
+          'esri/layers/FeatureLayer',
+          'esri/tasks/query',
+          'esri/tasks/QueryTask',
+          'esri/geometry/Point'
         ])
         .then(
           ([
@@ -213,120 +213,120 @@ export default {
             Point
           ]) => {
             var closestFacilityTask = new ClosestFacilityTask(
-              "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/BGFXNetWork_XA80/NAServer/Closest Facility"
-            );
+              'http://10.11.222.52:6080/arcgis/rest/services/YCSWData/BGFXNetWork_XA80/NAServer/Closest Facility'
+            )
             // 临近设施分析参数
-            var params = new ClosestFacilityParameters();
+            var params = new ClosestFacilityParameters()
             //   是否返回事件信息
-            params.returnIncidents = true;
+            params.returnIncidents = true
             //   是否返回路径
-            params.returnRoutes = true;
+            params.returnRoutes = true
             //   路径是否有参数
-            params.returnDirections = true;
+            params.returnDirections = true
             //   服务点
-            params.facilities = new FeatureSet();
+            params.facilities = new FeatureSet()
             var queryTask = new QueryTask(
-              "http://49.4.55.238:6080/arcgis/rest/services/YCSWData/ClosetFacilityServiece/MapServer/" +
+              'http://10.11.222.52:6080/arcgis/rest/services/YCSWData/ClosetFacilityServiece/MapServer/' +
                 index
-            );
-            var query = new Query();
-            query.where = "1=1";
-            query.outSpatialReference = window.mapBase.map.spatialReference;
-            query.returnGeometry = true;
-            query.outFields = ["OBJECTID"];
+            )
+            var query = new Query()
+            query.where = '1=1'
+            query.outSpatialReference = window.mapBase.map.spatialReference
+            query.returnGeometry = true
+            query.outFields = ['OBJECTID']
             queryTask.execute(query, result => {
-              params.facilities.features = result.features;
+              params.facilities.features = result.features
               //  爆管点
-              params.incidents = new FeatureSet();
-              params.incidents.features.push(vm.startPoint);
+              params.incidents = new FeatureSet()
+              params.incidents.features.push(vm.startPoint)
               // 空间参考
-              params.outSpatialReference = window.mapBase.map.spatialReference;
+              params.outSpatialReference = window.mapBase.map.spatialReference
               // 返回自动阀门设施
-              params.returnFacilities = true;
+              params.returnFacilities = true
               closestFacilityTask.solve(
                 params,
                 result => {
-                  var routeResults = result.routes;
-                  var res = routeResults.length;
+                  var routeResults = result.routes
+                  var res = routeResults.length
                   var routeSymbol = new SimpleLineSymbol(
                     SimpleLineSymbol.STYLE_SOLID,
                     new Colors([84, 228, 203]),
                     4
-                  );
+                  )
                   if (res > 0) {
                     for (var i = 0; i < res; i++) {
-                      var graphicroute = routeResults[i];
-                      var graphic = new Graphic(graphicroute.geometry);
-                      graphic.setSymbol(routeSymbol);
-                      window.mapBase.map.graphics.add(graphic);
+                      var graphicroute = routeResults[i]
+                      var graphic = new Graphic(graphicroute.geometry)
+                      graphic.setSymbol(routeSymbol)
+                      window.mapBase.map.graphics.add(graphic)
 
-                      var startPointSymbol = new SimpleMarkerSymbol();
-                      startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-                      startPointSymbol.setSize(10);
-                      startPointSymbol.setColor(new Colors("blue"));
+                      var startPointSymbol = new SimpleMarkerSymbol()
+                      startPointSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+                      startPointSymbol.setSize(10)
+                      startPointSymbol.setColor(new Colors('blue'))
 
-                      var pathindex = graphicroute.geometry.paths[0].length - 1;
+                      var pathindex = graphicroute.geometry.paths[0].length - 1
 
                       var point = new Point(
                         graphicroute.geometry.paths[0][pathindex][0],
                         graphicroute.geometry.paths[0][pathindex][1],
                         window.mapBase.map.spatialReference
-                      );
+                      )
 
                       let identifyTask = new IdentifyTask(
                         server.SSGDUrl
-                      );
-                      let identifyParams = new IdentifyParameters();
-                      identifyParams.tolerance = 1;
-                      identifyParams.returnGeometry = true;
-                      identifyParams.layerIds = ["*"];
+                      )
+                      let identifyParams = new IdentifyParameters()
+                      identifyParams.tolerance = 1
+                      identifyParams.returnGeometry = true
+                      identifyParams.layerIds = ['*']
                       identifyParams.layerOption =
-                        IdentifyParameters.LAYER_OPTION_ALL;
-                      identifyParams.width = window.mapBase.map.width;
-                      identifyParams.height = window.mapBase.map.height;
-                      identifyParams.geometry = point;
-                      identifyParams.mapExtent = window.mapBase.map.extent;
+                        IdentifyParameters.LAYER_OPTION_ALL
+                      identifyParams.width = window.mapBase.map.width
+                      identifyParams.height = window.mapBase.map.height
+                      identifyParams.geometry = point
+                      identifyParams.mapExtent = window.mapBase.map.extent
                       identifyTask.execute(identifyParams, result => {
-                        vm.dataList.push(result[0].feature);
+                        vm.dataList.push(result[0].feature)
                         result.map(v => {
                           var startPointGraphic = new Graphic(
                             v.feature.geometry,
                             startPointSymbol
-                          );
-                          window.mapBase.map.graphics.add(startPointGraphic);
-                        });
-                      });
+                          )
+                          window.mapBase.map.graphics.add(startPointGraphic)
+                        })
+                      })
                     }
                   }
                 },
                 error => {
                   if (index === 1) {
                     vm.$message({
-                      message: "未查询到自动阀门",
-                      type: "warning"
-                    });
+                      message: '未查询到自动阀门',
+                      type: 'warning'
+                    })
                   } else if (index === 0) {
                     vm.$message({
-                      message: "未查询到手动阀门",
-                      type: "warning"
-                    });
+                      message: '未查询到手动阀门',
+                      type: 'warning'
+                    })
                   }
                 }
-              );
-            });
+              )
+            })
           }
-        );
+        )
     },
-    goToDetail(item) {
-      var vm = this;
+    goToDetail (item) {
+      var vm = this
       esriLoader
         .loadModules([
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer"
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer'
         ])
         .then(
           ([
@@ -337,17 +337,17 @@ export default {
             SimpleLineSymbol,
             GraphicsLayer
           ]) => {
-            //将地图放大到第7级
-            window.mapBase.map.setZoom(16);
-            window.mapBase.map.centerAt(item.geometry);
-            this.isshowValve(true);
-            this.valveDetail(item.attributes);
+            // 将地图放大到第7级
+            window.mapBase.map.setZoom(16)
+            window.mapBase.map.centerAt(item.geometry)
+            this.isshowValve(true)
+            this.valveDetail(item.attributes)
           }
-        );
+        )
     }
   },
   components: {}
-};
+}
 </script>
 <style lang="less" scoped>
 .condition-box {
@@ -525,5 +525,3 @@ export default {
   }
 }
 </style>
- 
- 

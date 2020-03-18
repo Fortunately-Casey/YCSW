@@ -5,31 +5,31 @@
     </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
+import esriLoader from 'esri-loader'
 export default {
-  data() {
+  data () {
     return {
-      chosedMap: "electronic"
-    };
+      chosedMap: 'electronic'
+    }
   },
-  props:['baseMap'],
+  props: ['baseMap'],
   methods: {
-    choseMap(value) {
+    choseMap (value) {
       switch (value) {
-        case "electronic":
-          this.baseMap.hideLayer("googleMap1"); //电子地图
-          this.baseMap.hideLayer("googleMap2");
-          this.baseMap.showLayer("googleMap3");
-          break;
-        case "image":
-          this.baseMap.showLayer("googleMap1");
-          this.baseMap.showLayer("googleMap2"); //影像地图
-          this.baseMap.hideLayer("googleMap3"); 
-          break;
+        case 'electronic':
+          this.baseMap.hideLayer('googleMap1') // 电子地图
+          this.baseMap.hideLayer('googleMap2')
+          this.baseMap.showLayer('googleMap3')
+          break
+        case 'image':
+          this.baseMap.showLayer('googleMap1')
+          this.baseMap.showLayer('googleMap2') // 影像地图
+          this.baseMap.hideLayer('googleMap3')
+          break
       }
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .map-switch {

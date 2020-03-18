@@ -87,18 +87,18 @@
     </div>
 </template>
 <script>
-import { GetDocunmentTypeInfo, GetDocumentManageInfo } from "@/api/library.js";
-import MLoading from "@/common/loading/Loading.vue";
+import { GetDocunmentTypeInfo, GetDocumentManageInfo } from '@/api/library.js'
+import MLoading from '@/common/loading/Loading.vue'
 export default {
-  data() {
+  data () {
     return {
-      projectname: "",
-      TKName: "",
+      projectname: '',
+      TKName: '',
       showRealName: false,
       showRoleName: false,
-      documentName: "",
+      documentName: '',
       typeOption: {
-        TKType: "全部"
+        TKType: '全部'
       },
       showType: false,
       typeOptions: [],
@@ -108,132 +108,132 @@ export default {
       searchPage: 1,
       isSearch: false,
       listLength: 0
-    };
+    }
   },
-  created() {
-    this.getDocunmentTypeInfo();
-    this.getDocumentManageInfo();
+  created () {
+    this.getDocunmentTypeInfo()
+    this.getDocumentManageInfo()
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if ((type === "type", option)) {
-        this.typeOption.TKType = option.TKType;
-        this.showType = false;
+    updateOption (type, option) {
+      if ((type === 'type', option)) {
+        this.typeOption.TKType = option.TKType
+        this.showType = false
       }
     },
-    addLibrary() {
-      this.$emit("addLibrary", true);
+    addLibrary () {
+      this.$emit('addLibrary', true)
     },
     // 详情
-    getDetail(item) {
-      this.$emit("showDetail", { showDetail: true, item: item });
+    getDetail (item) {
+      this.$emit('showDetail', { showDetail: true, item: item })
     },
     // 编辑
-    editer(item) {
-      this.$emit("showEditer", {
+    editer (item) {
+      this.$emit('showEditer', {
         showEditer: true,
         item: JSON.parse(JSON.stringify(item)),
         isSearch: this.isSearch
-      });
+      })
     },
     // 删除
-    deleteLibrary(item) {
-      this.$emit("showDelete", {
+    deleteLibrary (item) {
+      this.$emit('showDelete', {
         showDelete: true,
         item: item,
         isSearch: this.isSearch
-      });
+      })
     },
-    changePage(page) {
-      this.page = page;
+    changePage (page) {
+      this.page = page
       if (this.isSearch) {
-        this.search();
+        this.search()
       } else {
-        this.getDocumentManageInfo();
+        this.getDocumentManageInfo()
       }
     },
-    download(item) {
-      this.$emit('showDownLoad',item);
+    download (item) {
+      this.$emit('showDownLoad', item)
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.typeName) {
         if (!this.$refs.typeName.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showType = false;
+          // 点击除弹出层外的空白区域
+          this.showType = false
         }
       }
     },
-    onSearch() {
-      var vm = this;
+    onSearch () {
+      var vm = this
       vm.page = 1
-      vm.isSearch = true;
+      vm.isSearch = true
       GetDocumentManageInfo({
         Page: vm.page,
         Rows: 12,
         ProjectName: vm.projectname,
         TKName: vm.TKName,
-        TKType: vm.typeOption.TKType === "全部" ? "" : vm.typeOption.TKType,
+        TKType: vm.typeOption.TKType === '全部' ? '' : vm.typeOption.TKType,
         DocumentName: vm.documentName
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         }
-      });
+      })
     },
     // 查询
-    search() {
-      var vm = this;
-      vm.isSearch = true;
+    search () {
+      var vm = this
+      vm.isSearch = true
       GetDocumentManageInfo({
         Page: vm.page === 1 ? 1 : vm.page,
         Rows: 12,
         ProjectName: vm.projectname,
         TKName: vm.TKName,
-        TKType: vm.typeOption.TKType === "全部" ? "" : vm.typeOption.TKType,
+        TKType: vm.typeOption.TKType === '全部' ? '' : vm.typeOption.TKType,
         DocumentName: vm.documentName
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         }
       })
     },
-    getDocunmentTypeInfo() {
-      var vm = this;
+    getDocunmentTypeInfo () {
+      var vm = this
       GetDocunmentTypeInfo({}).then(resp => {
         if (resp.data.success) {
-          vm.typeOptions = resp.data.rows;
-          vm.typeOptions.unshift({ TKType : '全部'})
+          vm.typeOptions = resp.data.rows
+          vm.typeOptions.unshift({ TKType: '全部'})
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    getDocumentManageInfo() {
-      var vm = this;
+    getDocumentManageInfo () {
+      var vm = this
       GetDocumentManageInfo({
         Page: vm.page === 1 ? 1 : vm.page,
         Rows: 12
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         }
-      });
+      })
     }
   },
   components: {
     MLoading
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

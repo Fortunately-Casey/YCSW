@@ -14,16 +14,16 @@ Vue.use(Vuex)
 const debug = process.env.NODE_ENV !== 'production'
 
 export default new Vuex.Store({
-    modules:[
-        map,
-        search,
-        statistics,
-        analysis,
-        repair,
-        realTime,
-        query,
-        patrol
-    ],
-    strict:debug,
-    plugins:debug ? [createLogger()]: []
+  modules: [
+    map,
+    search,
+    statistics,
+    analysis,
+    repair,
+    realTime,
+    query,
+    patrol
+  ],
+  strict: debug,
+  plugins: debug ? [createLogger()] : []
 })

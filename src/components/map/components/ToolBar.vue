@@ -64,12 +64,12 @@
   </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
-import { mapActions } from "vuex";
-import { server } from "@/common/mapServer/config.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import esriLoader from 'esri-loader'
+import { mapActions } from 'vuex'
+import { server } from '@/common/mapServer/config.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
       showCheckLayers: false,
       showCheckMarks: false,
@@ -78,96 +78,96 @@ export default {
       layerTree: [
         {
           id: 1,
-          label: "输水管线",
+          label: '输水管线',
           children: [
             {
               id: 11,
-              label: "给水管线",
-              icon: "line"
+              label: '给水管线',
+              icon: 'line'
             }
           ]
         },
         {
           id: 2,
-          label: "管网设备",
+          label: '管网设备',
           children: [
             {
               id: 21,
-              label: "测流表",
-              icon: "facility1"
+              label: '测流表',
+              icon: 'facility1'
             },
             {
               id: 22,
-              label: "测压表",
-              icon: "facility2"
+              label: '测压表',
+              icon: 'facility2'
             }
           ]
         },
         {
           id: 3,
-          label: "厂站",
+          label: '厂站',
           children: [
             {
               id: 31,
-              label: "泵站",
-              icon: "station1"
+              label: '泵站',
+              icon: 'station1'
             },
             {
               id: 32,
-              label: "受水厂",
-              icon: "station2"
+              label: '受水厂',
+              icon: 'station2'
             },
             {
               id: 33,
-              label: "补压塔",
-              icon: "station3"
+              label: '补压塔',
+              icon: 'station3'
             }
           ]
         },
         {
           id: 4,
-          label: "管网阀门",
+          label: '管网阀门',
           children: [
             {
               id: 41,
-              label: "排气阀",
-              icon: "tap1"
+              label: '排气阀',
+              icon: 'tap1'
             },
             {
               id: 42,
-              label: "蝶阀",
-              icon: "tap2"
+              label: '蝶阀',
+              icon: 'tap2'
             },
             {
               id: 43,
-              label: "闸阀井",
-              icon: "tap3"
+              label: '闸阀井',
+              icon: 'tap3'
             },
             {
               id: 44,
-              label: "阀门井",
-              icon: "tap4"
+              label: '阀门井',
+              icon: 'tap4'
             },
             {
               id: 45,
-              label: "法兰井",
-              icon: "tap5"
+              label: '法兰井',
+              icon: 'tap5'
             },
             {
               id: 46,
-              label: "排水阀",
-              icon: "tap6"
+              label: '排水阀',
+              icon: 'tap6'
             }
           ]
         },
         {
           id: 5,
-          label: "管网节点",
+          label: '管网节点',
           children: [
             {
               id: 51,
-              label: "出水口",
-              icon: "node1"
+              label: '出水口',
+              icon: 'node1'
             },
             // {
             //   id: 52,
@@ -176,29 +176,29 @@ export default {
             // },
             {
               id: 53,
-              label: "进水口",
-              icon: "node3"
+              label: '进水口',
+              icon: 'node3'
             },
             {
               id: 54,
-              label: "防止倒流器",
-              icon: "node4"
+              label: '防止倒流器',
+              icon: 'node4'
             }
           ]
         },
         {
           id: 6,
-          label: "基础数据",
+          label: '基础数据',
           children: [
             {
               id: 61,
-              label: "地形图",
-              icon: "data1"
+              label: '地形图',
+              icon: 'data1'
             },
             {
               id: 62,
-              label: "县界",
-              icon: "data2"
+              label: '县界',
+              icon: 'data2'
             }
           ]
         }
@@ -206,96 +206,96 @@ export default {
       markTree: [
         {
           id: 1,
-          label: "输水管线",
+          label: '输水管线',
           children: [
             {
               id: 11,
-              label: "给水管线",
-              icon: "line"
+              label: '给水管线',
+              icon: 'line'
             }
           ]
         },
         {
           id: 2,
-          label: "管网设备",
+          label: '管网设备',
           children: [
             {
               id: 21,
-              label: "测流表",
-              icon: "facility1"
+              label: '测流表',
+              icon: 'facility1'
             },
             {
               id: 22,
-              label: "测压表",
-              icon: "facility2"
+              label: '测压表',
+              icon: 'facility2'
             }
           ]
         },
         {
           id: 3,
-          label: "厂站",
+          label: '厂站',
           children: [
             {
               id: 31,
-              label: "泵站",
-              icon: "station1"
+              label: '泵站',
+              icon: 'station1'
             },
             {
               id: 32,
-              label: "受水厂",
-              icon: "station2"
+              label: '受水厂',
+              icon: 'station2'
             },
             {
               id: 33,
-              label: "补压塔",
-              icon: "station3"
+              label: '补压塔',
+              icon: 'station3'
             }
           ]
         },
         {
           id: 4,
-          label: "管网阀门",
+          label: '管网阀门',
           children: [
             {
               id: 41,
-              label: "排气阀",
-              icon: "tap1"
+              label: '排气阀',
+              icon: 'tap1'
             },
             {
               id: 42,
-              label: "蝶阀",
-              icon: "tap2"
+              label: '蝶阀',
+              icon: 'tap2'
             },
             {
               id: 43,
-              label: "闸阀井",
-              icon: "tap3"
+              label: '闸阀井',
+              icon: 'tap3'
             },
             {
               id: 44,
-              label: "阀门井",
-              icon: "tap4"
+              label: '阀门井',
+              icon: 'tap4'
             },
             {
               id: 45,
-              label: "法兰井",
-              icon: "tap5"
+              label: '法兰井',
+              icon: 'tap5'
             },
             {
               id: 46,
-              label: "排水阀",
-              icon: "tap6"
+              label: '排水阀',
+              icon: 'tap6'
             }
           ]
         },
         {
           id: 5,
-          label: "管网节点",
+          label: '管网节点',
           children: [
             {
               id: 51,
-              label: "出水口",
-              icon: "node1"
+              label: '出水口',
+              icon: 'node1'
             },
             // {
             //   id: 52,
@@ -304,252 +304,252 @@ export default {
             // },
             {
               id: 53,
-              label: "进水口",
-              icon: "node3"
+              label: '进水口',
+              icon: 'node3'
             },
             {
               id: 54,
-              label: "防止倒流器",
-              icon: "node4"
+              label: '防止倒流器',
+              icon: 'node4'
             }
           ]
         }
       ],
       defaultProps: {
-        children: "children",
-        label: "label"
+        children: 'children',
+        label: 'label'
       },
-      x: "",
-      y: ""
-    };
+      x: '',
+      y: ''
+    }
   },
-  props: ["baseMap"],
-  mounted() {
-    document.addEventListener("click", this.hidePandel, false);
-    var vm = this;
-    EventBus.$on("changeChecked", data => {
-      vm.changeChecked(data);
-    });
+  props: ['baseMap'],
+  mounted () {
+    document.addEventListener('click', this.hidePandel, false)
+    var vm = this
+    EventBus.$on('changeChecked', data => {
+      vm.changeChecked(data)
+    })
   },
   methods: {
     ...mapActions({
-      closeDetail: "setIsShowDetail",
-      setMeasure: "setIsMeasure"
+      closeDetail: 'setIsShowDetail',
+      setMeasure: 'setIsMeasure'
     }),
-    returnIcon(value) {
-      if (value === "给水管线") {
-        return "line";
-      } else if (value === "测流表") {
-        return "facility1";
-      } else if (value === "测压表") {
-        return "facility2";
-      } else if (value === "泵站") {
-        return "station1";
-      } else if (value === "受水厂") {
-        return "station2";
-      } else if (value === "补压塔") {
-        return "station3";
-      } else if (value === "排气阀") {
-        return "tap1";
-      } else if (value === "蝶阀") {
-        return "tap2";
-      } else if (value === "闸阀井") {
-        return "tap3";
-      } else if (value === "阀门井") {
-        return "tap4";
-      } else if (value === "法兰井") {
-        return "tap5";
-      } else if (value === "排水阀") {
-        return "tap6";
-      } else if (value === "出水口") {
-        return "node1";
-      } else if (value === "进水口") {
-        return "node3";
-      } else if (value === "防止倒流器") {
-        return "node4";
+    returnIcon (value) {
+      if (value === '给水管线') {
+        return 'line'
+      } else if (value === '测流表') {
+        return 'facility1'
+      } else if (value === '测压表') {
+        return 'facility2'
+      } else if (value === '泵站') {
+        return 'station1'
+      } else if (value === '受水厂') {
+        return 'station2'
+      } else if (value === '补压塔') {
+        return 'station3'
+      } else if (value === '排气阀') {
+        return 'tap1'
+      } else if (value === '蝶阀') {
+        return 'tap2'
+      } else if (value === '闸阀井') {
+        return 'tap3'
+      } else if (value === '阀门井') {
+        return 'tap4'
+      } else if (value === '法兰井') {
+        return 'tap5'
+      } else if (value === '排水阀') {
+        return 'tap6'
+      } else if (value === '出水口') {
+        return 'node1'
+      } else if (value === '进水口') {
+        return 'node3'
+      } else if (value === '防止倒流器') {
+        return 'node4'
       }
     },
-    handleCheck(data, checked, indeterminate) {
-      var vm = this;
+    handleCheck (data, checked, indeterminate) {
+      var vm = this
       if (checked) {
         if (data.id === 1) {
-          this.baseMap.showLayer("ssg");
+          this.baseMap.showLayer('ssg')
         } else if (data.id === 2) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CLD",
+            'CLD',
             server.CLBUrl,
             true,
             1,
             11
-          ); //测流点
+          ) // 测流点
           this.baseMap.addDynamicMapServiceLayer(
-            "CYD",
+            'CYD',
             server.CYBUrl,
             true,
             1,
             12
-          ); //测压点
+          ) // 测压点
         } else if (data.id === 21) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CLD",
+            'CLD',
             server.CLBUrl,
             true,
             1,
             11
-          ); //测流点
+          ) // 测流点
         } else if (data.id === 22) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CYD",
+            'CYD',
             server.CYBUrl,
             true,
             1,
             12
-          ); //测压点
+          ) // 测压点
         } else if (data.id === 3) {
           this.baseMap.addDynamicMapServiceLayer(
-            "BZ",
+            'BZ',
             server.BZUrl,
             true,
             1,
             13
-          ); //泵站
+          ) // 泵站
           this.baseMap.addDynamicMapServiceLayer(
-            "SHC",
+            'SHC',
             server.SSCUrl,
             true,
             1,
             14
-          ); //受水厂
+          ) // 受水厂
           this.baseMap.addDynamicMapServiceLayer(
-            "BYT",
+            'BYT',
             server.BYTUrl,
             true,
             1,
             15
-          ); //补压塔
+          ) // 补压塔
         } else if (data.id === 31) {
           this.baseMap.addDynamicMapServiceLayer(
-            "BZ",
+            'BZ',
             server.BZUrl,
             true,
             1,
             13
-          ); //泵站
+          ) // 泵站
         } else if (data.id === 32) {
           this.baseMap.addDynamicMapServiceLayer(
-            "SHC",
+            'SHC',
             server.SSCUrl,
             true,
             1,
             14
-          ); //受水厂
+          ) // 受水厂
         } else if (data.id === 33) {
           this.baseMap.addDynamicMapServiceLayer(
-            "BYT",
+            'BYT',
             server.BYTUrl,
             true,
             1,
             15
-          ); //补压塔
+          ) // 补压塔
         } else if (data.id === 4) {
           this.baseMap.addDynamicMapServiceLayer(
-            "PQF",
+            'PQF',
             server.PQFUrl,
             true,
             1,
             16
-          ); //排气阀
+          ) // 排气阀
           this.baseMap.addDynamicMapServiceLayer(
-            "DF",
+            'DF',
             server.DFUrl,
             true,
             1,
             17
-          ); //蝶阀
+          ) // 蝶阀
           this.baseMap.addDynamicMapServiceLayer(
-            "ZFJ",
+            'ZFJ',
             server.ZFJUrl,
             true,
             1,
             18
-          ); //闸阀井
+          ) // 闸阀井
           this.baseMap.addDynamicMapServiceLayer(
-            "ZMJ",
+            'ZMJ',
             server.FMJUrl,
             true,
             1,
             19
-          ); //阀门井
+          ) // 阀门井
           this.baseMap.addDynamicMapServiceLayer(
-            "FLJ",
+            'FLJ',
             server.GLJUrl,
             true,
             1,
             20
-          ); //法兰井
+          ) // 法兰井
           this.baseMap.addDynamicMapServiceLayer(
-            "PSF",
+            'PSF',
             server.PSFUrl,
             true,
             1,
             21
-          ); //排水阀
+          ) // 排水阀
         } else if (data.id === 41) {
           this.baseMap.addDynamicMapServiceLayer(
-            "PQF",
+            'PQF',
             server.PQFUrl,
             true,
             1,
             16
-          ); //排气阀
+          ) // 排气阀
         } else if (data.id === 42) {
           this.baseMap.addDynamicMapServiceLayer(
-            "DF",
+            'DF',
             server.DFUrl,
             true,
             1,
             17
-          ); //蝶阀
+          ) // 蝶阀
         } else if (data.id === 43) {
           this.baseMap.addDynamicMapServiceLayer(
-            "ZFJ",
+            'ZFJ',
             server.ZFJUrl,
             true,
             1,
             18
-          ); //闸阀井
+          ) // 闸阀井
         } else if (data.id === 44) {
           this.baseMap.addDynamicMapServiceLayer(
-            "ZMJ",
+            'ZMJ',
             server.FMJUrl,
             true,
             1,
             19
-          ); //阀门井
+          ) // 阀门井
         } else if (data.id === 45) {
           this.baseMap.addDynamicMapServiceLayer(
-            "FLJ",
+            'FLJ',
             server.GLJUrl,
             true,
             1,
             20
-          ); //排水阀
+          ) // 排水阀
         } else if (data.id === 46) {
           this.baseMap.addDynamicMapServiceLayer(
-            "PSF",
+            'PSF',
             server.PSFUrl,
             true,
             1,
             21
-          ); //法兰井
+          ) // 法兰井
         } else if (data.id === 5) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CSK",
+            'CSK',
             server.CSKUrl,
             true,
             1,
             22
-          ); //出水口
+          ) // 出水口
           // this.baseMap.addDynamicMapServiceLayer(
           //   "TCD",
           //   server.TCDUrl,
@@ -558,302 +558,302 @@ export default {
           //   23
           // ); //探测点
           this.baseMap.addDynamicMapServiceLayer(
-            "JSK",
+            'JSK',
             server.JSKUrl,
             true,
             1,
             24
-          ); //进水口
+          ) // 进水口
           this.baseMap.addDynamicMapServiceLayer(
-            "FZDLQ",
+            'FZDLQ',
             server.FZDLQUrl,
             true,
             1,
             25
-          ); //防止倒流器
+          ) // 防止倒流器
         } else if (data.id === 51) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CSK",
+            'CSK',
             server.CSKUrl,
             true,
             1,
             22
-          ); //出水口
+          ) // 出水口
         } else if (data.id === 52) {
           this.baseMap.addDynamicMapServiceLayer(
-            "TCD",
+            'TCD',
             server.TCDUrl,
             true,
             1,
             23
-          ); //探测点
+          ) // 探测点
         } else if (data.id === 53) {
           this.baseMap.addDynamicMapServiceLayer(
-            "JSK",
+            'JSK',
             server.JSKUrl,
             true,
             1,
             24
-          ); //进水口
+          ) // 进水口
         } else if (data.id === 54) {
           this.baseMap.addDynamicMapServiceLayer(
-            "FZDLQ",
+            'FZDLQ',
             server.FZDLQUrl,
             true,
             1,
             25
-          ); //防止倒流器
+          ) // 防止倒流器
         } else if (data.id === 6) {
-          this.baseMap.showLayer("dxt");
-          this.baseMap.showLayer("xzqh");
+          this.baseMap.showLayer('dxt')
+          this.baseMap.showLayer('xzqh')
         } else if (data.id === 61) {
-          this.baseMap.showLayer("dxt");
+          this.baseMap.showLayer('dxt')
         } else if (data.id === 62) {
-          this.baseMap.showLayer("xzqh");
+          this.baseMap.showLayer('xzqh')
         }
       } else {
         if (data.id === 1) {
-          this.baseMap.hideLayer("ssg");
+          this.baseMap.hideLayer('ssg')
         } else if (data.id === 2 && indeterminate === false) {
-          this.baseMap.removeLayer("CLD"); //测流点
-          this.baseMap.removeLayer("CYD"); //测压点
+          this.baseMap.removeLayer('CLD') // 测流点
+          this.baseMap.removeLayer('CYD') // 测压点
         } else if (data.id === 21) {
-          this.baseMap.removeLayer("CLD"); //测流点
+          this.baseMap.removeLayer('CLD') // 测流点
         } else if (data.id === 22) {
-          this.baseMap.removeLayer("CYD"); //测压点
+          this.baseMap.removeLayer('CYD') // 测压点
         } else if (data.id === 3 && indeterminate === false) {
-          this.baseMap.removeLayer("BZ"); //泵站
-          this.baseMap.removeLayer("SHC"); //受水厂
-          this.baseMap.removeLayer("BYT"); //补压塔
+          this.baseMap.removeLayer('BZ') // 泵站
+          this.baseMap.removeLayer('SHC') // 受水厂
+          this.baseMap.removeLayer('BYT') // 补压塔
         } else if (data.id === 31) {
-          this.baseMap.removeLayer("BZ"); //泵站
+          this.baseMap.removeLayer('BZ') // 泵站
         } else if (data.id === 32) {
-          this.baseMap.removeLayer("SHC"); //受水厂
+          this.baseMap.removeLayer('SHC') // 受水厂
         } else if (data.id === 33) {
-          this.baseMap.removeLayer("BYT"); //补压塔
+          this.baseMap.removeLayer('BYT') // 补压塔
         } else if (data.id === 4 && indeterminate === false) {
-          this.baseMap.removeLayer("PQF"); //排气阀
-          this.baseMap.removeLayer("DF"); //蝶阀
-          this.baseMap.removeLayer("ZFJ"); //闸阀井
-          this.baseMap.removeLayer("ZMJ"); //闸门井
-          this.baseMap.removeLayer("FLJ"); //法兰井
-          this.baseMap.removeLayer("PSF"); //排水阀
+          this.baseMap.removeLayer('PQF') // 排气阀
+          this.baseMap.removeLayer('DF') // 蝶阀
+          this.baseMap.removeLayer('ZFJ') // 闸阀井
+          this.baseMap.removeLayer('ZMJ') // 闸门井
+          this.baseMap.removeLayer('FLJ') // 法兰井
+          this.baseMap.removeLayer('PSF') // 排水阀
         } else if (data.id === 41) {
-          this.baseMap.removeLayer("PQF"); //排气阀
+          this.baseMap.removeLayer('PQF') // 排气阀
         } else if (data.id === 42) {
-          this.baseMap.removeLayer("DF"); //蝶阀
+          this.baseMap.removeLayer('DF') // 蝶阀
         } else if (data.id === 43) {
-          this.baseMap.removeLayer("ZFJ"); //闸阀井
+          this.baseMap.removeLayer('ZFJ') // 闸阀井
         } else if (data.id === 44) {
-          this.baseMap.removeLayer("ZMJ"); //闸门井
+          this.baseMap.removeLayer('ZMJ') // 闸门井
         } else if (data.id === 45) {
-          this.baseMap.removeLayer("FLJ"); //排水阀
+          this.baseMap.removeLayer('FLJ') // 排水阀
         } else if (data.id === 46) {
-          this.baseMap.removeLayer("PSF"); //法兰井
+          this.baseMap.removeLayer('PSF') // 法兰井
         } else if (data.id === 5 && indeterminate === false) {
-          this.baseMap.removeLayer("CSK"); //出水口
+          this.baseMap.removeLayer('CSK') // 出水口
           // this.baseMap.removeLayer("TCD"); //探测点
-          this.baseMap.removeLayer("JSK"); //进水口
-          this.baseMap.removeLayer("FZDLQ"); //防止倒流器
+          this.baseMap.removeLayer('JSK') // 进水口
+          this.baseMap.removeLayer('FZDLQ') // 防止倒流器
         } else if (data.id === 51) {
-          this.baseMap.removeLayer("CSK"); //出水口
+          this.baseMap.removeLayer('CSK') // 出水口
         } else if (data.id === 52) {
           // this.baseMap.removeLayer("TCD"); //探测点
         } else if (data.id === 53) {
-          this.baseMap.removeLayer("JSK"); //进水口
+          this.baseMap.removeLayer('JSK') // 进水口
         } else if (data.id === 54) {
-          this.baseMap.removeLayer("FZDLQ"); //防止倒流器
+          this.baseMap.removeLayer('FZDLQ') // 防止倒流器
         } else if (data.id === 6 && indeterminate === false) {
-          this.baseMap.hideLayer("dxt");
-          this.baseMap.hideLayer("xzqh");
+          this.baseMap.hideLayer('dxt')
+          this.baseMap.hideLayer('xzqh')
         } else if (data.id === 61) {
-          this.baseMap.hideLayer("dxt");
+          this.baseMap.hideLayer('dxt')
         } else if (data.id === 62) {
-          this.baseMap.hideLayer("xzqh");
+          this.baseMap.hideLayer('xzqh')
         }
       }
     },
     // 标注图层
-    handleTagCheck(data, checked, indeterminate) {
+    handleTagCheck (data, checked, indeterminate) {
       if (checked) {
         if (data.id === 1) {
-          this.baseMap.addDynamicMapServiceLayer("ssgTag", server.JSGTagUrl);
+          this.baseMap.addDynamicMapServiceLayer('ssgTag', server.JSGTagUrl)
         } else if (data.id === 2) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CLDTag",
+            'CLDTag',
             server.CLBTagUrl,
             true,
             1,
             31
-          ); //测流点
+          ) // 测流点
           this.baseMap.addDynamicMapServiceLayer(
-            "CYDTag",
+            'CYDTag',
             server.CYBTagUrl,
             true,
             1,
             32
-          ); //测压点
+          ) // 测压点
         } else if (data.id === 21) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CLDTag",
+            'CLDTag',
             server.CLBTagUrl,
             true,
             1,
             31
-          ); //测流点
+          ) // 测流点
         } else if (data.id === 22) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CYDTag",
+            'CYDTag',
             server.CYBTagUrl,
             true,
             1,
             32
-          ); //测流点
+          ) // 测流点
         } else if (data.id === 3) {
           this.baseMap.addDynamicMapServiceLayer(
-            "BZTag",
+            'BZTag',
             server.BZTagUrl,
             true,
             1,
             33
-          ); //泵站
+          ) // 泵站
           this.baseMap.addDynamicMapServiceLayer(
-            "SHCTag",
+            'SHCTag',
             server.SSCTagUrl,
             true,
             1,
             34
-          ); //受水厂
+          ) // 受水厂
           this.baseMap.addDynamicMapServiceLayer(
-            "BYTTag",
+            'BYTTag',
             server.BYTTagUrl,
             true,
             1,
             35
-          ); //补压塔
+          ) // 补压塔
         } else if (data.id === 31) {
           this.baseMap.addDynamicMapServiceLayer(
-            "BZTag",
+            'BZTag',
             server.BZTagUrl,
             true,
             1,
             33
-          ); //泵站
+          ) // 泵站
         } else if (data.id === 32) {
           this.baseMap.addDynamicMapServiceLayer(
-            "SHCTag",
+            'SHCTag',
             server.SSCTagUrl,
             true,
             1,
             34
-          ); //受水厂
+          ) // 受水厂
         } else if (data.id === 33) {
           this.baseMap.addDynamicMapServiceLayer(
-            "BYTTag",
+            'BYTTag',
             server.BYTTagUrl,
             true,
             1,
             35
-          ); //补压塔
+          ) // 补压塔
         } else if (data.id === 4) {
           this.baseMap.addDynamicMapServiceLayer(
-            "PQFTag",
+            'PQFTag',
             server.PQFTagUrl,
             true,
             1,
             36
-          ); //排气阀
+          ) // 排气阀
           this.baseMap.addDynamicMapServiceLayer(
-            "DFTag",
+            'DFTag',
             server.DFTagUrl,
             true,
             1,
             37
-          ); //蝶阀
+          ) // 蝶阀
           this.baseMap.addDynamicMapServiceLayer(
-            "ZFJTag",
+            'ZFJTag',
             server.ZFJTagUrl,
             true,
             1,
             38
-          ); //闸阀井
+          ) // 闸阀井
           this.baseMap.addDynamicMapServiceLayer(
-            "ZMJTag",
+            'ZMJTag',
             server.FMJTagUrl,
             true,
             1,
             39
-          ); //闸门井
+          ) // 闸门井
           this.baseMap.addDynamicMapServiceLayer(
-            "FLJTag",
+            'FLJTag',
             server.GLJTagUrl,
             true,
             1,
             40
-          ); //法兰井
+          ) // 法兰井
           this.baseMap.addDynamicMapServiceLayer(
-            "PSFTag",
+            'PSFTag',
             server.PSFTagUrl,
             true,
             1,
             41
-          ); //排水阀
+          ) // 排水阀
         } else if (data.id === 41) {
           this.baseMap.addDynamicMapServiceLayer(
-            "PQFTag",
+            'PQFTag',
             server.PQFTagUrl,
             true,
             1,
             36
-          ); //排气阀
+          ) // 排气阀
         } else if (data.id === 42) {
           this.baseMap.addDynamicMapServiceLayer(
-            "DFTag",
+            'DFTag',
             server.DFTagUrl,
             true,
             1,
             37
-          ); //蝶阀
+          ) // 蝶阀
         } else if (data.id === 43) {
           this.baseMap.addDynamicMapServiceLayer(
-            "ZFJTag",
+            'ZFJTag',
             server.ZFJTagUrl,
             true,
             1,
             38
-          ); //闸阀井
+          ) // 闸阀井
         } else if (data.id === 44) {
           this.baseMap.addDynamicMapServiceLayer(
-            "ZMJTag",
+            'ZMJTag',
             server.FMJTagUrl,
             true,
             1,
             39
-          ); //闸门井
+          ) // 闸门井
         } else if (data.id === 45) {
           this.baseMap.addDynamicMapServiceLayer(
-            "FLJTag",
+            'FLJTag',
             server.GLJTagUrl,
             true,
             1,
             40
-          ); //法兰井
+          ) // 法兰井
         } else if (data.id === 46) {
           this.baseMap.addDynamicMapServiceLayer(
-            "PSFTag",
+            'PSFTag',
             server.PSFTagUrl,
             true,
             1,
             41
-          ); //法兰井
+          ) // 法兰井
         } else if (data.id === 5) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CSKTag",
+            'CSKTag',
             server.CSKTagUrl,
             true,
             1,
             42
-          ); //出水口
+          ) // 出水口
           // this.baseMap.addDynamicMapServiceLayer(
           //   "TCDTag",
           //   server.TCDTagUrl,
@@ -862,273 +862,273 @@ export default {
           //   43
           // ); //探测点
           this.baseMap.addDynamicMapServiceLayer(
-            "JSKTag",
+            'JSKTag',
             server.JSKTagUrl,
             true,
             1,
             44
-          ); //进水口
+          ) // 进水口
           this.baseMap.addDynamicMapServiceLayer(
-            "FZDLQTag",
+            'FZDLQTag',
             server.FZDLQTagUrl,
             true,
             1,
             45
-          ); //防止倒流器
+          ) // 防止倒流器
         } else if (data.id === 51) {
           this.baseMap.addDynamicMapServiceLayer(
-            "CSKTag",
+            'CSKTag',
             server.CSKTagUrl,
             true,
             1,
             42
-          ); //出水口
+          ) // 出水口
         } else if (data.id === 52) {
           this.baseMap.addDynamicMapServiceLayer(
-            "TCDTag",
+            'TCDTag',
             server.TCDTagUrl,
             true,
             1,
             43
-          ); //探测点
+          ) // 探测点
         } else if (data.id === 53) {
           this.baseMap.addDynamicMapServiceLayer(
-            "JSKTag",
+            'JSKTag',
             server.JSKTagUrl,
             true,
             1,
             44
-          ); //进水口
+          ) // 进水口
         } else if (data.id === 54) {
           this.baseMap.addDynamicMapServiceLayer(
-            "FZDLQTag",
+            'FZDLQTag',
             server.FZDLQTagUrl,
             true,
             1,
             45
-          ); //防止倒流器
+          ) // 防止倒流器
         }
       } else {
         if (data.id === 1) {
-          this.baseMap.removeLayer("ssgTag");
+          this.baseMap.removeLayer('ssgTag')
         } else if (data.id === 2 && indeterminate === false) {
-          this.baseMap.removeLayer("CLDTag"); //测流点
-          this.baseMap.removeLayer("CYDTag"); //测压点
+          this.baseMap.removeLayer('CLDTag') // 测流点
+          this.baseMap.removeLayer('CYDTag') // 测压点
         } else if (data.id === 21) {
-          this.baseMap.removeLayer("CLDTag"); //测流点
+          this.baseMap.removeLayer('CLDTag') // 测流点
         } else if (data.id === 22) {
-          this.baseMap.removeLayer("CYDTag"); //测压点
+          this.baseMap.removeLayer('CYDTag') // 测压点
         } else if (data.id === 3 && indeterminate === false) {
-          this.baseMap.removeLayer("BZTag"); //泵站
-          this.baseMap.removeLayer("SHCTag"); //受水厂
-          this.baseMap.removeLayer("BYTTag"); //补压塔
+          this.baseMap.removeLayer('BZTag') // 泵站
+          this.baseMap.removeLayer('SHCTag') // 受水厂
+          this.baseMap.removeLayer('BYTTag') // 补压塔
         } else if (data.id === 31) {
-          this.baseMap.removeLayer("BZTag"); //泵站
+          this.baseMap.removeLayer('BZTag') // 泵站
         } else if (data.id === 32) {
-          this.baseMap.removeLayer("SHCTag"); //受水厂
+          this.baseMap.removeLayer('SHCTag') // 受水厂
         } else if (data.id === 33) {
-          this.baseMap.removeLayer("BYTTag"); //补压塔
+          this.baseMap.removeLayer('BYTTag') // 补压塔
         } else if (data.id === 4 && indeterminate === false) {
-          this.baseMap.removeLayer("PQFTag"); //排气阀
-          this.baseMap.removeLayer("DFTag"); //蝶阀
-          this.baseMap.removeLayer("ZFJTag"); //闸阀井
-          this.baseMap.removeLayer("ZMJTag"); //闸门井
-          this.baseMap.removeLayer("FLJTag"); //法兰井
-          this.baseMap.removeLayer("PSFTag"); //排水阀
+          this.baseMap.removeLayer('PQFTag') // 排气阀
+          this.baseMap.removeLayer('DFTag') // 蝶阀
+          this.baseMap.removeLayer('ZFJTag') // 闸阀井
+          this.baseMap.removeLayer('ZMJTag') // 闸门井
+          this.baseMap.removeLayer('FLJTag') // 法兰井
+          this.baseMap.removeLayer('PSFTag') // 排水阀
         } else if (data.id === 41) {
-          this.baseMap.removeLayer("PQFTag"); //排气阀
+          this.baseMap.removeLayer('PQFTag') // 排气阀
         } else if (data.id === 42) {
-          this.baseMap.removeLayer("DFTag"); //蝶阀
+          this.baseMap.removeLayer('DFTag') // 蝶阀
         } else if (data.id === 43) {
-          this.baseMap.removeLayer("ZFJTag"); //闸阀井
+          this.baseMap.removeLayer('ZFJTag') // 闸阀井
         } else if (data.id === 44) {
-          this.baseMap.removeLayer("ZMJTag"); //闸门井
+          this.baseMap.removeLayer('ZMJTag') // 闸门井
         } else if (data.id === 45) {
-          this.baseMap.removeLayer("FLJTag"); //法兰井
+          this.baseMap.removeLayer('FLJTag') // 法兰井
         } else if (data.id === 46) {
-          this.baseMap.removeLayer("PSFTag"); //排水阀
+          this.baseMap.removeLayer('PSFTag') // 排水阀
         } else if (data.id === 5 && indeterminate === false) {
-          this.baseMap.removeLayer("CSKTag"); //出水口
+          this.baseMap.removeLayer('CSKTag') // 出水口
           // this.baseMap.removeLayer("TCDTag"); //探测点
-          this.baseMap.removeLayer("JSKTag"); //进水口
-          this.baseMap.removeLayer("FZDLQTag"); //防止倒流器
+          this.baseMap.removeLayer('JSKTag') // 进水口
+          this.baseMap.removeLayer('FZDLQTag') // 防止倒流器
         } else if (data.id === 51) {
-          this.baseMap.removeLayer("CSKTag"); //出水口
+          this.baseMap.removeLayer('CSKTag') // 出水口
         } else if (data.id === 52) {
           // this.baseMap.removeLayer("TCDTag"); //探测点
         } else if (data.id === 53) {
-          this.baseMap.removeLayer("JSKTag"); //进水口
+          this.baseMap.removeLayer('JSKTag') // 进水口
         } else if (data.id === 54) {
-          this.baseMap.removeLayer("FZDLQTag"); //防止倒流器
+          this.baseMap.removeLayer('FZDLQTag') // 防止倒流器
         }
       }
     },
-    toolFunction(actionName) {
-      var vm = this;
-      vm.showCheckLayers = false;
-      vm.showCheckMarks = false;
-      vm.showCoordinates = false;
+    toolFunction (actionName) {
+      var vm = this
+      vm.showCheckLayers = false
+      vm.showCheckMarks = false
+      vm.showCoordinates = false
       // vm.setMeasure(true)
       switch (actionName) {
-        case "measurelength":
+        case 'measurelength':
           this.baseMap.measureLength({
-            callback: function() {
-              vm.$emit("registerMapClick");
+            callback: function () {
+              vm.$emit('registerMapClick')
             }
-          }); //长度测量
-          break;
-        case "measurearea":
+          }) // 长度测量
+          break
+        case 'measurearea':
           this.baseMap.measureArea({
-            callback: function() {
-              vm.$emit("registerMapClick");
+            callback: function () {
+              vm.$emit('registerMapClick')
             }
-          }); //面积测量
-          break;
-        case "fullextent":
+          }) // 面积测量
+          break
+        case 'fullextent':
           esriLoader
-            .loadModules(["esri/geometry/Point", "esri/SpatialReference"])
+            .loadModules(['esri/geometry/Point', 'esri/SpatialReference'])
             .then(([Point, SpatialReference]) => {
               var centerpoint = new Point(
                 13348940,
                 3952540,
                 new SpatialReference({ wkid: 102100 })
-              );
-              this.baseMap.map.setZoom(10);
-              this.baseMap.map.centerAt(centerpoint);
-            });
+              )
+              this.baseMap.map.setZoom(10)
+              this.baseMap.map.centerAt(centerpoint)
+            })
 
           // this.baseMap.full({
           //   x: 13348940,
           //   y: 3952540
           // }); //全图
 
-          break;
+          break
       }
     },
-    customLocate() {
-      var vm = this;
-      vm.clearAll();
+    customLocate () {
+      var vm = this
+      vm.clearAll()
       if (
-        13266000 <= vm.x &&
+        vm.x >= 13266000 &&
         vm.x <= 13407500 &&
-        3899000 <= vm.y &&
+        vm.y >= 3899000 &&
         vm.y <= 4004900
       ) {
         esriLoader
           .loadModules([
-            "esri/geometry/Point",
-            "esri/graphic",
-            "dojo/domReady!"
+            'esri/geometry/Point',
+            'esri/graphic',
+            'dojo/domReady!'
           ])
           .then(([Point, Graphic]) => {
-            if (vm.x != "" && vm.y != "") {
+            if (vm.x != '' && vm.y != '') {
               var point = new Point(
                 [vm.x, vm.y],
                 vm.baseMap.map.spatialReference
-              );
-              vm.baseMap.map.centerAt(point);
+              )
+              vm.baseMap.map.centerAt(point)
               var picMarker = new esri.symbol.PictureMarkerSymbol(
-                "http://49.4.55.238:8029/images/pin.png",
+                'http://10.11.222.52:14451/images/pin.png',
                 40,
                 40
-              );
-              var g = new Graphic(point, picMarker);
-              vm.baseMap.map.graphics.add(g);
+              )
+              var g = new Graphic(point, picMarker)
+              vm.baseMap.map.graphics.add(g)
             }
-          });
+          })
       } else {
         vm.$message({
-          message: "请输入规定范围内的坐标！",
-          type: "warning"
-        });
+          message: '请输入规定范围内的坐标！',
+          type: 'warning'
+        })
       }
     },
-    changeChecked(data) {
-      this.$refs.tree1.setCheckedKeys(data);
+    changeChecked (data) {
+      this.$refs.tree1.setCheckedKeys(data)
     },
-    showCheckLayer() {
-      var vm = this;
-      vm.baseMap.clearGraphic(); //UI清除
+    showCheckLayer () {
+      var vm = this
+      vm.baseMap.clearGraphic() // UI清除
       vm.baseMap.clearExceptClick({
-        callback: function() {
-          vm.$emit("registerMapClick");
+        callback: function () {
+          vm.$emit('registerMapClick')
         }
-      }); //事件清除
-      this.showCheckLayers = !this.showCheckLayers;
-      this.showCheckMarks = false;
-      this.showCoordinates = false;
+      }) // 事件清除
+      this.showCheckLayers = !this.showCheckLayers
+      this.showCheckMarks = false
+      this.showCoordinates = false
     },
-    showCheckMark() {
-      var vm = this;
-      vm.baseMap.clearGraphic(); //UI清除
+    showCheckMark () {
+      var vm = this
+      vm.baseMap.clearGraphic() // UI清除
       vm.baseMap.clearExceptClick({
-        callback: function() {
-          vm.$emit("registerMapClick");
+        callback: function () {
+          vm.$emit('registerMapClick')
         }
-      }); //事件清除
-      this.showCheckMarks = !this.showCheckMarks;
-      this.showCheckLayers = false;
-      this.showCoordinates = false;
+      }) // 事件清除
+      this.showCheckMarks = !this.showCheckMarks
+      this.showCheckLayers = false
+      this.showCoordinates = false
     },
-    showCoordinate() {
-      var vm = this;
-      vm.x = "";
-      vm.y = "";
-      vm.baseMap.clearGraphic(); //UI清除
+    showCoordinate () {
+      var vm = this
+      vm.x = ''
+      vm.y = ''
+      vm.baseMap.clearGraphic() // UI清除
       vm.baseMap.clearExceptClick({
-        callback: function() {
-          vm.$emit("registerMapClick");
+        callback: function () {
+          vm.$emit('registerMapClick')
         }
-      }); //事件清除
-      this.showCoordinates = !this.showCoordinates;
-      this.showCheckLayers = false;
-      this.showCheckMarks = false;
+      }) // 事件清除
+      this.showCoordinates = !this.showCoordinates
+      this.showCheckLayers = false
+      this.showCheckMarks = false
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.layer) {
         if (!this.$refs.layer.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showCheckLayers = false;
+          // 点击除弹出层外的空白区域
+          this.showCheckLayers = false
         }
       }
       if (this.$refs.mark) {
         if (!this.$refs.mark.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showCheckMarks = false;
+          // 点击除弹出层外的空白区域
+          this.showCheckMarks = false
         }
       }
       if (this.$refs.coordinate) {
         if (!this.$refs.coordinate.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showCoordinates = false;
+          // 点击除弹出层外的空白区域
+          this.showCoordinates = false
         }
       }
     },
-    clearAll() {
-      var vm = this;
-      vm.setMeasure(false);
-      vm.closeDetail(false);
-      vm.baseMap.clearGraphic(); //UI清除
+    clearAll () {
+      var vm = this
+      vm.setMeasure(false)
+      vm.closeDetail(false)
+      vm.baseMap.clearGraphic() // UI清除
       vm.baseMap.clearExceptClick({
-        callback: function() {
-          vm.$emit("registerMapClick");
+        callback: function () {
+          vm.$emit('registerMapClick')
         }
-      }); //事件清除
-      var visibleLayer = vm.baseMap.map.getLayersVisibleAtScale();
+      }) // 事件清除
+      var visibleLayer = vm.baseMap.map.getLayersVisibleAtScale()
       visibleLayer.map((item, index) => {
         if (
-          item.id === "startgraphiclayer" ||
-          item.id === "endgraphiclayer" ||
-          item.id === "pointTc" ||
-          item.id === "pointTc2" ||
-          item.id === "hztc"
+          item.id === 'startgraphiclayer' ||
+          item.id === 'endgraphiclayer' ||
+          item.id === 'pointTc' ||
+          item.id === 'pointTc2' ||
+          item.id === 'hztc'
         ) {
-          vm.baseMap.clearGraphic(item);
+          vm.baseMap.clearGraphic(item)
         }
-      });
+      })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .toolBars {

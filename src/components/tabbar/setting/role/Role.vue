@@ -68,179 +68,179 @@
     </div>
 </template>
 <script>
-import { GetRoleInfo, GetRoleList } from "@/api/user.js";
+import { GetRoleInfo, GetRoleList } from '@/api/user.js'
 export default {
-  data() {
+  data () {
     return {
-      rolename: "",
+      rolename: '',
       showDisable: false,
       disableOption: {
-        name: "全部"
+        name: '全部'
       },
       disableOptions: [
         {
-          id:'',
-          name:'全部'
+          id: '',
+          name: '全部'
         },
         {
           id: 0,
-          name: "禁用"
+          name: '禁用'
         },
         {
           id: 1,
-          name: "未禁用"
+          name: '未禁用'
         }
       ],
-      disableId: "",
+      disableId: '',
       list: [],
       page: 1,
       searchPage: 1,
       isSearch: false,
       listLength: 0
-    };
+    }
   },
-  created() {
-    this.getRoleList();
+  created () {
+    this.getRoleList()
   },
-  mounted() {
-    this.selectedOption = this.selected;
-    document.addEventListener("click", this.hidePandel, false);
+  mounted () {
+    this.selectedOption = this.selected
+    document.addEventListener('click', this.hidePandel, false)
   },
   methods: {
-    updateOption(type, option) {
-      if (type === "rolename") {
-        this.roleNameOption.RoleName = option.RoleName;
-        this.showRoleName = false;
-      } else if (type === "disable") {
-        this.disableOption.name = option.name;
-        this.disableId = option.id;
+    updateOption (type, option) {
+      if (type === 'rolename') {
+        this.roleNameOption.RoleName = option.RoleName
+        this.showRoleName = false
+      } else if (type === 'disable') {
+        this.disableOption.name = option.name
+        this.disableId = option.id
         this.showDisable = false;
-        ``;
+        ``
       }
     },
-    hidePandel(e) {
+    hidePandel (e) {
       if (this.$refs.isDisable) {
         if (!this.$refs.isDisable.contains(e.target)) {
-          //点击除弹出层外的空白区域
-          this.showDisable = false;
+          // 点击除弹出层外的空白区域
+          this.showDisable = false
         }
       }
     },
-    addRole() {
-      this.$emit("addRole", true);
+    addRole () {
+      this.$emit('addRole', true)
     },
     // 详情
-    getDetail(item) {
-      this.$emit("showRoleDetail", {
+    getDetail (item) {
+      this.$emit('showRoleDetail', {
         showRoleDetail: true,
         roleId: item.RoleID
-      });
+      })
     },
     // 编辑
-    editer(item) {
-      this.$emit("showRoleEditer", {
+    editer (item) {
+      this.$emit('showRoleEditer', {
         showEditer: true,
         roleId: item.RoleID,
         item: item,
         isSearch: this.isSearch
-      });
+      })
     },
     // 删除
-    deleteRole(item) {
-      this.$emit("showRoleDelete", {
+    deleteRole (item) {
+      this.$emit('showRoleDelete', {
         showRoleDelete: true,
         roleId: item.RoleID,
         isSearch: this.isSearch
-      });
+      })
     },
-    changePage(page) {
-      this.page = page;
+    changePage (page) {
+      this.page = page
       if (this.isSearch) {
-        this.search();
+        this.search()
       } else {
-        this.getRoleList();
+        this.getRoleList()
       }
     },
-    getRoleList() {
-      var vm = this;
+    getRoleList () {
+      var vm = this
       GetRoleList({
         Rows: 12,
         Page: vm.page
       }).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         }
-      });
+      })
     },
-    onSearch() {
-      var vm = this;
-      vm.page = 1;
-      vm.isSearch = true;
-      let params = {};
-      if (vm.disableOption.name === "全部") {
+    onSearch () {
+      var vm = this
+      vm.page = 1
+      vm.isSearch = true
+      let params = {}
+      if (vm.disableOption.name === '全部') {
         params = {
           Rows: 12,
           Page: vm.page,
           RoleName: vm.rolename
-        };
+        }
       } else {
         params = {
           Rows: 12,
           Page: vm.page,
           RoleName: vm.rolename,
-          IsEnable: vm.disableOption.name === "禁用" ? false : true
-        };
+          IsEnable: vm.disableOption.name !== '禁用'
+        }
       }
       GetRoleList(params).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
     // 查询
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       if (!vm.isSearch) {
-        vm.page = 1;
+        vm.page = 1
       }
-      vm.isSearch = true;
-      let params = {};
-      if (vm.disableOption.name === "请选择") {
+      vm.isSearch = true
+      let params = {}
+      if (vm.disableOption.name === '请选择') {
         params = {
           Rows: 12,
           Page: vm.page,
           RoleName: vm.rolename
-        };
+        }
       } else {
         params = {
           Rows: 12,
           Page: vm.page,
           RoleName: vm.rolename,
-          IsEnable: vm.disableOption.name === "禁用" ? false : true
-        };
+          IsEnable: vm.disableOption.name !== '禁用'
+        }
       }
       GetRoleList(params).then(resp => {
         if (resp.data.success) {
-          vm.list = resp.data.rows;
-          vm.listLength = resp.data.total;
+          vm.list = resp.data.rows
+          vm.listLength = resp.data.total
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     }
   },
   components: {}
-};
+}
 </script>
 <style lang="less" scoped>
 .role-list {

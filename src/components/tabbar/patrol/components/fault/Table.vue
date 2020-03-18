@@ -34,8 +34,8 @@
         </div>
 </template>
 <script>
-import esriLoader from "esri-loader";
-import { mapActions } from "vuex";
+import esriLoader from 'esri-loader'
+import { mapActions } from 'vuex'
 export default {
   props: {
     total: {
@@ -51,30 +51,30 @@ export default {
       default: 1
     }
   },
-  data() {
-    return {};
+  data () {
+    return {}
   },
   methods: {
     ...mapActions({
-      showFaultDetail: "setIsShowFaultDetail",
-      setFaultDetail: "setFaultDetailValue"
+      showFaultDetail: 'setIsShowFaultDetail',
+      setFaultDetail: 'setFaultDetailValue'
     }),
-    changePage(page) {
-      this.$emit("pageSearch", page);
+    changePage (page) {
+      this.$emit('pageSearch', page)
     },
-    goToDetail(item) {
-      var vm = this;
-      vm.$emit("slideDown");
+    goToDetail (item) {
+      var vm = this
+      vm.$emit('slideDown')
       esriLoader
         .loadModules([
-          "esri/geometry/Point",
-          "static/arcpackage/arcgisUtil",
-          "esri/geometry/Polyline",
-          "esri/graphic",
-          "dojo/colors",
-          "esri/symbols/SimpleLineSymbol",
-          "esri/layers/GraphicsLayer",
-          "esri/symbols/SimpleMarkerSymbol"
+          'esri/geometry/Point',
+          'static/arcpackage/arcgisUtil',
+          'esri/geometry/Polyline',
+          'esri/graphic',
+          'dojo/colors',
+          'esri/symbols/SimpleLineSymbol',
+          'esri/layers/GraphicsLayer',
+          'esri/symbols/SimpleMarkerSymbol'
         ])
         .then(
           ([
@@ -87,42 +87,42 @@ export default {
             GraphicsLayer,
             SimpleMarkerSymbol
           ]) => {
-            window.mapBase.clearGraphic();
-            vm.showFaultDetail(true);
-            vm.setFaultDetail(item);
-            let color, pointValue;
+            window.mapBase.clearGraphic()
+            vm.showFaultDetail(true)
+            vm.setFaultDetail(item)
+            let color, pointValue
             if (item.Level === 1) {
-              color = "#555555";
+              color = '#555555'
             } else if (item.Level === 2) {
-              color = "#FF7800";
+              color = '#FF7800'
             } else if (item.Level === 3) {
-              color = "#FF2222";
+              color = '#FF2222'
             }
-            if (item.StrShape.split(" ")[0] === "LINESTRING") {
+            if (item.StrShape.split(' ')[0] === 'LINESTRING') {
               pointValue = arcgisUtil
                 .wktToPolyline(item.StrShape)
-                .getPoint(0, 0);
+                .getPoint(0, 0)
             } else {
-              pointValue = arcgisUtil.wktToPoint(item.StrShape);
+              pointValue = arcgisUtil.wktToPoint(item.StrShape)
             }
-            let point = new Point(pointValue.x,pointValue.y,window.mapBase.map.spatialReference);
-            //将地图放大到第7级
-            window.mapBase.map.setZoom(16);
-            //获取外包矩形的中心点，把地图中心定位到中心点
-            window.mapBase.map.centerAt(point);
-            var detailSymbol = new SimpleMarkerSymbol();
-            detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE;
-            detailSymbol.setSize(16);
-            detailSymbol.setColor(new Colors(color));
+            let point = new Point(pointValue.x, pointValue.y, window.mapBase.map.spatialReference)
+            // 将地图放大到第7级
+            window.mapBase.map.setZoom(16)
+            // 获取外包矩形的中心点，把地图中心定位到中心点
+            window.mapBase.map.centerAt(point)
+            var detailSymbol = new SimpleMarkerSymbol()
+            detailSymbol.style = SimpleMarkerSymbol.STYLE_CIRCLE
+            detailSymbol.setSize(16)
+            detailSymbol.setColor(new Colors(color))
 
-            var startPointGraphic = new Graphic(point, detailSymbol);
-            startPointGraphic.attributes = item;
-             window.mapBase.addGraphic(startPointGraphic);
+            var startPointGraphic = new Graphic(point, detailSymbol)
+            startPointGraphic.attributes = item
+            window.mapBase.addGraphic(startPointGraphic)
           }
-        );
+        )
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

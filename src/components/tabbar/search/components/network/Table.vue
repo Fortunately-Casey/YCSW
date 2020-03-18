@@ -32,65 +32,64 @@
         </div>
 </template>
 <script>
-import esriLoader from 'esri-loader'; 
-import { mapGetters, mapActions } from 'vuex';
+import esriLoader from 'esri-loader'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      page:1,
+      page: 1
     }
   },
-  props:['total'],
-  computed:{
+  props: ['total'],
+  computed: {
     ...mapGetters(['netWorkList'])
   },
   methods: {
     ...mapActions({
-      setDetail:'setDetailValues',
-      showDetail:'setIsShowDetail'
+      setDetail: 'setDetailValues',
+      showDetail: 'setIsShowDetail'
     }),
-    changePage(page) {
-      this.page = page;
-      this.$emit('pageSearch',page)
+    changePage (page) {
+      this.page = page
+      this.$emit('pageSearch', page)
     },
-    goToDetail(item) {
-      var vm = this;
+    goToDetail (item) {
+      var vm = this
       vm.$emit('slideDown')
       esriLoader
-      .loadModules(["static/arcpackage/arcgisUtil","esri/geometry/Polyline", "esri/graphic", "dojo/colors","esri/symbols/SimpleLineSymbol","esri/layers/GraphicsLayer"])
-      .then(([arcgisUtil,Polyline,Graphic,Colors,SimpleLineSymbol,GraphicsLayer]) => {    
-        //  mapBase.clearGraphic();      
-        //获取/创建详情记录对应的图形---线要素
-        var polyline= new Polyline({"paths":arcgisUtil.wktToPolyline(item.StrShape).paths,"spatialReference":window.mapBase.map.spatialReference});
-        //获取线线要素的外包矩形
-        var extent=polyline.getExtent();
-        if (extent != null){
-           //将地图放大到第7级
-            window.mapBase.map.setZoom(16);
-            //获取外包矩形的中心点，把地图中心定位到中心点
-            var centerpoint=extent.getCenter();        
-            window.mapBase.map.centerAt(centerpoint);
-     
-            //创建线的符号，把线加到地图中
-            var lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Colors([84,228,203]), 10);
-            var graphicpolyLine = new Graphic(polyline, lineSymbol);
+        .loadModules(['static/arcpackage/arcgisUtil', 'esri/geometry/Polyline', 'esri/graphic', 'dojo/colors', 'esri/symbols/SimpleLineSymbol', 'esri/layers/GraphicsLayer'])
+        .then(([arcgisUtil, Polyline, Graphic, Colors, SimpleLineSymbol, GraphicsLayer]) => {
+        //  mapBase.clearGraphic();
+        // 获取/创建详情记录对应的图形---线要素
+          var polyline = new Polyline({'paths': arcgisUtil.wktToPolyline(item.StrShape).paths, 'spatialReference': window.mapBase.map.spatialReference})
+          // 获取线线要素的外包矩形
+          var extent = polyline.getExtent()
+          if (extent != null) {
+            // 将地图放大到第7级
+            window.mapBase.map.setZoom(16)
+            // 获取外包矩形的中心点，把地图中心定位到中心点
+            var centerpoint = extent.getCenter()
+            window.mapBase.map.centerAt(centerpoint)
 
-            var graphicsLayer=window.mapBase.map.getLayer('hztc');//获取绘制图层
+            // 创建线的符号，把线加到地图中
+            var lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Colors([84, 228, 203]), 10)
+            var graphicpolyLine = new Graphic(polyline, lineSymbol)
 
-            if(graphicsLayer != null)
-            {
-              window.mapBase.map.removeLayer(graphicsLayer);
+            var graphicsLayer = window.mapBase.map.getLayer('hztc')// 获取绘制图层
+
+            if (graphicsLayer != null) {
+              window.mapBase.map.removeLayer(graphicsLayer)
             }
-            graphicsLayer = new GraphicsLayer({id:'hztc'});
-            graphicsLayer.add(graphicpolyLine);
-            window.mapBase.map.addLayer(graphicsLayer,1);
-            vm.setDetail(item);
-            vm.showDetail(true);
-        }              
-      })
+            graphicsLayer = new GraphicsLayer({id: 'hztc'})
+            graphicsLayer.add(graphicpolyLine)
+            window.mapBase.map.addLayer(graphicsLayer, 1)
+            vm.setDetail(item)
+            vm.showDetail(true)
+          }
+        })
     }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {
@@ -145,7 +144,7 @@ export default {
       }
       .operation {
         color: #4886ff;
-        cursor: pointer;  
+        cursor: pointer;
         width: 200px;
       }
     }

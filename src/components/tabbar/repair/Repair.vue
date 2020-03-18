@@ -27,7 +27,7 @@
                 {{time}}
               </div>
             </span>
-        </div> 
+        </div>
         <m-registration v-if="chosedIndex === 0? true : false" @close="close"></m-registration>
         <m-search v-if="chosedIndex === 1? true : false" @close="close"></m-search>
         <m-statistical v-if="chosedIndex === 2? true : false" @close="close"></m-statistical>
@@ -176,156 +176,156 @@
     </div>
 </template>
 <script>
-import MRegistration from "./components/registration/Registration.vue";
-import MSearch from "./components/search/Search.vue";
-import MStatistical from "./components/statistical/Statistical.vue";
-import { getTime } from "@/common/utils/tool.js";
-import { clearAllGraphic } from "@/common/mapServer/config.js";
-import { mapGetters, mapActions } from "vuex";
-import { UpdateServieceInfo, DeleteServieceInfo } from "@/api/repair.js";
-import { EventBus } from "@/common/eventBus/eventBus.js";
+import MRegistration from './components/registration/Registration.vue'
+import MSearch from './components/search/Search.vue'
+import MStatistical from './components/statistical/Statistical.vue'
+import { getTime } from '@/common/utils/tool.js'
+import { clearAllGraphic } from '@/common/mapServer/config.js'
+import { mapGetters, mapActions } from 'vuex'
+import { UpdateServieceInfo, DeleteServieceInfo } from '@/api/repair.js'
+import { EventBus } from '@/common/eventBus/eventBus.js'
 export default {
-  data() {
+  data () {
     return {
-      chosedIndex: "",
-      serialNumber: "",
+      chosedIndex: '',
+      serialNumber: '',
       isShowEditRepair: false,
       isShowDeleteRepair: false,
       showType: false,
       showStatus: false,
-      startDate: "",
-      endDate: "",
-      extraData: "",
-      statisDate: "",
-      serviceDes: "",
+      startDate: '',
+      endDate: '',
+      extraData: '',
+      statisDate: '',
+      serviceDes: '',
       isClick: true,
-      deleteId: "",
-      id: "",
+      deleteId: '',
+      id: '',
       typeOption: {
-        name: ""
+        name: ''
       },
       statusOption: {
-        name: ""
+        name: ''
       },
       typeOptions: [
         {
-          name: "给水管线"
+          name: '给水管线'
         },
         {
-          name: "阀门"
+          name: '阀门'
         },
         {
-          name: "泵站"
+          name: '泵站'
         }
       ],
       statusOptions: [
         {
-          name: "已维修"
+          name: '已维修'
         },
         {
-          name: "维修中"
+          name: '维修中'
         },
         {
-          name: "未维修"
+          name: '未维修'
         }
       ],
-      serviceman: ""
-    };
+      serviceman: ''
+    }
   },
-  created() {
-    this.initTime();
+  created () {
+    this.initTime()
   },
-  mounted() {
-    var vm = this;
+  mounted () {
+    var vm = this
     // 编辑
-    EventBus.$on("showEdit", item => {
-      vm.isShowEditRepair = true;
-      var params = JSON.parse(JSON.stringify(item));
-      vm.serialNumber = params.EXP_NO;
-      vm.typeOption.name = params.FaultType;
-      vm.serviceman = params.Serviceman;
-      vm.statusOption.name = params.ServiceStatus;
-      vm.startDate = params.StrServiceBeginDate;
-      vm.endDate = params.StrServiceEndDate;
-      vm.extraData = params.RegisteredStaff;
-      vm.statisDate = params.StrRegisteredDate;
-      vm.serviceDes = params.ServiceDes;
-      vm.id = params.ID;
-    });
+    EventBus.$on('showEdit', item => {
+      vm.isShowEditRepair = true
+      var params = JSON.parse(JSON.stringify(item))
+      vm.serialNumber = params.EXP_NO
+      vm.typeOption.name = params.FaultType
+      vm.serviceman = params.Serviceman
+      vm.statusOption.name = params.ServiceStatus
+      vm.startDate = params.StrServiceBeginDate
+      vm.endDate = params.StrServiceEndDate
+      vm.extraData = params.RegisteredStaff
+      vm.statisDate = params.StrRegisteredDate
+      vm.serviceDes = params.ServiceDes
+      vm.id = params.ID
+    })
     // 删除
-    EventBus.$on("deleteRepair", item => {
-      vm.isShowDeleteRepair = true;
-      var params = JSON.parse(JSON.stringify(item));
-      vm.deleteId = params.ID;
-    });
+    EventBus.$on('deleteRepair', item => {
+      vm.isShowDeleteRepair = true
+      var params = JSON.parse(JSON.stringify(item))
+      vm.deleteId = params.ID
+    })
   },
   computed: {},
   methods: {
     ...mapActions({
-      closeEdit: "setIsShowEditRepair"
+      closeEdit: 'setIsShowEditRepair'
     }),
-    choseTab(index) {
-      this.chosedIndex = index;
-      clearAllGraphic();
+    choseTab (index) {
+      this.chosedIndex = index
+      clearAllGraphic()
     },
-    closeEdit() {
-      this.isShowEditRepair = false;
+    closeEdit () {
+      this.isShowEditRepair = false
     },
-    close() {
-      this.chosedIndex = "";
+    close () {
+      this.chosedIndex = ''
     },
-    initTime() {
-      this.time = getTime();
+    initTime () {
+      this.time = getTime()
       this.timer = setInterval(() => {
-        this.time = getTime();
-      }, 1000);
+        this.time = getTime()
+      }, 1000)
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
-      var timeStr;
+    getTime (CurrentTime) {
+      var timeStr
       if (CurrentTime) {
         timeStr =
           CurrentTime.getFullYear() +
-          "-" +
+          '-' +
           this.format2Len(CurrentTime.getMonth() + 1) +
-          "-" +
-          this.format2Len(CurrentTime.getDate());
+          '-' +
+          this.format2Len(CurrentTime.getDate())
       }
-      return timeStr;
+      return timeStr
     },
-    deleteRepair() {
-      var vm = this;
+    deleteRepair () {
+      var vm = this
       DeleteServieceInfo({
         ID: vm.deleteId
       }).then(resp => {
         if (resp.data.success) {
           vm.$message({
             message: resp.data.rows,
-            type: "success"
-          });
-          vm.isShowDeleteRepair = false;
-          EventBus.$emit("getNewList");
+            type: 'success'
+          })
+          vm.isShowDeleteRepair = false
+          EventBus.$emit('getNewList')
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    saveEdit() {
-      var vm = this;
+    saveEdit () {
+      var vm = this
       if (!vm.startDate || !vm.endDate) {
         vm.$message({
-          message: "维修开始结束日期不可为空",
-          type: "warning"
-        });
-        return;
+          message: '维修开始结束日期不可为空',
+          type: 'warning'
+        })
+        return
       }
       if (vm.isClick) {
-        vm.isClick = false;
+        vm.isClick = false
         if (vm.serialNumber && vm.typeOption.name) {
           UpdateServieceInfo({
             ID: vm.id,
@@ -339,44 +339,44 @@ export default {
             RegisteredDate: vm.statisDate,
             ServiceDes: vm.serviceDes
           }).then(resp => {
-            vm.isClick = true;
+            vm.isClick = true
             if (resp.data.success) {
               vm.$message({
                 message: resp.data.rows,
-                type: "success"
-              });
-              vm.isShowEditRepair = false;
-              EventBus.$emit("getNewList");
+                type: 'success'
+              })
+              vm.isShowEditRepair = false
+              EventBus.$emit('getNewList')
             } else {
               vm.$message({
                 message: resp.data.message,
-                type: "warning"
-              });
+                type: 'warning'
+              })
             }
-          });
+          })
         } else {
           vm.$message({
-            message: "设备编号与故障类型不能为空！",
-            type: "warning"
-          });
+            message: '设备编号与故障类型不能为空！',
+            type: 'warning'
+          })
         }
       }
     },
-    changeStart() {
-      var vm = this;
-      vm.startDate = vm.getTime(vm.startDate);
+    changeStart () {
+      var vm = this
+      vm.startDate = vm.getTime(vm.startDate)
     },
-    changeEnd() {
-      var vm = this;
-      vm.endDate = vm.getTime(vm.endDate);
+    changeEnd () {
+      var vm = this
+      vm.endDate = vm.getTime(vm.endDate)
     },
-    updateOption(type, option) {
-      if (type === "type") {
-        this.typeOption.name = option.name;
-        this.showType = false;
-      } else if (type === "status") {
-        this.statusOption.name = option.name;
-        this.showStatus = false;
+    updateOption (type, option) {
+      if (type === 'type') {
+        this.typeOption.name = option.name
+        this.showType = false
+      } else if (type === 'status') {
+        this.statusOption.name = option.name
+        this.showStatus = false
       }
     }
   },
@@ -385,7 +385,7 @@ export default {
     MSearch,
     MStatistical
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .query {

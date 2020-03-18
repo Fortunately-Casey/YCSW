@@ -47,7 +47,7 @@
                       <m-line :list="list"></m-line>
                     </div>
                     <div id="table">
-                        <div class="header"> 
+                        <div class="header">
                             <div class="number">序 号</div>
                             <div class="type">类型</div>
                             <div class="subsection">管线分段</div>
@@ -68,148 +68,148 @@
     </div>
 </template>
 <script>
-import MIndicators from "./Indicators.vue";
-import MSpace from "@/common/space/Space.vue";
-import MLine from "./Line.vue";
-import { GetStaticInfo } from "@/api/repair.js";
-import { exportStaticData } from "@/api/statistic.js";
-import esriLoader from "esri-loader";
+import MIndicators from './Indicators.vue'
+import MSpace from '@/common/space/Space.vue'
+import MLine from './Line.vue'
+import { GetStaticInfo } from '@/api/repair.js'
+import { exportStaticData } from '@/api/statistic.js'
+import esriLoader from 'esri-loader'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
       isShowSearchBox: true,
       dialogVisible: false,
-      geometry: "",
-      faultType: "全部",
-      subsection: "全部",
-      date: "",
+      geometry: '',
+      faultType: '全部',
+      subsection: '全部',
+      date: '',
       list: []
-    };
+    }
   },
-  mounted() {},
+  mounted () {},
   methods: {
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:460px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:460px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    format2Len(i) {
-      return i < 10 ? "0" + i : i;
+    format2Len (i) {
+      return i < 10 ? '0' + i : i
     },
-    getTime(CurrentTime) {
+    getTime (CurrentTime) {
       var timeStr =
         CurrentTime.getFullYear() +
-        "-" +
+        '-' +
         this.format2Len(CurrentTime.getMonth() + 1) +
-        "-" +
-        this.format2Len(CurrentTime.getDate());
-      return timeStr;
+        '-' +
+        this.format2Len(CurrentTime.getDate())
+      return timeStr
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    getType(value) {
-      this.faultType = value;
+    getType (value) {
+      this.faultType = value
     },
-    getSubsection(value) {
-      this.subsection = value;
+    getSubsection (value) {
+      this.subsection = value
     },
-    getDate(value) {
-      this.date = value;
+    getDate (value) {
+      this.date = value
     },
-    output() {
-      var vm = this;
-      let arr = [];
+    output () {
+      var vm = this
+      let arr = []
       vm.list.map((v, i) => {
         arr.push({
           序号: i + 1,
           类型: v.FaultType,
           管线分段: v.GXFD,
           次数: v.StaticCount
-        });
-      });
+        })
+      })
       exportStaticData({
         list: JSON.stringify(arr)
       }).then(resp => {
         if (resp.data.success) {
-          var download = document.createElement("iframe");
-          download.src = "http://49.4.55.238:8029/" + resp.data.rows;
-          download.style.display = "none";
-          document.body.appendChild(download);
+          var download = document.createElement('iframe')
+          download.src = 'http://10.11.222.52:14451/' + resp.data.rows
+          download.style.display = 'none'
+          document.body.appendChild(download)
         } else {
           vm.$message({
             message: resp.data.message,
-            type: "warning"
-          });
+            type: 'warning'
+          })
         }
-      });
+      })
     },
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       esriLoader
-        .loadModules(["static/arcpackage/arcgisUtil"])
-        .then(function([ArcgisUtil]) {
+        .loadModules(['static/arcpackage/arcgisUtil'])
+        .then(function ([ArcgisUtil]) {
           if (vm.geometry) {
-            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry);
+            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry)
             GetStaticInfo({
               FaultType: vm.faultType,
               GXFD: vm.subsection,
-              ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : "",
-              ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : "",
+              ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : '',
+              ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : '',
               Geometrystr: vm.geometry
             }).then(resp => {
               if (resp.data.success) {
-                vm.list = resp.data.rows;
-                vm.dialogVisible = true;
-                vm.isShowSearchBox = false;
+                vm.list = resp.data.rows
+                vm.dialogVisible = true
+                vm.isShowSearchBox = false
               } else {
                 vm.$message({
                   message: resp.data.message,
-                  type: "warning"
-                });
+                  type: 'warning'
+                })
               }
-            });
+            })
           } else {
             GetStaticInfo({
               FaultType: vm.faultType,
               GXFD: vm.subsection,
-              ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : "",
-              ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : ""
+              ServiceBeginDate: vm.date ? vm.getTime(vm.date[0]) : '',
+              ServiceEndDate: vm.date ? vm.getTime(vm.date[1]) : ''
             }).then(resp => {
               if (resp.data.success) {
-                vm.list = resp.data.rows;
-                vm.dialogVisible = true;
-                vm.isShowSearchBox = false;
+                vm.list = resp.data.rows
+                vm.dialogVisible = true
+                vm.isShowSearchBox = false
               } else {
                 vm.$message({
                   message: resp.data.message,
-                  type: "warning"
-                });
+                  type: 'warning'
+                })
               }
-            });
+            })
           }
-        });
+        })
     },
-    back() {
-      this.dialogVisible = false;
-      this.isShowSearchBox = true;
+    back () {
+      this.dialogVisible = false
+      this.isShowSearchBox = true
     },
-    close() {
+    close () {
       this.$refs.space.closeToolBar()
       // window.mapBase.clearUI();
-      this.$emit("close", "");
+      this.$emit('close', '')
     }
   },
   components: {
@@ -217,7 +217,7 @@ export default {
     MSpace,
     MLine
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .content {

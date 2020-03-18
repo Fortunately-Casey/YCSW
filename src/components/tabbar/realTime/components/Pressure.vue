@@ -30,70 +30,70 @@
     </div>
 </template>
 <script>
-import MSpace from "@/common/space/Space.vue";
-import esriLoader from "esri-loader";
-import { mapActions } from "vuex";
+import MSpace from '@/common/space/Space.vue'
+import esriLoader from 'esri-loader'
+import { mapActions } from 'vuex'
 export default {
-  data() {
+  data () {
     return {
-      chosedTab: "condition",
+      chosedTab: 'condition',
       isSlideUp: true,
-      geometry: ""
-    };
+      geometry: ''
+    }
   },
   methods: {
     ...mapActions({
-      setGeometry: "setGeometry",
-      setIndex:'setRealTimeIndex',
-      setParams:'setEquimentType',
+      setGeometry: 'setGeometry',
+      setIndex: 'setRealTimeIndex',
+      setParams: 'setEquimentType'
     }),
-    slideDown() {
-      this.$refs.content.style = "display:none";
-      this.$refs.searchbox.style = "height:39px;bottom:15px";
-      this.isSlideUp = false;
+    slideDown () {
+      this.$refs.content.style = 'display:none'
+      this.$refs.searchbox.style = 'height:39px;bottom:15px'
+      this.isSlideUp = false
     },
-    slideUp() {
-      this.$refs.searchbox.style = "height:260px;bottom:15px";
+    slideUp () {
+      this.$refs.searchbox.style = 'height:260px;bottom:15px'
       setTimeout(() => {
-        this.$refs.content.style = "display:block";
-      }, 500);
-      this.isSlideUp = true;
+        this.$refs.content.style = 'display:block'
+      }, 500)
+      this.isSlideUp = true
     },
-    getRectangular(value) {
-      this.geometry = value;
+    getRectangular (value) {
+      this.geometry = value
     },
-    getPolygon(value) {
-      this.geometry = value;
+    getPolygon (value) {
+      this.geometry = value
     },
-    search() {
-      var vm = this;
+    search () {
+      var vm = this
       esriLoader
         .loadModules([
-          "static/arcpackage/arcgisUtil",
+          'static/arcpackage/arcgisUtil'
         ])
         .then(([ArcgisUtil]) => {
-          if (vm.geometry === "") {
-            this.setGeometry("");
+          if (vm.geometry === '') {
+            this.setGeometry('')
           } else {
-            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry);
-            this.setGeometry(vm.geometry);
-            vm.geometry = "";
+            vm.geometry = ArcgisUtil.polygonToWKT(vm.geometry)
+            this.setGeometry(vm.geometry)
+            vm.geometry = ''
           }
-          window.mapBase.clearGraphic();         
-        });
+          window.mapBase.clearGraphic()
+        })
     },
-    close() {
-      this.$refs.space.closeToolBar();
+    close () {
+      this.$refs.space.closeToolBar()
       // window.mapBase.clearUI();
-      this.setIndex('');
-      this.setParams('');
-      this.setGeometry('');
+      this.setIndex('')
+      this.setParams('')
+      this.setGeometry('')
     }
   },
   components: {
     MSpace
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .search-box {

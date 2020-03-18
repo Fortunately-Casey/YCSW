@@ -21,30 +21,30 @@
                 <li><span class="attr">探测方法:</span><span class="value">{{connectDetail.METHOD}}</span></li>
                 <!-- <li><span class="attr">测绘日期:</span><span class="value">{{connectDetail.CHDATE}}</span></li> -->
                 <!-- <li><span class="attr">备注:</span><span class="value">{{connectDetail.MEMO}}</span></li> -->
-            </ul>  
+            </ul>
         </div>
     </div>
 </template>
 <script>
-    import { mapGetters, mapActions } from 'vuex';
-    export default {
-        data() {
-            return {
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  data () {
+    return {
 
-            }
-        },
-        computed:{
-            ...mapGetters(['connectDetail'])
-        },
-        methods:{
-            ...mapActions({
-                showDetail:'setIsShowConnect'    
-            }),
-            close() {
-                this.showDetail(false);
-            }
-        }
     }
+  },
+  computed: {
+    ...mapGetters(['connectDetail'])
+  },
+  methods: {
+    ...mapActions({
+      showDetail: 'setIsShowConnect'
+    }),
+    close () {
+      this.showDetail(false)
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
     .detail {
